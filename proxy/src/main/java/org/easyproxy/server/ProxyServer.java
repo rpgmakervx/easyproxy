@@ -22,12 +22,18 @@ import org.easyproxy.util.Config;
 
 public class ProxyServer {
 
+
     public ProxyServer(String path) {
-        new Config(path);
+        if (Const.DEFAULT_CONFIGPATH.equals(path)){
+            new Config(Config.class.getResourceAsStream(path));
+        }else{
+            new Config(path);
+        }
+
     }
 
     public ProxyServer() {
-        new Config("/proxy.xml");
+        new Config(Config.class.getResourceAsStream(Const.DEFAULT_CONFIGPATH));
     }
 
     public void startup(int port) {
@@ -47,7 +53,9 @@ public class ProxyServer {
         try {
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .childHandler(new BaseServerChildHandler())
-                    .option(ChannelOption.SO_BACKLOG, 256).childOption(ChannelOption.SO_KEEPALIVE, true);
+                    .option(ChannelOption.SO_BACKLOG, 256)
+                    .option(ChannelOption.TCP_NODELAY,true)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
             f = b.bind(port).sync();
             System.out.println("服务已启动");
             f.channel().closeFuture().sync();

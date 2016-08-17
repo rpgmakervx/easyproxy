@@ -14,6 +14,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.cache.Cache;
 import org.easyproxy.client.ProxyClient;
 import org.easyproxy.constants.Const;
+import org.easyproxy.manager.HostManager;
 import org.easyproxy.util.Config;
 
 import java.io.UnsupportedEncodingException;
@@ -38,7 +39,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
      */
     public void fetchInetAddress() {
         this.address = Config.roundRobin();
-        System.out.println("新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+
     }
 
     @Override
@@ -65,14 +66,14 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
-        System.out.println("response header ---------------");
-        for (Header header : headers) {
-            response.headers().set(header.getName(), header.getValue());
-            System.out.println(header.getName() + "::" + header.getValue());
-        }
-        System.out.println("end header ---------------");
+//        System.out.println("response header ---------------");
+//        for (Header header : headers) {
+//            response.headers().set(header.getName(), header.getValue());
+//            System.out.println(header.getName() + "::" + header.getValue());
+//        }
+//        System.out.println("end header ---------------");
         ctx.channel().writeAndFlush(response);
-        ctx.close();
+//        ctx.close();
     }
 
     private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
@@ -81,10 +82,10 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
         ctx.channel().writeAndFlush(response);
-        ctx.close();
+//        ctx.close();
     }
 
-    class Task implements Runnable {
+    private class Task implements Runnable {
         Object msg;
         ChannelHandlerContext ctx;
 
@@ -104,7 +105,10 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
             System.out.println("uri --> " + request.uri());
             try {
                 if (isGet) {
-                    fetchInetAddress();
+//                    fetchInetAddress();
+                    InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
+                    String ip = addr.getHostString();
+                    address = HostManager.getHosts(ip);
                     ProxyClient client = new ProxyClient(address, Const.ROOT.equals(request.uri()) ? "" : request.uri());
                     if (isJSON) {
                         System.out.println("GET 业务请求");

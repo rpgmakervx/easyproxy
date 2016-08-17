@@ -2,9 +2,12 @@
 
 <proxy>
     <server listen="9524" localhost="172.16.235.1" rule="roundrobin"/>
-    <cache size="" ttl="30"/>
+    <cache_strategy size="" ttl="30" type=""/>
+    <cache>
+
+    </cache>
     <proxy_pass>
         <node host="172.16.235.1" port="8080" weight="4"/>
-        <!--<node host="172.16.235.1" port="8081" weight="1"/>35951 35951-->
+        <node host="172.16.235.1" port="8081" weight="1"/>
     </proxy_pass>
 </proxy>

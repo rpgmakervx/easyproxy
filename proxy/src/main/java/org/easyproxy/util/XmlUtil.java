@@ -12,6 +12,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.easyproxy.constants.Const;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,8 +42,8 @@ public class XmlUtil {
     }
 
     public XmlUtil(String xml_path) {
-        InputStream is = XmlUtil.class.getResourceAsStream(xml_path);
         try {
+            InputStream is = new FileInputStream(xml_path);
             document = reader.read(is);
             root = document.getRootElement();
             init();

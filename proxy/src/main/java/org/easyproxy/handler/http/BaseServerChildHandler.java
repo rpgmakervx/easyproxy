@@ -7,10 +7,7 @@ package org.easyproxy.handler.http;/**
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.http.HttpContentCompressor;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpRequestDecoder;
-import io.netty.handler.codec.http.HttpResponseEncoder;
+import io.netty.handler.codec.http.*;
 
 /**
  * Description :
@@ -24,8 +21,10 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
-        pipeline.addLast("deflater", new HttpContentCompressor(9));
+        pipeline.addLast("compress", new HttpContentCompressor(9));
+        pipeline.addLast("decompress", new HttpContentDecompressor());
         pipeline.addLast("aggregator", new HttpObjectAggregator(1024000));
+        pipeline.addLast(new AccessLogHandler());
         pipeline.addLast(new AntiLeechHandler());
         pipeline.addLast(new GetRequestHandler());
         pipeline.addLast(new PostRequestHandler());

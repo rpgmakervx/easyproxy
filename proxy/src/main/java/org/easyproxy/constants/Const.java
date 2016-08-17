@@ -4,6 +4,8 @@ package org.easyproxy.constants;/**
  *  下午10:53
  */
 
+import java.io.File;
+
 /**
  * Description :
  * Created by YangZH on 16-8-14
@@ -33,6 +35,8 @@ public class Const {
     //filter
     public static final String INNER_IMAGE = "url\\(.*\\.(png|ico|jpg|jpeg|bmp|swf|swf)\\)";
 
+    public static final String DEFAULT_CONFIGPATH = "/proxy.xml";
+
     //config file
     public static final String PROTOCOLNAME = "http";
     public static final String PROXY = "proxy";
@@ -46,4 +50,9 @@ public class Const {
 
     //redis:
     public static final String MEMORY = "Memory";
+
+    //structure
+    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
+    public static final String LOGS = DIR+"logs"+File.separator;
+    public static final String ACCESSLOG = LOGS+"access.log";
 }

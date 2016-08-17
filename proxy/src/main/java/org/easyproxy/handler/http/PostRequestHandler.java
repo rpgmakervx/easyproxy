@@ -74,7 +74,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
         }
         System.out.println("end header ---------------");
         ctx.channel().writeAndFlush(response);
-        ctx.close();
+//        ctx.close();
     }
 
     private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
@@ -83,7 +83,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 HttpResponseStatus.OK, byteBuf);
         System.out.println("没有请求头，回写数据");
         ctx.channel().writeAndFlush(response);
-        ctx.close();
+//        ctx.close();
     }
 
     class Task implements Runnable {

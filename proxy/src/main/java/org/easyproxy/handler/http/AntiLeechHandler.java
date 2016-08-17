@@ -13,6 +13,7 @@ import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.client.ProxyClient;
 import org.easyproxy.constants.Const;
+import org.easyproxy.manager.HostManager;
 import org.easyproxy.util.Config;
 
 import java.io.UnsupportedEncodingException;
@@ -64,14 +65,14 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
-        System.out.println("response header ---------------");
-        for (Header header : headers) {
-            response.headers().set(header.getName(), header.getValue());
-            System.out.println(header.getName() + "::" + header.getValue());
-        }
-        System.out.println("end header ---------------");
+//        System.out.println("response header ---------------");
+//        for (Header header : headers) {
+//            response.headers().set(header.getName(), header.getValue());
+//            System.out.println(header.getName() + "::" + header.getValue());
+//        }
+//        System.out.println("end header ---------------");
         ctx.channel().writeAndFlush(response);
-        ctx.close();
+//        ctx.close();
     }
 
     private void response(ChannelHandlerContext ctx, byte[] contents, HttpResponseStatus status) throws UnsupportedEncodingException {
@@ -79,7 +80,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 status, byteBuf);
         ctx.channel().writeAndFlush(response);
-        ctx.close();
+//        ctx.close();
     }
 
     /**
@@ -117,8 +118,6 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
                     byte[] bytes = null;
                     CloseableHttpResponse response = null;
                     HttpHeaders headers = request.headers();
-//                    headers.get(HttpHeaderNames.REFERER);
-                    //String accept = headers.get(HttpHeaderNames.ACCEPT);
                     //读取图片
                     if (pattern.matcher(request.uri()).matches()) {
                         //防盗链
@@ -126,7 +125,12 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
                             response(ctx, "access deny!".getBytes(), HttpResponseStatus.FORBIDDEN);
                             return;
                         }
-                        fetchInetAddress();
+//                        fetchInetAddress();
+
+                        InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
+                        String ip = addr.getHostString();
+                        address = HostManager.getHosts(ip);
+
                         ProxyClient client = new ProxyClient(address, Const.ROOT.equals(request.uri()) ? "" : request.uri());
                         //在这里强转类型，如果使用了聚合器，就会被阻塞
                         System.out.println("读取到图片 " + request.uri());

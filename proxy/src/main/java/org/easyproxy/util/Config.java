@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.constants.Const;
 
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,6 +37,13 @@ public class Config {
         init();
     }
 
+    public Config(InputStream is){
+        xmlUtil = new XmlUtil(is);
+        System.out.println("param: "+xmlUtil.xml2Json());
+        params = JSONUtil.str2Json(xmlUtil.xml2Json());
+        init();
+    }
+
     private void init() {
         JSONArray array = JSONUtil.getArrayFromJSON(Const.PROXY_PASS, params);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
@@ -53,7 +61,6 @@ public class Config {
             proxys.add(proxy);
             node_num++;
         }
-        System.out.println("weight_sum: " + weight_sum);
         //权重可能会被用户设置的过高，这时手动降低权重值的量级，维持在10以内，并把权重记录更新到权重list中
         if (weight_sum > 10) {
             int new_weight = 0;
@@ -79,13 +86,15 @@ public class Config {
                 ports.add(i, (Integer) proxys.get(index).get(Const.PORT));
             }
         }
+        System.out.println("weight_sum: " + weight_sum+", node_num: "+node_num);
     }
 
     public static InetSocketAddress roundRobin() {
 //        System.out.println("weight_sum:"+weight_sum);
         InetSocketAddress address = new InetSocketAddress(
-                hostsname.get(integer.get() % node_num), ports.get(integer.get() % node_num));
-        integer.incrementAndGet();
+                hostsname.get(integer.get() % hostsname.size()), ports.get(integer.get() % ports.size()));
+        System.out.println("新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+        System.out.println("AtomicCounter--> "+integer.incrementAndGet());
         return address;
     }
 
