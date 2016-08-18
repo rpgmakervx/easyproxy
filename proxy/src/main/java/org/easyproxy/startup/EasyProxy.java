@@ -1,4 +1,4 @@
-package org.easyproxy.exe;/**
+package org.easyproxy.startup;/**
  * Description : 
  * Created by YangZH on 16-5-25
  *  下午2:28

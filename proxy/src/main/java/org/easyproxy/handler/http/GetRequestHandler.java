@@ -13,8 +13,7 @@ import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.cache.Cache;
 import org.easyproxy.client.ProxyClient;
-import org.easyproxy.constants.Const;
-import org.easyproxy.manager.HostManager;
+import org.easyproxy.selector.manager.HostManager;
 import org.easyproxy.util.Config;
 
 import java.io.UnsupportedEncodingException;
@@ -23,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
+import static org.easyproxy.constants.Const.*;
 /**
  * Description : CSSFilterHandler
  * Created by YangZH on 16-5-26
@@ -101,7 +101,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
             CloseableHttpResponse response = null;
             HttpRequest request = (HttpRequest) msg;
             boolean isGet = request.method().equals(HttpMethod.GET);
-            boolean isJSON = Const.APP_JSON.equals(request.headers().get(Const.CONTENTTYPE));
+            boolean isJSON = APP_JSON.equals(request.headers().get(CONTENTTYPE));
             System.out.println("uri --> " + request.uri());
             try {
                 if (isGet) {
@@ -109,7 +109,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                     InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                     String ip = addr.getHostString();
                     address = HostManager.getHosts(ip);
-                    ProxyClient client = new ProxyClient(address, Const.ROOT.equals(request.uri()) ? "" : request.uri());
+                    ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                     if (isJSON) {
                         System.out.println("GET 业务请求");
                         //redis缓存
@@ -127,11 +127,11 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                         }
                     } else {
                         response = client.makeResponse(request.headers());
-                        Pattern pattern = Pattern.compile(Const.APP_JSON + ".*");
+                        Pattern pattern = Pattern.compile(APP_JSON + ".*");
                         boolean isjson = false;
                         String respnseType = "no type";
-                        if (response.getHeaders(Const.CONTENTTYPE).length != 0) {
-                            respnseType = response.getHeaders(Const.CONTENTTYPE)[0].getValue();
+                        if (response.getHeaders(CONTENTTYPE).length != 0) {
+                            respnseType = response.getHeaders(CONTENTTYPE)[0].getValue();
                             isjson = pattern.matcher(respnseType).matches();
                         }
                         System.out.println(isjson + "非json请求的响应类型:" + respnseType);

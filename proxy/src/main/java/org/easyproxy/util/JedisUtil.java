@@ -30,7 +30,7 @@ public class JedisUtil {
     public static void set(String key, String value) {
         jedisClient.set(key, value);
 
-        jedisClient.expire(key, Config.getInt(Const.TTL));
+        jedisClient.expire(key, Config.getInt(Const.CACHE_TTL));
     }
 
     public static void setList(String listname, List<String> list) {
@@ -44,8 +44,8 @@ public class JedisUtil {
     }
 
     public static float getMemoryUsed(){
-        System.out.println(jedisClient.info("Memory"));
-        String [] line = jedisClient.info("Memory").split("\n");
+        System.out.println(jedisClient.info(Const.MEMORY));
+        String [] line = jedisClient.info(Const.MEMORY).split("\n");
         String used_memory = line[1].split(":")[1];
         System.out.println("used_memory : "+used_memory);
         return Float.parseFloat(used_memory)/1024;

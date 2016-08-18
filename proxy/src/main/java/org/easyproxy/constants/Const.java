@@ -39,14 +39,33 @@ public class Const {
 
     //config file
     public static final String PROTOCOLNAME = "http";
+    //server itself
     public static final String PROXY = "proxy";
-    public static final String PROXY_PASS = "proxy_pass";
     public static final String LOCALHOST = "localhost";
     public static final String LISTEN = "listen";
+    //real server settings
+    public static final String PROXY_PASS = "proxy_pass";
     public static final String WEIGHT = "weight";
     public static final String HOST = "host";
     public static final String PORT = "port";
-    public static final String TTL = "ttl";
+
+    //cache_strategy
+    public static final String CACHE_TTL = "cache_ttl";
+    public static final String CACHE_SIZE = "cache_size";
+    public static final String CACHE_TYPE = "cache_type";
+    //lb_strategy
+    public static final String LB_STRATEGY = "lb_strategy";
+    public static final String ROUNDROBIN = "roundrobin";
+    public static final String IP_HASH = "ip_hash";
+    public static final String LESS_CONNECT = "less_connect";
+    //cache_url
+    public static final String CACHE_URL = "cache_url";
+    public static final String URL = "url";
+    public static final String METHOD = "method";
+    //ip_filter
+    public static final String IP_FILTER = "ip_filter";
+    public static final String IP = "ip";
+
 
     //redis:
     public static final String MEMORY = "Memory";
@@ -55,4 +74,5 @@ public class Const {
     public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String ACCESSLOG = LOGS+"access.log";
+    public static final String NULLVALUE = "-";
 }

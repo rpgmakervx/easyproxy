@@ -12,8 +12,7 @@ import io.netty.handler.codec.http.*;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.client.ProxyClient;
-import org.easyproxy.constants.Const;
-import org.easyproxy.manager.HostManager;
+import org.easyproxy.selector.manager.HostManager;
 import org.easyproxy.util.Config;
 
 import java.io.UnsupportedEncodingException;
@@ -21,6 +20,8 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
+
+import static org.easyproxy.constants.Const.*;
 
 /**
  * Description : SocksServerHandler
@@ -65,14 +66,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
-//        System.out.println("response header ---------------");
-//        for (Header header : headers) {
-//            response.headers().set(header.getName(), header.getValue());
-//            System.out.println(header.getName() + "::" + header.getValue());
-//        }
-//        System.out.println("end header ---------------");
         ctx.channel().writeAndFlush(response);
-//        ctx.close();
     }
 
     private void response(ChannelHandlerContext ctx, byte[] contents, HttpResponseStatus status) throws UnsupportedEncodingException {
@@ -80,7 +74,6 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 status, byteBuf);
         ctx.channel().writeAndFlush(response);
-//        ctx.close();
     }
 
     /**
@@ -92,8 +85,8 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
      */
     public boolean antiLeechCheckUp(HttpHeaders headers) throws Exception {
         String referername = headers.get(HttpHeaderNames.REFERER);
-        System.out.println("refer --> " + referername + "  localhost --> " + Config.getString(Const.LOCALHOST));
-        String localhost = Config.getString(Const.LOCALHOST);
+        System.out.println("refer --> " + referername + "  localhost --> " + Config.getString(LOCALHOST));
+        String localhost = Config.getString(LOCALHOST);
         Pattern pattern = Pattern.compile(".*" + localhost + ".*");
         return referername != null && pattern.matcher(referername).matches();
 
@@ -114,7 +107,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
             HttpRequest request = (HttpRequest) msg;
             try {
                 if (request.method().equals(HttpMethod.GET)) {
-                    Pattern pattern = Pattern.compile(".+\\.(" + Const.IMAGE + ").*");
+                    Pattern pattern = Pattern.compile(".+\\.(" + IMAGE + ").*");
                     byte[] bytes = null;
                     CloseableHttpResponse response = null;
                     HttpHeaders headers = request.headers();
@@ -131,7 +124,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
                         String ip = addr.getHostString();
                         address = HostManager.getHosts(ip);
 
-                        ProxyClient client = new ProxyClient(address, Const.ROOT.equals(request.uri()) ? "" : request.uri());
+                        ProxyClient client = new ProxyClient(address,ROOT.equals(request.uri()) ? "" : request.uri());
                         //在这里强转类型，如果使用了聚合器，就会被阻塞
                         System.out.println("读取到图片 " + request.uri());
                         response = client.makeResponse(headers);

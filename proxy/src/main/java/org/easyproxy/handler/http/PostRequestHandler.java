@@ -18,7 +18,6 @@ import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.cache.Cache;
 import org.easyproxy.client.ProxyClient;
-import org.easyproxy.constants.Const;
 import org.easyproxy.util.Config;
 import org.easyproxy.util.JSONUtil;
 
@@ -27,7 +26,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import static org.easyproxy.constants.Const.*;
 /**
  * Description :
  * Created by YangZH on 16-6-3
@@ -102,7 +101,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 if (request.method().equals(HttpMethod.POST)) {
                     fetchInetAddress();
                     CloseableHttpResponse response = null;
-                    ProxyClient client = new ProxyClient(address, Const.ROOT.equals(request.uri()) ? "" : request.uri());
+                    ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                     byte[] bytes = null;
                     System.out.println("POST 请求");
                     HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(false), request);

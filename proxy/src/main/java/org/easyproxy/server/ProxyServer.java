@@ -53,9 +53,9 @@ public class ProxyServer {
         try {
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .childHandler(new BaseServerChildHandler())
-                    .option(ChannelOption.SO_BACKLOG, 256)
-                    .option(ChannelOption.TCP_NODELAY,true)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    .option(ChannelOption.SO_BACKLOG, 256);
+//                    .option(ChannelOption.TCP_NODELAY,true);
+//                    .childOption(ChannelOption.SO_KEEPALIVE, true);
             f = b.bind(port).sync();
             System.out.println("服务已启动");
             f.channel().closeFuture().sync();

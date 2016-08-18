@@ -10,14 +10,12 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.easyproxy.constants.Const;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
+import static org.easyproxy.constants.Const.*;
 /**
  * Description :
  * Created by YangZH on 16-8-14
@@ -57,18 +55,30 @@ public class XmlUtil {
         while (elementIterator.hasNext()) {
             Element element = elementIterator.next();
             switch (element.getName()) {
-                case Const.PROXY_PASS:
+                case PROXY_PASS:
                     JSONArray array = new JSONArray();
                     Iterator<Element> eleIt = element.elementIterator();
                     while (eleIt.hasNext()) {
                         Map<String, String> kv = new HashMap<String, String>();
                         Element ele = eleIt.next();
-                        kv.put(Const.PORT, ele.attributeValue(Const.PORT));
-                        kv.put(Const.HOST, ele.attributeValue(Const.HOST));
-                        kv.put(Const.WEIGHT, ele.attributeValue(Const.WEIGHT));
+                        kv.put(PORT, ele.attributeValue(PORT));
+                        kv.put(HOST, ele.attributeValue(HOST));
+                        kv.put(WEIGHT, ele.attributeValue(WEIGHT));
                         array.add(kv);
                     }
-                    object.put(Const.PROXY_PASS, array);
+                    object.put(PROXY_PASS, array);
+                    break;
+                case CACHE_URL:
+                    JSONArray arr = new JSONArray();
+                    Iterator<Element> eleItr = element.elementIterator();
+                    while (eleItr.hasNext()) {
+                        Map<String, String> kv = new HashMap<String, String>();
+                        Element ele = eleItr.next();
+                        kv.put(URL, ele.attributeValue(URL));
+                        kv.put(METHOD, ele.attributeValue(METHOD));
+                        arr.add(kv);
+                    }
+                    object.put(CACHE_URL, arr);
                     break;
                 default:
                     Iterator<Attribute> attrIterator = element.attributeIterator();

@@ -6,13 +6,11 @@ package org.easyproxy.util;/**
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.easyproxy.constants.Const;
-
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import static org.easyproxy.constants.Const.*;
 /**
  * Description :
  * Created by YangZH on 16-8-14
@@ -45,17 +43,17 @@ public class Config {
     }
 
     private void init() {
-        JSONArray array = JSONUtil.getArrayFromJSON(Const.PROXY_PASS, params);
+        JSONArray array = JSONUtil.getArrayFromJSON(PROXY_PASS, params);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
         for (int index = 0; index < array.size(); index++) {
             JSONObject object = array.getJSONObject(index);
             Map<String, Object> proxy = new HashMap<String, Object>();
-            float weight = object.getFloatValue(Const.WEIGHT);
-            int port = object.getIntValue(Const.PORT);
-            String host = object.getString(Const.HOST);
-            proxy.put(Const.WEIGHT, weight);
-            proxy.put(Const.PORT, port);
-            proxy.put(Const.HOST, host);
+            float weight = object.getFloatValue(WEIGHT);
+            int port = object.getIntValue(PORT);
+            String host = object.getString(HOST);
+            proxy.put(WEIGHT, weight);
+            proxy.put(PORT, port);
+            proxy.put(HOST, host);
             weight_sum += weight;
             weights.add((int) Math.rint(weight));
             proxys.add(proxy);
@@ -82,8 +80,8 @@ public class Config {
             Integer weight = weights.get(index);
 //            weight_sum += weight;
             for (int i = 0; i < weight; i++) {
-                hostsname.add(i, (String) proxys.get(index).get(Const.HOST));
-                ports.add(i, (Integer) proxys.get(index).get(Const.PORT));
+                hostsname.add(i, (String) proxys.get(index).get(HOST));
+                ports.add(i, (Integer) proxys.get(index).get(PORT));
             }
         }
         System.out.println("weight_sum: " + weight_sum+", node_num: "+node_num);
@@ -120,5 +118,9 @@ public class Config {
         if (params == null)
             return 0;
         return params.getIntValue(param);
+    }
+
+    public static void listAll(){
+        System.out.println(JSONObject.toJSONString(params));
     }
 }

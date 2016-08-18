@@ -1,4 +1,4 @@
-package org.easyproxy.manager;/**
+package org.easyproxy.selector.manager;/**
  * Description : 
  * Created by YangZH on 16-8-16
  *  下午4:20
