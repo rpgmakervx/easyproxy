@@ -6,10 +6,18 @@ package org.easyproxy.util;/**
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.easyproxy.cache.Cache;
+import org.easyproxy.pojo.AccessRecord;
+
 import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.easyproxy.constants.Const.*;
 /**
  * Description :
@@ -18,20 +26,24 @@ import static org.easyproxy.constants.Const.*;
  */
 
 public class Config {
-    private static List<String> hostsname = new ArrayList<String>();
-    private static List<Integer> ports = new ArrayList<Integer>();
+    private static List<InetSocketAddress> roundrobin_hosts = new CopyOnWriteArrayList<InetSocketAddress>();
+//    private static List<String> roundrobin_ports = new CopyOnWriteArrayList<String>();
+    private static List<InetSocketAddress> weight_hosts = new CopyOnWriteArrayList<InetSocketAddress>();
+//    private static List<Integer> ports = new CopyOnWriteArrayList<Integer>();
     //经过修正的权值
-    private static List<Integer> weights = new ArrayList<Integer>();
-    private static List<Map<String, Object>> proxys = new ArrayList<Map<String, Object>>();
+    private static List<Integer> weights = new CopyOnWriteArrayList<Integer>();
+    private static List<Map<String, Object>> proxys = new CopyOnWriteArrayList<Map<String, Object>>();
     private static int weight_sum = 0;
     private XmlUtil xmlUtil;
     private static JSONObject params;
     private static int node_num = 0;
-    private static AtomicInteger integer = new AtomicInteger(1);
-
+    private static AtomicInteger weight_rrindex = new AtomicInteger(0);
+    private static AtomicInteger rrindex = new AtomicInteger(0);
+    private static Cache cache ;
     public Config(String path) {
         xmlUtil = new XmlUtil(path);
         params = JSONUtil.str2Json(xmlUtil.xml2Json());
+        cache = new Cache();
         init();
     }
 
@@ -39,6 +51,7 @@ public class Config {
         xmlUtil = new XmlUtil(is);
         System.out.println("param: "+xmlUtil.xml2Json());
         params = JSONUtil.str2Json(xmlUtil.xml2Json());
+        cache = new Cache();
         init();
     }
 
@@ -48,12 +61,14 @@ public class Config {
         for (int index = 0; index < array.size(); index++) {
             JSONObject object = array.getJSONObject(index);
             Map<String, Object> proxy = new HashMap<String, Object>();
-            float weight = object.getFloatValue(WEIGHT);
+            int weight = object.getIntValue(WEIGHT);
             int port = object.getIntValue(PORT);
             String host = object.getString(HOST);
+            InetSocketAddress address = new InetSocketAddress(host,port);
             proxy.put(WEIGHT, weight);
-            proxy.put(PORT, port);
-            proxy.put(HOST, host);
+            proxy.put(HOST, address);
+            roundrobin_hosts.add(address);
+//            roundrobin_ports.add(port);
             weight_sum += weight;
             weights.add((int) Math.rint(weight));
             proxys.add(proxy);
@@ -77,35 +92,54 @@ public class Config {
 
         //根据权重值，值是多少就给对应的IP PORT 相应的add多少次，权重越高add次数越多，被获取到的概率越高
         for (int index = 0; index < proxys.size(); index++) {
-            Integer weight = weights.get(index);
+            Integer weight = (Integer) proxys.get(index).get(WEIGHT);
 //            weight_sum += weight;
             for (int i = 0; i < weight; i++) {
-                hostsname.add(i, (String) proxys.get(index).get(HOST));
-                ports.add(i, (Integer) proxys.get(index).get(PORT));
+                InetSocketAddress address = (InetSocketAddress) proxys.get(index).get(HOST);
+                weight_hosts.add(i, address);
             }
         }
         System.out.println("weight_sum: " + weight_sum+", node_num: "+node_num);
+        initCache();
+    }
+
+    private void initCache(){
+        for (InetSocketAddress address:roundrobin_hosts){
+            cache.addAccessRecord(address.getHostString()+":"+address.getPort()+ACCESSRECORD);
+        }
     }
 
     public static InetSocketAddress roundRobin() {
 //        System.out.println("weight_sum:"+weight_sum);
-        InetSocketAddress address = new InetSocketAddress(
-                hostsname.get(integer.get() % hostsname.size()), ports.get(integer.get() % ports.size()));
-        System.out.println("新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
-        System.out.println("AtomicCounter--> "+integer.incrementAndGet());
+        InetSocketAddress address = roundrobin_hosts
+                .get(rrindex.get() % roundrobin_hosts.size());
+        rrindex.incrementAndGet();
+        System.out.println("roundRobin新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
         return address;
     }
 
     public static InetSocketAddress weight() {
-        System.out.println("weight_sum:" + weight_sum);
-        Random rand = new Random();
-        int randcode = rand.nextInt(weight_sum);
-        return new InetSocketAddress(hostsname.get(randcode), ports.get(randcode));
+        InetSocketAddress address = weight_hosts
+                .get(weight_rrindex.get() % weight_hosts.size());
+        weight_rrindex.incrementAndGet();
+        System.out.println("weight新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+        return address;
     }
 
     public static InetSocketAddress ip_hash(String ip) {
         long hash = EncryptUtil.ip_hash(ip);
-        return new InetSocketAddress(hostsname.get((int) hash % hostsname.size()), ports.get((int) hash % ports.size()));
+        InetSocketAddress address = roundrobin_hosts
+                .get((int) hash % roundrobin_hosts.size());
+        System.out.println("ip_hash新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+        return address;
+    }
+
+    public static InetSocketAddress less_connect(){
+        AccessRecord minRecord = Collections.min(cache.getAllAccessRecord());
+        System.out.println(Thread.currentThread().getName()+" : AccessRecord--------: "+minRecord);
+        String key = minRecord.getKey();
+        String[] hostport = key.split("-")[0].split(":");
+        return new InetSocketAddress(hostport[0],Integer.parseInt(hostport[1]));
     }
 
     public static String getString(String param) {
@@ -122,5 +156,11 @@ public class Config {
 
     public static void listAll(){
         System.out.println(JSONObject.toJSONString(params));
+    }
+
+    public static void listAllWeightHosts(){
+        for (InetSocketAddress address:weight_hosts){
+            System.out.println(address);
+        }
     }
 }

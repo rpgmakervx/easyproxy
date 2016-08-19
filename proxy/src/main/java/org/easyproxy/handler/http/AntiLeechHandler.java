@@ -85,7 +85,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
      */
     public boolean antiLeechCheckUp(HttpHeaders headers) throws Exception {
         String referername = headers.get(HttpHeaderNames.REFERER);
-        System.out.println("refer --> " + referername + "  localhost --> " + Config.getString(LOCALHOST));
+//        System.out.println("refer --> " + referername + "  localhost --> " + Config.getString(LOCALHOST));
         String localhost = Config.getString(LOCALHOST);
         Pattern pattern = Pattern.compile(".*" + localhost + ".*");
         return referername != null && pattern.matcher(referername).matches();
@@ -126,7 +126,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
 
                         ProxyClient client = new ProxyClient(address,ROOT.equals(request.uri()) ? "" : request.uri());
                         //在这里强转类型，如果使用了聚合器，就会被阻塞
-                        System.out.println("读取到图片 " + request.uri());
+//                        System.out.println("读取到图片 " + request.uri());
                         response = client.makeResponse(headers);
                         bytes = client.getByteResponse(response);
                         response(ctx, bytes, response.getAllHeaders());

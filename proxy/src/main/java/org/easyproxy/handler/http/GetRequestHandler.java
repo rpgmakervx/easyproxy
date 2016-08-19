@@ -67,13 +67,13 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
 //        System.out.println("response header ---------------");
-//        for (Header header : headers) {
-//            response.headers().set(header.getName(), header.getValue());
+        for (Header header : headers) {
+            response.headers().set(header.getName(), header.getValue());
 //            System.out.println(header.getName() + "::" + header.getValue());
-//        }
+        }
 //        System.out.println("end header ---------------");
         ctx.channel().writeAndFlush(response);
-//        ctx.close();
+        ctx.close();
     }
 
     private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
@@ -82,7 +82,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
         ctx.channel().writeAndFlush(response);
-//        ctx.close();
+        ctx.close();
     }
 
     private class Task implements Runnable {
@@ -102,7 +102,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
             HttpRequest request = (HttpRequest) msg;
             boolean isGet = request.method().equals(HttpMethod.GET);
             boolean isJSON = APP_JSON.equals(request.headers().get(CONTENTTYPE));
-            System.out.println("uri --> " + request.uri());
+//            System.out.println("uri --> " + request.uri());
             try {
                 if (isGet) {
 //                    fetchInetAddress();
@@ -111,18 +111,18 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                     address = HostManager.getHosts(ip);
                     ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                     if (isJSON) {
-                        System.out.println("GET 业务请求");
+//                        System.out.println("GET 业务请求");
                         //redis缓存
                         String cacheStr = cache.get(request.uri(), "");
                         if (cacheStr == null || cacheStr.isEmpty()) {
-                            System.out.println("未命中,走一次网络io并缓存");
+//                            System.out.println("未命中,走一次网络io并缓存");
                             response = client.makeResponse(request.headers());
                             context = client.getResponse(response);
                             cache.save(request.uri(), "", context);
                             bytes = context.getBytes();
                             response(ctx, bytes, response.getAllHeaders());
                         } else {
-                            System.out.println("缓存命中,直接从缓存获取");
+//                            System.out.println("缓存命中,直接从缓存获取");
                             response(ctx, cacheStr.getBytes());
                         }
                     } else {
@@ -134,20 +134,20 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                             respnseType = response.getHeaders(CONTENTTYPE)[0].getValue();
                             isjson = pattern.matcher(respnseType).matches();
                         }
-                        System.out.println(isjson + "非json请求的响应类型:" + respnseType);
+//                        System.out.println(isjson + "非json请求的响应类型:" + respnseType);
                         //非图片的 text/html请求,返回值是json
                         if (isjson) {
-                            System.out.println("request非json的请求");
+//                            System.out.println("request非json的请求");
                             String cacheStr = cache.get(request.uri(), "");
                             if (cacheStr == null || cacheStr.isEmpty()) {
-                                System.out.println("未命中,走一次网络io并缓存");
+//                                System.out.println("未命中,走一次网络io并缓存");
                                 response = client.makeResponse(request.headers());
                                 context = client.getResponse(response);
                                 cache.save(request.uri(), "", context);
                                 bytes = context.getBytes();
                                 response(ctx, bytes, response.getAllHeaders());
                             } else {
-                                System.out.println("缓存命中,直接从缓存获取");
+//                                System.out.println("缓存命中,直接从缓存获取");
                                 response(ctx, cacheStr.getBytes());
                             }
                         }
@@ -156,7 +156,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                         response(ctx, bytes, response.getAllHeaders());
                     }
                 } else {
-                    System.out.println("非GET请求或JSON类型  " + request.uri());
+//                    System.out.println("非GET请求或JSON类型  " + request.uri());
                     ctx.fireChannelRead(request);
                 }
             } catch (Exception e) {

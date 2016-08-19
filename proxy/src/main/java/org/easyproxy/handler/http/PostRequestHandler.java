@@ -66,12 +66,12 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
-        System.out.println("response header ---------------");
+//        System.out.println("response header ---------------");
         for (Header header : headers) {
             response.headers().set(header.getName(), header.getValue());
-            System.out.println(header.getName() + "::" + header.getValue());
+//            System.out.println(header.getName() + "::" + header.getValue());
         }
-        System.out.println("end header ---------------");
+//        System.out.println("end header ---------------");
         ctx.channel().writeAndFlush(response);
 //        ctx.close();
     }

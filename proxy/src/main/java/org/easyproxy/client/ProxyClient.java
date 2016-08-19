@@ -78,7 +78,6 @@ public class ProxyClient {
         setHeader(httpGet, headers);
         try {
             response = httpclient.execute(httpGet);
-            System.out.println(" response code : " + response.getStatusLine().getStatusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,7 +138,6 @@ public class ProxyClient {
             s = new StringEntity(json);
             httpPost.setEntity(s);
             response = httpclient.execute(httpPost);
-            System.out.println(" response code : " + response.getStatusLine().getStatusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -159,7 +157,6 @@ public class ProxyClient {
         try {
             httpPost.setEntity(setMultipartEntity(param));
             response = httpclient.execute(httpPost);
-            System.out.println(" response code : " + response.getStatusLine().getStatusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -179,7 +176,6 @@ public class ProxyClient {
         try {
             httpPost.setEntity(new UrlEncodedFormEntity(setRequestData(param), "UTF-8"));
             response = httpclient.execute(httpPost);
-            System.out.println(" response code : " + response.getStatusLine().getStatusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }

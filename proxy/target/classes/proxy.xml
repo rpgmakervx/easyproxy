@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <proxy>
-    <!--lb_strategy range:roundrobin,ip_hash,less_connect-->
-    <server listen="9524" localhost="172.16.235.1" lb_strategy="roundrobin"/>
+    <!--lb_strategy range:roundrobin,weight_roundrobin,ip_hash,less_connection-->
+    <server listen="9524" localhost="172.16.235.1" lb_strategy="weight"/>
     <cache_strategy cache_size="" cache_ttl="30" cache_type="redis"/>
     <proxy_pass>
         <node host="172.16.235.1" port="8080" weight="4"/>

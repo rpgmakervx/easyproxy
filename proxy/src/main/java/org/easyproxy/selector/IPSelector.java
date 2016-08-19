@@ -28,8 +28,12 @@ public class IPSelector {
         switch (Config.getString(LB_STRATEGY)){
             case ROUNDROBIN:
                 return Config.roundRobin();
+            case WEIGHT_ROUNDROBIN:
+                return Config.weight();
             case IP_HASH:
                 return Config.ip_hash(ip);
+            case LESS_CONNECT:
+                return Config.less_connect();
             default:
                 return Config.roundRobin();
         }

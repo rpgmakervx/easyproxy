@@ -56,8 +56,9 @@ public class Const {
     //lb_strategy
     public static final String LB_STRATEGY = "lb_strategy";
     public static final String ROUNDROBIN = "roundrobin";
+    public static final String WEIGHT_ROUNDROBIN = "weight";
     public static final String IP_HASH = "ip_hash";
-    public static final String LESS_CONNECT = "less_connect";
+    public static final String LESS_CONNECT = "less_connection";
     //cache_url
     public static final String CACHE_URL = "cache_url";
     public static final String URL = "url";
@@ -75,4 +76,8 @@ public class Const {
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String ACCESSLOG = LOGS+"access.log";
     public static final String NULLVALUE = "-";
+
+    //redis static key
+    public static final String LIKE = "*";
+    public static final String ACCESSRECORD = "-access_record";
 }
