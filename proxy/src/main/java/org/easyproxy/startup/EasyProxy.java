@@ -28,7 +28,7 @@ public class EasyProxy {
         if (args.length>0){
             config = args[0];
         }
-//        System.out.println("config path-->"+config);
+        System.out.println("config path-->"+config);
         ProxyServer server = new ProxyServer(config);
         System.out.println("负载均衡策略:"+ Config.getString(Const.LB_STRATEGY));
         server.startup();

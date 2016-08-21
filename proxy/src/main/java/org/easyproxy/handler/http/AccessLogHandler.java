@@ -91,13 +91,10 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
         public void run() {
             InetSocketAddress addr = getAddress(ctx);
             String ip = addr.getHostString();
-            int port = addr.getPort();
             //选择路由
             //记录真实节点的访问量
-            System.out.println("client-ip1: "+ip);
 //            System.out.println("client ip address: "+ip+" , port is: "+port);
             HttpRequest request = (HttpRequest) msg;
-            System.out.println(Thread.currentThread().getName()+" uri --> " + request.uri());
 //            generateLog(request,ip);
             ctx.fireChannelRead(request);
         }

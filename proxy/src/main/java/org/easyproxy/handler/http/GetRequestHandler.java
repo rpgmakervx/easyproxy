@@ -39,7 +39,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     public void chooseAddress(String ip) {
         IPSelector selector = new IPSelector(ip);
         this.address = selector.select();
-        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
     }
 
     @Override
@@ -86,7 +85,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     }
 
     private void accessRecord(String realserver,int port){
-        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
         cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
     }
 
@@ -110,7 +108,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
 //            System.out.println("uri --> " + request.uri());
             try {
                 if (isGet) {
-//                    fetchInetAddress();
                     InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                     String ip = addr.getHostString();
                     chooseAddress(ip);

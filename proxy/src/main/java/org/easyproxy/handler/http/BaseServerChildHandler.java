@@ -19,7 +19,6 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         ChannelPipeline pipeline = ch.pipeline();
-        System.out.println("new request");
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
         pipeline.addLast("compress", new HttpContentCompressor(9));

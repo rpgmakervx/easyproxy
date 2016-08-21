@@ -11,7 +11,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.easyproxy.client.ProxyClient;
 import org.easyproxy.selector.IPSelector;
 import org.easyproxy.util.Config;
 
@@ -21,7 +20,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
-import static org.easyproxy.constants.Const.*;
+import static org.easyproxy.constants.Const.IMAGE;
+import static org.easyproxy.constants.Const.LOCALHOST;
 
 /**
  * Description : SocksServerHandler
@@ -40,7 +40,6 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
     public void chooseAddress(String ip) {
         IPSelector selector = new IPSelector(ip);
         this.address = selector.select();
-        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
     }
 
     @Override
@@ -113,23 +112,20 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
                     CloseableHttpResponse response = null;
                     HttpHeaders headers = request.headers();
                     //读取图片
-                    if (pattern.matcher(request.uri()).matches()) {
+                    if (pattern.matcher(request.uri()).matches()&&!antiLeechCheckUp(headers)) {
                         //防盗链
-                        if (!antiLeechCheckUp(headers)) {
-                            response(ctx, "access deny!".getBytes(), HttpResponseStatus.FORBIDDEN);
-                            return;
-                        }
-//                        fetchInetAddress();
-
-                        InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
-                        String ip = addr.getHostString();
-                        chooseAddress(ip);
-                        ProxyClient client = new ProxyClient(address,ROOT.equals(request.uri()) ? "" : request.uri());
-                        //在这里强转类型，如果使用了聚合器，就会被阻塞
-//                        System.out.println("读取到图片 " + request.uri());
-                        response = client.makeResponse(headers);
-                        bytes = client.getByteResponse(response);
-                        response(ctx, bytes, response.getAllHeaders());
+                        response(ctx, "access deny!".getBytes(), HttpResponseStatus.FORBIDDEN);
+                        return;
+////                        fetchInetAddress();
+//                        InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
+//                        String ip = addr.getHostString();
+//                        chooseAddress(ip);
+//                        ProxyClient client = new ProxyClient(address,ROOT.equals(request.uri()) ? "" : request.uri());
+//                        //在这里强转类型，如果使用了聚合器，就会被阻塞
+////                        System.out.println("读取到图片 " + request.uri());
+//                        response = client.makeResponse(headers);
+//                        bytes = client.getByteResponse(response);
+//                        response(ctx, bytes, response.getAllHeaders());
                     } else {
                         ctx.fireChannelRead(request);
                     }
