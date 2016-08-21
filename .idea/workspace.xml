@@ -42,50 +42,44 @@
       <file leaf-file-name="Config.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/Config.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1816" max-vertical-offset="3840">
-              <caret line="68" column="37" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3436" max-vertical-offset="4350">
+              <caret line="169" column="51" selection-start-line="169" selection-start-column="51" selection-end-line="169" selection-end-column="51" />
               <folding>
+                <element signature="e#741#760#0" expanded="true" />
+                <element signature="e#935#954#0" expanded="true" />
+                <element signature="e#1128#1136#0" expanded="true" />
+                <element signature="e#1207#1216#0" expanded="true" />
+                <element signature="e#1298#1319#0" expanded="true" />
                 <element signature="method#Config#0;class#Config#0" expanded="true" />
                 <element signature="method#Config#1;class#Config#0" expanded="true" />
+                <element signature="method#init#0;class#Config#0" expanded="true" />
+                <element signature="method#configLoadbalanceStrategy#0;class#Config#0" expanded="true" />
+                <element signature="method#configForbiddenHosts#0;class#Config#0" expanded="true" />
                 <element signature="method#initCache#0;class#Config#0" expanded="true" />
                 <element signature="method#ip_hash#0;class#Config#0" expanded="true" />
+                <element signature="e#6510#6511#0" expanded="true" />
                 <element signature="method#listAllWeightHosts#0;class#Config#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JedisUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JedisUtil.java">
+      <file leaf-file-name="proxy.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/proxy/src/test/resources/proxy.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="796" max-vertical-offset="1380">
-              <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="123" max-vertical-offset="720">
+              <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JSONUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JSONUtil.java">
+      <file leaf-file-name="JedisUtil.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JedisUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="586" max-vertical-offset="1170">
-              <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
-              <folding>
-                <element signature="e#2200#2201#0" expanded="true" />
-                <element signature="e#2248#2249#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JSONTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/proxy/src/test/java/test/JSONTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39698493" vertical-offset="333" max-vertical-offset="1020">
-              <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-0.55778897" vertical-offset="783" max-vertical-offset="1380">
+              <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -110,26 +104,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1763" max-vertical-offset="2550">
               <caret line="66" column="53" selection-start-line="66" selection-start-column="44" selection-end-line="66" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="proxy.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proxy/src/main/resources/proxy.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="720">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="17" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="proxy.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proxy/src/test/resources/proxy.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="720">
-              <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -174,11 +148,11 @@
         <option value="$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/handler/http/AccessLogHandler.java" />
         <option value="$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JSONUtil.java" />
         <option value="$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/startup/EasyProxy.java" />
-        <option value="$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/Config.java" />
         <option value="$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/XmlUtil.java" />
         <option value="$PROJECT_DIR$/proxy/src/test/java/compress/JSONTest.java" />
         <option value="$PROJECT_DIR$/proxy/src/main/resources/proxy.xml" />
         <option value="$PROJECT_DIR$/proxy/src/test/resources/proxy.xml" />
+        <option value="$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/Config.java" />
       </list>
     </option>
   </component>
@@ -444,7 +418,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.lastSelected" value="MavenSettings" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -985,12 +959,12 @@
       <workItem from="1471703045864" duration="9000" />
       <workItem from="1471703546210" duration="3807000" />
       <workItem from="1471747893503" duration="5001000" />
-      <workItem from="1471758752538" duration="965000" />
+      <workItem from="1471758752538" duration="1792000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="130061000" />
+    <option name="totallyTimeSpent" value="130888000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="24" width="1317" height="744" extended-state="6" />
@@ -1037,7 +1011,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27764705" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4864" sideWeight="0.4996066" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4864" sideWeight="0.4996066" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24940991" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1086,10 +1060,19 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="2253" max-vertical-offset="3840">
           <caret line="103" column="5" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
           <folding>
+            <element signature="e#741#760#0" expanded="true" />
+            <element signature="e#935#954#0" expanded="true" />
+            <element signature="e#1128#1136#0" expanded="true" />
+            <element signature="e#1207#1216#0" expanded="true" />
+            <element signature="e#1298#1319#0" expanded="true" />
             <element signature="method#Config#0;class#Config#0" expanded="true" />
             <element signature="method#Config#1;class#Config#0" expanded="true" />
+            <element signature="method#init#0;class#Config#0" expanded="true" />
+            <element signature="method#configLoadbalanceStrategy#0;class#Config#0" expanded="true" />
+            <element signature="method#configForbiddenHosts#0;class#Config#0" expanded="true" />
             <element signature="method#initCache#0;class#Config#0" expanded="true" />
             <element signature="method#ip_hash#0;class#Config#0" expanded="true" />
+            <element signature="e#6510#6511#0" expanded="true" />
             <element signature="method#listAllWeightHosts#0;class#Config#0" expanded="true" />
           </folding>
         </state>
@@ -1339,7 +1322,7 @@
         <state vertical-scroll-proportion="0.3321918" vertical-offset="8416" max-vertical-offset="19170">
           <caret line="2103" column="24" selection-start-line="2103" selection-start-column="24" selection-end-line="2103" selection-end-column="24" />
           <folding>
-            <element signature="method#getResourceAsStream#0;class#Class#0" expanded="true" />
+            <element signature="method#getResourceAsStream#0;class#Class#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1370,51 +1353,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/Config.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1816" max-vertical-offset="3840">
-          <caret line="68" column="37" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
-          <folding>
-            <element signature="method#Config#0;class#Config#0" expanded="true" />
-            <element signature="method#Config#1;class#Config#0" expanded="true" />
-            <element signature="method#initCache#0;class#Config#0" expanded="true" />
-            <element signature="method#ip_hash#0;class#Config#0" expanded="true" />
-            <element signature="method#listAllWeightHosts#0;class#Config#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JedisUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="796" max-vertical-offset="1380">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JSONUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="586" max-vertical-offset="1170">
-          <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
-          <folding>
-            <element signature="e#2200#2201#0" expanded="true" />
-            <element signature="e#2248#2249#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/proxy/src/main/resources/proxy.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="720">
           <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="17" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proxy/src/test/resources/proxy.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="720">
-          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -1440,13 +1382,74 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar:///opt/jdk1.7.0_80/src.zip!/java/net/InetSocketAddress.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.3356164" vertical-offset="106" max-vertical-offset="3600">
+          <caret line="164" column="11" selection-start-line="164" selection-start-column="11" selection-end-line="164" selection-end-column="11" />
+          <folding>
+            <element signature="e#4765#4766#0" expanded="true" />
+            <element signature="e#4822#4823#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JSONUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1541096" vertical-offset="226" max-vertical-offset="1170">
+          <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
+          <folding>
+            <element signature="e#2200#2201#0" expanded="true" />
+            <element signature="e#2248#2249#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/Config.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3436" max-vertical-offset="4350">
+          <caret line="169" column="51" selection-start-line="169" selection-start-column="51" selection-end-line="169" selection-end-column="51" />
+          <folding>
+            <element signature="e#741#760#0" expanded="true" />
+            <element signature="e#935#954#0" expanded="true" />
+            <element signature="e#1128#1136#0" expanded="true" />
+            <element signature="e#1207#1216#0" expanded="true" />
+            <element signature="e#1298#1319#0" expanded="true" />
+            <element signature="method#Config#0;class#Config#0" expanded="true" />
+            <element signature="method#Config#1;class#Config#0" expanded="true" />
+            <element signature="method#init#0;class#Config#0" expanded="true" />
+            <element signature="method#configLoadbalanceStrategy#0;class#Config#0" expanded="true" />
+            <element signature="method#configForbiddenHosts#0;class#Config#0" expanded="true" />
+            <element signature="method#initCache#0;class#Config#0" expanded="true" />
+            <element signature="method#ip_hash#0;class#Config#0" expanded="true" />
+            <element signature="e#6510#6511#0" expanded="true" />
+            <element signature="method#listAllWeightHosts#0;class#Config#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proxy/src/test/resources/proxy.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="720">
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/proxy/src/test/java/test/JSONTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39698493" vertical-offset="333" max-vertical-offset="1020">
-          <caret line="23" column="55" selection-start-line="23" selection-start-column="55" selection-end-line="23" selection-end-column="55" />
+          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/util/JedisUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.55778897" vertical-offset="783" max-vertical-offset="1380">
+          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>

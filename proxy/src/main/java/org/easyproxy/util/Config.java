@@ -30,7 +30,8 @@ public class Config {
 //    private static List<String> roundrobin_ports = new CopyOnWriteArrayList<String>();
     private static List<InetSocketAddress> weight_hosts = new CopyOnWriteArrayList<InetSocketAddress>();
 //    private static List<Integer> ports = new CopyOnWriteArrayList<Integer>();
-    //经过修正的权值
+    //ip_filter
+    private static List<String> forbidden_hosts = new CopyOnWriteArrayList<String>();
     private static List<Integer> weights = new CopyOnWriteArrayList<Integer>();
     private static List<Map<String, Object>> proxys = new CopyOnWriteArrayList<Map<String, Object>>();
     private static int weight_sum = 0;
@@ -56,6 +57,12 @@ public class Config {
     }
 
     private void init() {
+        configLoadbalanceStrategy();
+        configForbiddenHosts();
+        initCache();
+    }
+
+    private void configLoadbalanceStrategy(){
         JSONArray array = JSONUtil.getArrayFromJSON(PROXY_PASS, params);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
         for (int index = 0; index < array.size(); index++) {
@@ -68,7 +75,6 @@ public class Config {
             proxy.put(WEIGHT, weight);
             proxy.put(HOST, address);
             roundrobin_hosts.add(address);
-//            roundrobin_ports.add(port);
             weight_sum += weight;
             weights.add((int) Math.rint(weight));
             proxys.add(proxy);
@@ -100,7 +106,14 @@ public class Config {
             }
         }
         System.out.println("weight_sum: " + weight_sum+", node_num: "+node_num);
-        initCache();
+    }
+
+    private void configForbiddenHosts(){
+        JSONArray array = JSONUtil.getArrayFromJSON(IP_FILTER, params);
+        for (int index=0;index<array.size();index++){
+            JSONObject object = array.getJSONObject(index);
+            forbidden_hosts.add(object.getString(IP));
+        }
     }
 
     private void initCache(){
@@ -152,6 +165,10 @@ public class Config {
         if (params == null)
             return 0;
         return params.getIntValue(param);
+    }
+
+    public static List<String> getForbiddenHosts(){
+        return forbidden_hosts;
     }
 
     public static void listAll(){
