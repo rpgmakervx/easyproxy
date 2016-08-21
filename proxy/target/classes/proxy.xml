@@ -2,7 +2,7 @@
 
 <proxy>
     <!--lb_strategy range:roundrobin,weight_roundrobin,ip_hash,less_connection-->
-    <server listen="9524" localhost="192.168.89.1" lb_strategy="weight"/>
+    <server listen="9524" localhost="10.42.0.1" lb_strategy="weight"/>
     <cache_strategy cache_size="" cache_ttl="30" cache_type="redis"/>
     <proxy_pass>
         <node host="192.168.89.1" port="8080" weight="4"/>
