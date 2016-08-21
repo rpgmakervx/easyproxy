@@ -18,7 +18,7 @@ import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.cache.Cache;
 import org.easyproxy.client.ProxyClient;
-import org.easyproxy.util.Config;
+import org.easyproxy.selector.IPSelector;
 import org.easyproxy.util.JSONUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -26,7 +26,9 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import static org.easyproxy.constants.Const.*;
+
+import static org.easyproxy.constants.Const.ACCESSRECORD;
+import static org.easyproxy.constants.Const.ROOT;
 /**
  * Description :
  * Created by YangZH on 16-6-3
@@ -42,9 +44,10 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
     /**
      * 每次请求都重新获取一次地址
      */
-    public void fetchInetAddress() {
-        this.address = Config.roundRobin();
-        System.out.println("新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+    public void chooseAddress(String ip) {
+        IPSelector selector = new IPSelector(ip);
+        this.address = selector.select();
+        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
     }
 
     @Override
@@ -85,6 +88,11 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
 //        ctx.close();
     }
 
+    private void accessRecord(String realserver,int port){
+        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
+        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
+    }
+
     class Task implements Runnable {
         Object msg;
         ChannelHandlerContext ctx;
@@ -99,7 +107,10 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
             HttpRequest request = (HttpRequest) msg;
             try {
                 if (request.method().equals(HttpMethod.POST)) {
-                    fetchInetAddress();
+                    InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
+                    String ip = addr.getHostString();
+                    chooseAddress(ip);
+                    accessRecord(address.getHostString(),address.getPort());
                     CloseableHttpResponse response = null;
                     ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                     byte[] bytes = null;

@@ -12,17 +12,12 @@ import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.util.CharsetUtil;
-import org.easyproxy.cache.Cache;
 import org.easyproxy.constants.Const;
 import org.easyproxy.log.Logger;
-import org.easyproxy.selector.IPSelector;
-import org.easyproxy.selector.manager.HostManager;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static org.easyproxy.constants.Const.ACCESSRECORD;
 
 /**
  * Description :
@@ -31,15 +26,15 @@ import static org.easyproxy.constants.Const.ACCESSRECORD;
  */
 
 public class AccessLogHandler extends ChannelInboundHandlerAdapter {
-    private InetSocketAddress address;
     private ExecutorService threadPool = Executors.newCachedThreadPool();
     private Logger logger = new Logger();
-    private Cache cache = new Cache();
-    public void chooseAddress(String ip) {
-        IPSelector selector = new IPSelector(ip);
-        this.address = selector.select();
-        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
-    }
+//    private Cache cache = new Cache();
+//    public void chooseAddress(String ip) {
+//        System.out.println("");
+//        IPSelector selector = new IPSelector(ip);
+//        this.address = selector.select();
+//        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+//    }
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         threadPool.submit(new Task(ctx, msg));
     }
@@ -57,7 +52,7 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
+        cause.printStackTrace();
     }
 
     private InetSocketAddress getAddress(ChannelHandlerContext ctx){
@@ -83,10 +78,6 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
         logger.accessLog(buffer.toString() + "\n");
     }
 
-    private void accessRecord(String realserver,int port){
-        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
-    }
-
     private class Task implements Runnable {
         Object msg;
         ChannelHandlerContext ctx;
@@ -102,16 +93,12 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
             String ip = addr.getHostString();
             int port = addr.getPort();
             //选择路由
-            chooseAddress(ip);
             //记录真实节点的访问量
-            String serverhost = AccessLogHandler.this.address.getHostString();
-            int serverport = AccessLogHandler.this.address.getPort();
-            accessRecord(serverhost, serverport);
-            HostManager.setHosts(ip, AccessLogHandler.this.address);
+            System.out.println("client-ip1: "+ip);
 //            System.out.println("client ip address: "+ip+" , port is: "+port);
             HttpRequest request = (HttpRequest) msg;
             System.out.println(Thread.currentThread().getName()+" uri --> " + request.uri());
-            generateLog(request,ip);
+//            generateLog(request,ip);
             ctx.fireChannelRead(request);
         }
     }

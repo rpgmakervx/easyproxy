@@ -12,7 +12,7 @@ import io.netty.handler.codec.http.*;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.client.ProxyClient;
-import org.easyproxy.selector.manager.HostManager;
+import org.easyproxy.selector.IPSelector;
 import org.easyproxy.util.Config;
 
 import java.io.UnsupportedEncodingException;
@@ -37,9 +37,10 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
     /**
      * 每次请求都重新获取一次地址
      */
-    public void fetchInetAddress() {
-        this.address = Config.roundRobin();
-        System.out.println("新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+    public void chooseAddress(String ip) {
+        IPSelector selector = new IPSelector(ip);
+        this.address = selector.select();
+        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
     }
 
     @Override
@@ -122,8 +123,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
 
                         InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                         String ip = addr.getHostString();
-                        address = HostManager.getHosts(ip);
-
+                        chooseAddress(ip);
                         ProxyClient client = new ProxyClient(address,ROOT.equals(request.uri()) ? "" : request.uri());
                         //在这里强转类型，如果使用了聚合器，就会被阻塞
 //                        System.out.println("读取到图片 " + request.uri());

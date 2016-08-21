@@ -4,7 +4,6 @@ package org.easyproxy.startup;/**
  *  下午2:28
  */
 
-import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.constants.Const;
 import org.easyproxy.server.ProxyServer;
 import org.easyproxy.util.Config;
@@ -31,14 +30,8 @@ public class EasyProxy {
         }
 //        System.out.println("config path-->"+config);
         ProxyServer server = new ProxyServer(config);
-//        System.out.println("负载均衡策略:"+ Config.getString(Const.LB_STRATEGY));
-        Config.listAllWeightHosts();
-        JSONObject object = Config.getParams();
-        object.put("listen", 9000);
-        System.out.println("");
-        Config.listAllWeightHosts();
-//        server.startup();
-
+        System.out.println("负载均衡策略:"+ Config.getString(Const.LB_STRATEGY));
+        server.startup();
     }
 
 //    public static String getLocalIPForJava() {

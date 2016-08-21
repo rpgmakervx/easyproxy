@@ -85,6 +85,11 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
+    private void accessRecord(String realserver,int port){
+        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
+        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
+    }
+
     private class Task implements Runnable {
         Object msg;
         ChannelHandlerContext ctx;
@@ -109,6 +114,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                     InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                     String ip = addr.getHostString();
                     chooseAddress(ip);
+                    accessRecord(address.getHostString(),address.getPort());
                     ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                     if (isJSON) {
 //                        System.out.println("GET 业务请求");
