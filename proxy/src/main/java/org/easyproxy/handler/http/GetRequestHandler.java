@@ -13,8 +13,7 @@ import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.cache.Cache;
 import org.easyproxy.client.ProxyClient;
-import org.easyproxy.selector.manager.HostManager;
-import org.easyproxy.util.Config;
+import org.easyproxy.selector.IPSelector;
 
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
@@ -37,9 +36,10 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     /**
      * 每次请求都重新获取一次地址
      */
-    public void fetchInetAddress() {
-        this.address = Config.roundRobin();
-
+    public void chooseAddress(String ip) {
+        IPSelector selector = new IPSelector(ip);
+        this.address = selector.select();
+        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
     }
 
     @Override
@@ -108,7 +108,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
 //                    fetchInetAddress();
                     InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                     String ip = addr.getHostString();
-                    address = HostManager.getHosts(ip);
+                    chooseAddress(ip);
                     ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                     if (isJSON) {
 //                        System.out.println("GET 业务请求");

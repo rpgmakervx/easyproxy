@@ -111,7 +111,7 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
 //            System.out.println("client ip address: "+ip+" , port is: "+port);
             HttpRequest request = (HttpRequest) msg;
             System.out.println(Thread.currentThread().getName()+" uri --> " + request.uri());
-//            generateLog(request,ip);
+            generateLog(request,ip);
             ctx.fireChannelRead(request);
         }
     }

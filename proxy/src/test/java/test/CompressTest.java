@@ -1,4 +1,4 @@
-package compress;/**
+package test;/**
  * Description : 
  * Created by YangZH on 16-8-16
  *  上午1:29

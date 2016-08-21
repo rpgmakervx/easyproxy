@@ -2,18 +2,18 @@
 
 <proxy>
     <!--lb_strategy range:roundrobin,weight_roundrobin,ip_hash,less_connection-->
-    <server listen="9524" localhost="172.16.235.1" lb_strategy="weight"/>
+    <server listen="9524" localhost="192.168.89.1" lb_strategy="weight"/>
     <cache_strategy cache_size="" cache_ttl="30" cache_type="redis"/>
     <proxy_pass>
-        <node host="172.16.235.1" port="8080" weight="4"/>
-        <node host="172.16.235.1" port="8081" weight="1"/>
+        <node host="192.168.89.1" port="8080" weight="4"/>
+        <node host="192.168.89.1" port="8081" weight="1"/>
     </proxy_pass>
     <cache_url>
         <request url="" method="" />
         <request url="" method="" />
     </cache_url>
     <ip_filter>
-        <filter ip="" />
-        <filter ip="" />
+        <filter ip="192.168.117.1" />
+        <filter ip="127.0.0.1" />
     </ip_filter>
 </proxy>

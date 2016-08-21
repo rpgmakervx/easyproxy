@@ -159,8 +159,13 @@ public class Config {
     }
 
     public static void listAllWeightHosts(){
+        System.out.println("listAllWeightHosts--->"+weight_hosts.size());
         for (InetSocketAddress address:weight_hosts){
             System.out.println(address);
         }
+    }
+
+    public static JSONObject getParams(){
+        return params;
     }
 }

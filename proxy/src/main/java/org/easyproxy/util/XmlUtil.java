@@ -80,6 +80,17 @@ public class XmlUtil {
                     }
                     object.put(CACHE_URL, arr);
                     break;
+                case IP_FILTER:
+                    JSONArray arr1 = new JSONArray();
+                    Iterator<Element> eleItr1 = element.elementIterator();
+                    while (eleItr1.hasNext()) {
+                        Map<String, String> kv = new HashMap<String, String>();
+                        Element ele = eleItr1.next();
+                        kv.put(IP, ele.attributeValue(IP));
+                        arr1.add(kv);
+                    }
+                    object.put(IP_FILTER, arr1);
+                    break;
                 default:
                     Iterator<Attribute> attrIterator = element.attributeIterator();
                     while (attrIterator.hasNext()) {
