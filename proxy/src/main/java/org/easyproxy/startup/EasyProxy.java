@@ -7,9 +7,6 @@ package org.easyproxy.startup;/**
 import org.easyproxy.constants.Const;
 import org.easyproxy.server.ProxyServer;
 import org.easyproxy.util.Config;
-import org.easyproxy.util.XmlUtil;
-
-import java.net.MalformedURLException;
 
 /**
  * Description :
@@ -20,11 +17,11 @@ import java.net.MalformedURLException;
 public class EasyProxy {
 
 
-    public static void main(final String[] args) throws MalformedURLException {
+    public static void main(final String[] args) {
         //开源中国要有WWW
         String config = Const.DEFAULT_CONFIGPATH;
-        XmlUtil xmlUtil = new XmlUtil(Config.class.getResourceAsStream(config));
-        System.out.println("param: "+xmlUtil.xml2Json());
+//        XmlUtil xmlUtil = new XmlUtil(Config.class.getResourceAsStream(config));
+//        System.out.println("param: "+xmlUtil.xml2Json());
         if (args.length>0){
             config = args[0];
         }

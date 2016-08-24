@@ -1,0 +1,64 @@
+package org.easyproxy.resources;/**
+ * Description : 
+ * Created by YangZH on 16-8-22
+ *  上午1:08
+ */
+
+import org.easyproxy.util.Config;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import static org.easyproxy.constants.Const.*;
+/**
+ * Description :
+ * Created by YangZH on 16-8-22
+ * 上午1:08
+ */
+
+public class Resource {
+
+    public static byte[] getResource(int code){
+        String resourceName = chooseResource(code);
+        try {
+            File resource = new File(resourceName);
+            if (!resource.isDirectory()&&!resource.exists()){
+                System.out.println("Resource Not Found!!");
+                resource = new File(RESOURCES+Config.getString(NOTFOUND_PAGE));
+            }
+            FileInputStream fis = new FileInputStream(resource);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int len = 0;
+            byte[] bytes = new byte[1024];
+            while ((len = fis.read(bytes)) != -1){
+                baos.write(bytes,0,len);
+            }
+            return baos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static String chooseResource(int code){
+        StringBuffer buffer = new StringBuffer(RESOURCES);
+        switch (code){
+            case CODE_NOTFOUND:
+                buffer.append(Config.getString(NOTFOUND_PAGE));
+                break;
+            case CODE_FORBIDDEN:
+                buffer.append(Config.getString(FORBIDDEN_PAGE));
+                break;
+            case CODE_SERVERERROR:
+                buffer.append(Config.getString(ERROR_PAGE));
+                break;
+            case CODE_BADREQUEST:
+                buffer.append(Config.getString(BADREQUEST_PAGE));
+                break;
+            default:
+                buffer.append(Config.getString(NOTFOUND_PAGE));
+                break;
+        }
+        return buffer.toString();
+    }
+}

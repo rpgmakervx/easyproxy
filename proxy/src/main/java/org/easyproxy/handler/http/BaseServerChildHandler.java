@@ -10,7 +10,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRuleType;
 import io.netty.handler.ipfilter.IpSubnetFilterRule;
-import io.netty.handler.ipfilter.RuleBasedIpFilter;
 import org.easyproxy.util.Config;
 
 import java.util.List;
@@ -32,9 +31,10 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         pipeline.addLast("compress", new HttpContentCompressor(9));
         pipeline.addLast("decompress", new HttpContentDecompressor());
         pipeline.addLast("aggregator", new HttpObjectAggregator(1024000));
-        pipeline.addLast("ipfilter",new RuleBasedIpFilter(getForbiddenList()));
+        pipeline.addLast("ipfilter",new IPFilterHandler(getForbiddenList()));
         pipeline.addLast(new AccessLogHandler());
         pipeline.addLast(new AntiLeechHandler());
+        pipeline.addLast(new APIHandler());
         pipeline.addLast(new GetRequestHandler());
         pipeline.addLast(new PostRequestHandler());
 

@@ -5,6 +5,7 @@ package org.easyproxy;/**
  */
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * Description :
@@ -26,8 +27,8 @@ public class Main {
 //            System.out.println("host: " + address.getHostString());
 //        }
 //        System.out.println("memory:"+JedisUtil.getMemoryUsed());
-
-
+        Pattern pattern = Pattern.compile("/easyproxy.*");
+        System.out.println(pattern.matcher("/easyproxy/kk?lb_strategy=roundrobin").matches());
     }
 
 }

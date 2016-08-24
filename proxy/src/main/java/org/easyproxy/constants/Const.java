@@ -66,18 +66,36 @@ public class Const {
     //ip_filter
     public static final String IP_FILTER = "ip_filter";
     public static final String IP = "ip";
+    public static final String NOTFOUND_PAGE = "notfound_page";
+    public static final String ERROR_PAGE = "error_page";
+    public static final String FORBIDDEN_PAGE = "forbidden_page";
+    public static final String BADREQUEST_PAGE = "bad_request";
+    public static final String API_URI = "api_uri";
 
 
     //redis:
     public static final String MEMORY = "Memory";
 
     //structure
-    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
+//    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
+    public static final String DIR = System.getProperty("user.dir")+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String ACCESSLOG = LOGS+"access.log";
     public static final String NULLVALUE = "-";
+    public static final String RESOURCES = DIR+"resources"+File.separator;
 
     //redis static key
     public static final String LIKE = "*";
     public static final String ACCESSRECORD = "-access_record";
+
+
+    public static final int CODE_OK = 200;
+    public static final int CODE_BADREQUEST= 400;
+    public static final int CODE_FORBIDDEN = 403;
+    public static final int CODE_NOTFOUND = 404;
+    public static final int CODE_SERVERERROR = 500;
+
+
+    public static final String API_ACK = "{'message':'action complete!','code':200}";
+
 }

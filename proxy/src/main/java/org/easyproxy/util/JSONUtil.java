@@ -42,8 +42,8 @@ public class JSONUtil {
         }
     }
 
-    public static JSONObject listToJson(List list) {
-        return JSON.parseObject(JSON.toJSONString(list, true));
+    public static JSONArray listToJson(List list) {
+        return JSON.parseArray(JSON.toJSONString(list, true));
     }
 
     public static String pojoToJson(Object object) {

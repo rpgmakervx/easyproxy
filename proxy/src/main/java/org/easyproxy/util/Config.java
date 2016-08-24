@@ -13,7 +13,9 @@ import org.easyproxy.pojo.WeightHost;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -60,7 +62,7 @@ public class Config {
         initCache();
     }
 
-    private void configLoadbalanceStrategy(){
+    private static void configLoadbalanceStrategy(){
         JSONArray array = JSONUtil.getArrayFromJSON(PROXY_PASS, params);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
         for (int index = 0; index < array.size(); index++) {
@@ -104,7 +106,7 @@ public class Config {
         System.out.println("weight_sum: " + weight_sum+", node_num: "+node_num);
     }
 
-    private void configForbiddenHosts(){
+    private static void configForbiddenHosts(){
         JSONArray array = JSONUtil.getArrayFromJSON(IP_FILTER, params);
         for (int index=0;index<array.size();index++){
             JSONObject object = array.getJSONObject(index);
@@ -112,7 +114,7 @@ public class Config {
         }
     }
 
-    private void initCache(){
+    private static void initCache(){
         for (InetSocketAddress address:roundrobin_hosts){
             cache.addAccessRecord(address.getHostString()+":"+address.getPort()+ACCESSRECORD);
         }
@@ -166,18 +168,32 @@ public class Config {
         return forbidden_hosts;
     }
 
+    public static void setLB_Strategy(String strategy){
+        params.put(LB_STRATEGY,strategy);
+    }
+
+    /**
+     * 动态添加节点
+     * @param hosts
+     */
+    public static void setNodes(List<WeightHost> hosts){
+        List<Map<String,Object>> hostsmap = new CopyOnWriteArrayList<Map<String,Object>>();
+        for (WeightHost host:hosts){
+            InetSocketAddress address = host.getAddress();
+            int weight = host.getWeight();
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put(HOST,address.getHostName());
+            map.put(PORT,address.getPort());
+            map.put(WEIGHT,weight);
+            hostsmap.add(map);
+        }
+        params.put(PROXY_PASS,JSONUtil.listToJson(hostsmap));
+        configLoadbalanceStrategy();
+    }
+
     public static void listAll(){
         System.out.println(JSONObject.toJSONString(params));
     }
 
-    public static void listAllWeightHosts(){
-        System.out.println("listAllWeightHosts--->"+weight_hosts_list.size());
-        for (WeightHost host:weight_hosts_list){
-            System.out.println(host);
-        }
-    }
 
-    public static JSONObject getParams(){
-        return params;
-    }
 }
