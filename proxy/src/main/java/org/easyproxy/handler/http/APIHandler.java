@@ -59,6 +59,5 @@ public class APIHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
         ctx.channel().writeAndFlush(response);
-//        ctx.close();
     }
 }

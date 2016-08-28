@@ -7,7 +7,7 @@
     <!-- api_uri write your regex -->
     <resource notfound_page="404page.html" error_page="error.html" forbidden_page="forbidden.html"/>
     <!--api is start? uri and param-->
-    <api open="true" api_uri="/easyproxy/*"  />
+    <api open="true" api_uri="/easyproxy/.*"  />
     <proxy_pass>
         <node host="192.168.89.1" port="8080" weight="4"/>
         <node host="192.168.89.1" port="8081" weight="1"/>

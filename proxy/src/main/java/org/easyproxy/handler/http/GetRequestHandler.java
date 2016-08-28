@@ -121,7 +121,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        System.out.println("CSS 解析异常");
         cause.printStackTrace();
     }
 
@@ -129,13 +128,11 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
-//        System.out.println("response header ---------------");
         for (Header header : headers) {
             response.headers().set(header.getName(), header.getValue());
-//            System.out.println(header.getName() + "::" + header.getValue());
         }
-//        System.out.println("end header ---------------");
         ctx.channel().writeAndFlush(response);
+        ctx.close();
     }
 
     private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
@@ -144,6 +141,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
         ctx.channel().writeAndFlush(response);
+        ctx.close();
     }
 
     private void accessRecord(String realserver,int port){

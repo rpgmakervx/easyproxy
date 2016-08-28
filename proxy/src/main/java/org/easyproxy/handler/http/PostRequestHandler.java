@@ -165,6 +165,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
             response.headers().set(header.getName(), header.getValue());
         }
         ctx.channel().writeAndFlush(response);
+        ctx.close();
     }
 
     private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
@@ -172,7 +173,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
         ctx.channel().writeAndFlush(response);
-//        ctx.close();
+        ctx.close();
     }
     private void response(ChannelHandlerContext ctx, byte[] contents,HttpResponseStatus status) throws UnsupportedEncodingException {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
@@ -180,7 +181,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 status, byteBuf);
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, TEXT_HTML);
         ctx.channel().writeAndFlush(response);
-//        ctx.close();
+        ctx.close();
     }
 
     private void accessRecord(String realserver,int port){

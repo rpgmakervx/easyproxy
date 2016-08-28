@@ -36,7 +36,15 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
 //        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
 //    }
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
-        threadPool.submit(new Task(ctx, msg));
+//        threadPool.submit(new Task(ctx, msg));
+        InetSocketAddress addr = getAddress(ctx);
+        String ip = addr.getHostString();
+        //选择路由
+        //记录真实节点的访问量
+//            System.out.println("client ip address: "+ip+" , port is: "+port);
+        HttpRequest request = (HttpRequest) msg;
+        generateLog(request,ip);
+        ctx.fireChannelRead(request);
     }
 
     @Override
@@ -44,11 +52,6 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
         messageReceived(ctx, msg);
     }
 
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        super.channelReadComplete(ctx);
-    }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -78,25 +81,25 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
         logger.accessLog(buffer.toString() + "\n");
     }
 
-    private class Task implements Runnable {
-        Object msg;
-        ChannelHandlerContext ctx;
-
-        public Task(ChannelHandlerContext ctx, Object msg) {
-            this.msg = msg;
-            this.ctx = ctx;
-        }
-
-        @Override
-        public void run() {
-            InetSocketAddress addr = getAddress(ctx);
-            String ip = addr.getHostString();
-            //选择路由
-            //记录真实节点的访问量
-//            System.out.println("client ip address: "+ip+" , port is: "+port);
-            HttpRequest request = (HttpRequest) msg;
-//            generateLog(request,ip);
-            ctx.fireChannelRead(request);
-        }
-    }
+//    private class Task implements Runnable {
+//        Object msg;
+//        ChannelHandlerContext ctx;
+//
+//        public Task(ChannelHandlerContext ctx, Object msg) {
+//            this.msg = msg;
+//            this.ctx = ctx;
+//        }
+//
+//        @Override
+//        public void run() {
+//            InetSocketAddress addr = getAddress(ctx);
+//            String ip = addr.getHostString();
+//            //选择路由
+//            //记录真实节点的访问量
+////            System.out.println("client ip address: "+ip+" , port is: "+port);
+//            HttpRequest request = (HttpRequest) msg;
+////            generateLog(request,ip);
+//            ctx.fireChannelRead(request);
+//        }
+//    }
 }
