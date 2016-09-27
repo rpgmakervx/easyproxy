@@ -2,9 +2,6 @@
   <artifact name="easyproxy">
     <output-path>$PROJECT_DIR$/out/artifacts/easyproxy</output-path>
     <root id="root">
-      <element id="archive" name="easyproxy.jar">
-        <element id="module-output" name="proxy" />
-      </element>
       <element id="directory" name="lib">
         <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.8" />
         <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
@@ -23,6 +20,24 @@
         <element id="library" level="project" name="Maven: org.hyperic:sigar:1.6.2" />
         <element id="library" level="project" name="Maven: redis.clients:jedis:2.7.2" />
         <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.0.b2" />
+      </element>
+      <element id="directory" name="tmp" />
+      <element id="directory" name="logs">
+        <element id="file-copy" path="$PROJECT_DIR$/logs/access.log" />
+      </element>
+      <element id="directory" name="resource">
+        <element id="file-copy" path="$PROJECT_DIR$/resources/404page.html" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/badrequest.html" />
+        <element id="file-copy" path="$PROJECT_DIR$/resources/forbidden.html" />
+      </element>
+      <element id="directory" name="conf">
+        <element id="file-copy" path="$PROJECT_DIR$/proxy/src/main/resources/proxy.xml" />
+      </element>
+      <element id="directory" name="bin">
+        <element id="archive" name="easyproxy.jar">
+          <element id="module-output" name="proxy" />
+        </element>
+        <element id="file-copy" path="$PROJECT_DIR$/proxy/startup" />
       </element>
     </root>
   </artifact>

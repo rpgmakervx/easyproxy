@@ -29,6 +29,17 @@ public class Main {
 //        Pattern pattern = Pattern.compile("/easyproxy.*");
 //        System.out.println(pattern.matcher("/easyproxy/kk?lb_strategy=roundrobin").matches());
 //        CyclicBarrier barrier = new CyclicBarrier(2,);
+        Integer a1 = 127;
+        Integer a2 = 127;
+        Integer b1 = -129;
+        Integer b2 = -129;
+        String str1 = "111";
+        String str2 = new String("111").intern();
+        System.out.println(a1==a2);
+        System.out.println(a1.equals(a2));
+        System.out.println(b1==b2);
+        System.out.println(b1.equals(b2));
+        System.out.println(str1==str2);
     }
 
 }

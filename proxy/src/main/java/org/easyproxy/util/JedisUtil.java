@@ -20,54 +20,53 @@ import java.util.Set;
 public class JedisUtil {
 
 
-    public static Jedis jedisClient = new Jedis("localhost");
-
-    static {
-        System.out.println("Server is running: " + jedisClient.ping());
+    public Jedis jedisClient;
+    public JedisUtil(){
+        jedisClient = new Jedis("localhost");
     }
 
-    public static boolean exists(String key){
+    public boolean exists(String key){
         return jedisClient.exists(key);
     }
 
-    public static String get(String key) {
+    public String get(String key) {
+        System.out.println("jedis get("+key+") ");
         return jedisClient.get(key);
     }
 
-    public static String hget(String key,String field){
+    public String hget(String key,String field){
         return jedisClient.hget(key,field);
     }
 
-    public static Map<String,String> hgetAll(String key){
+    public Map<String,String> hgetAll(String key){
         return jedisClient.hgetAll(key);
     }
 
-    public static Set<String> keys(String pattern){
+    public Set<String> keys(String pattern){
         return jedisClient.keys(pattern);
     }
 
 
-    public static void set(String key, String value,boolean expire) {
+    public void set(String key, String value,boolean expire) {
         jedisClient.set(key, value);
         if (expire)
             jedisClient.expire(key, Config.getInt(Const.CACHE_TTL));
     }
-    public static void set(String key, String value) {
-        jedisClient.set(key, value);
-        jedisClient.expire(key, Config.getInt(Const.CACHE_TTL));
+    public void set(String key, String value) {
+        set(key,value,true);
     }
 
-    public static void setList(String listname, List<String> list) {
+    public void setList(String listname, List<String> list) {
         for (String item : list) {
             jedisClient.lpush(listname, item);
         }
     }
 
-    public static List<String> getList(String listname) {
+    public List<String> getList(String listname) {
         return jedisClient.lrange(listname, 0, jedisClient.strlen(listname));
     }
 
-    public static float getMemoryUsed(){
+    public float getMemoryUsed(){
         System.out.println(jedisClient.info(Const.MEMORY));
         String [] line = jedisClient.info(Const.MEMORY).split("\n");
         String used_memory = line[1].split(":")[1];
@@ -75,8 +74,15 @@ public class JedisUtil {
         return Float.parseFloat(used_memory)/1024;
     }
 
-    public static void incr(String key){
+    public void incr(String key){
         jedisClient.incr(key);
     }
 
+    public void clear(String key){
+        jedisClient.del(key);
+    }
+
+    public void clear(){
+        jedisClient.flushAll();
+    }
 }

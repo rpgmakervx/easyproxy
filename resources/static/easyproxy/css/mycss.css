@@ -1,0 +1,373 @@
+@import url(http://fonts.googleapis.com/css?family=Terminal+Dosis);
+
+html {
+    background-color: hsl(0,0%,18%);
+    -webkit-background-size: 3px 3px;
+    background-image:    -webkit-linear-gradient(  0deg, hsla(322,23%,81%,0) 0, hsla(0,0%,10%,1) 3px),
+    -webkit-linear-gradient( 90deg, hsla(0,0%,0%,0) 0, hsla(0,0%,10%,1) 5px);
+    background-image:    -moz-linear-gradient( hsl(0,0%,11%), hsl(0,0%,11%) );
+    background-image:     -ms-linear-gradient( hsl(0,0%,11%), hsl(0,0%,11%) );
+    background-image:      -o-linear-gradient( hsl(0,0%,11%), hsl(0,0%,11%) );
+}
+body {
+    margin: 0;
+    text-align: center;
+    font: 13px/18px "Droid Sans", "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+section {
+    position: absolute;
+    padding: 50px;
+    margin-top: -12pc;
+    margin-left: 10pc;
+}
+
+/* Space CaCSS ------------------------------------------------- */
+
+section > div {
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0px auto;
+    border-radius: 50%;
+    border: 10px solid hsla(0,0%,0%,.7);
+    box-shadow: inset 0 15px 15px -5px hsla(0,0%,100%,.7),
+    inset 0 -5px 10px 3px hsla(0,0%,0%,.6),
+    0 8px 10px 2px hsla(0,0%,0%,.3);
+
+    background-position: center;
+
+    -webkit-transform: scale3d(.66,.66,1);
+    -moz-transform:   scale(.66);
+    -ms-transform:   scale(.66);
+    -o-transform:   scale(.66);
+    transform:   scale(.66);
+
+    -webkit-transition: -webkit-transform .5s cubic-bezier(.32,0,.15,1);
+    -moz-transition:    -moz-transform .5s cubic-bezier(.32,0,.15,1);
+    -ms-transition:     -ms-transform .5s cubic-bezier(.32,0,.15,1);
+    -o-transition:      -o-transform .5s cubic-bezier(.32,0,.15,1);
+    transition:         transform .5s cubic-bezier(.32,0,.15,1);
+}
+
+section > div:hover {
+    cursor: none;
+    -webkit-transform: scale3d(1,1,1);
+    -moz-transform:   scale(1);
+    -ms-transform:   scale(1);
+    -o-transform:   scale(1);
+    transform:   scale(1);
+
+    -webkit-transition: -webkit-transform .2s cubic-bezier(.32,0,.15,1);
+    -moz-transition:    -moz-transform .2s cubic-bezier(.32,0,.15,1);
+    -ms-transition:     -ms-transform .2s cubic-bezier(.32,0,.15,1);
+    -o-transition:      -o-transform .2s cubic-bezier(.32,0,.15,1);
+    transition:         transform .2s cubic-bezier(.32,0,.15,1);
+}
+
+
+.particle {
+    background-size: 12px 12px;
+    background-color: #000;
+
+    /* the default highlight was too strong */
+    box-shadow: inset 0 15px 15px -5px hsla(0,0%,100%,.25), inset 0 -5px 10px 3px hsla(0,0%,0%,.6), 0 8px 10px 2px hsla(0,0%,0%,.3);
+
+    background-image:     -webkit-radial-gradient( #555 0px, hsla(0,0%,0%,0) 2px, hsla(0,0%,0%,0) 24px),
+    -webkit-repeating-radial-gradient( white 0px, black 2px, black 48px);
+    background-image:        -moz-radial-gradient( #555 0px, hsla(0,0%,0%,0) 2px, hsla(0,0%,0%,0) 24px),
+    -moz-repeating-radial-gradient( white 0px, black 2px, black 48px);
+    background-image:         -ms-radial-gradient( #555 0px, hsla(0,0%,0%,0) 2px, hsla(0,0%,0%,0) 24px),
+    -ms-repeating-radial-gradient( white 0px, black 2px, black 48px);
+    background-image:          -o-radial-gradient( #555 0px, hsla(0,0%,0%,0) 2px, hsla(0,0%,0%,0) 24px),
+    -o-repeating-radial-gradient( white 0px, black 2px, black 48px);
+    background-image:             radial-gradient( #555 0px, hsla(0,0%,0%,0) 2px, hsla(0,0%,0%,0) 24px),
+    repeating-radial-gradient( white 0px, black 2px, black 48px);
+}
+.particle:hover {
+    -webkit-animation: particle-size .24s linear infinite, particle-positon .48s linear infinite alternate;
+    -moz-animation: particle-size .24s linear infinite, particle-positon .48s linear infinite alternate;
+    -ms-animation: particle-size .24s linear infinite, particle-positon .48s linear infinite alternate;
+    -o-animation: particle-size .24s linear infinite, particle-positon .48s linear infinite alternate;
+    animation: particle-size .24s linear infinite, particle-positon .48s linear infinite alternate;
+}
+
+@-webkit-keyframes particle-size { from { background-size: 6px 6px, 12px 12px; } to { background-size: 12px 12px, 24px 24px; } }
+@-moz-keyframes particle-size { from { background-size: 6px 6px, 12px 12px; } to { background-size: 12px 12px, 24px 24px; } }
+@-ms-keyframes particle-size { from { background-size: 6px 6px, 12px 12px; } to { background-size: 12px 12px, 24px 24px; } }
+@-o-keyframes particle-size { from { background-size: 6px 6px, 12px 12px; } to { background-size: 12px 12px, 24px 24px; } }
+@keyframes particle-size { from { background-size: 6px 6px, 12px 12px; } to { background-size: 12px 12px, 24px 24px; } }
+
+@-webkit-keyframes particle-positon { from { background-position: 60px, 60px; } to { background-position: 140px, 140px; } }
+@-moz-keyframes particle-positon { from { background-position: 60px, 60px; } to { background-position: 140px, 140px; } }
+@-ms-keyframes particle-positon { from { background-position: 60px, 60px; } to { background-position: 140px, 140px; } }
+@-o-keyframes particle-positon { from { background-position: 60px, 60px; } to { background-position: 140px, 140px; } }
+@keyframes particle-positon { from { background-position: 60px, 60px; } to { background-position: 140px, 140px; } }
+
+
+.cells {
+    background-size: 24px 24px;
+    background-color: #fff;
+    background-image: -webkit-repeating-radial-gradient( black 8px, white 12px);
+    background-image:    -moz-repeating-radial-gradient( black 8px, white 12px);
+    background-image:       -ms-repeating-radial-gradient( black 8px, white 12px);
+    background-image:        -o-repeating-radial-gradient( black 8px, white 12px);
+    background-image:           repeating-radial-gradient( black 8px, white 12px);
+}
+.cells:hover {
+    -webkit-animation: cells 0.4s linear infinite;
+    -moz-animation: cells 0.4s linear infinite;
+    -ms-animation: cells 0.4s linear infinite;
+    -o-animation: cells 0.4s linear infinite;
+    animation: cells 0.4s linear infinite;
+}
+@-webkit-keyframes cells { from { background-size: 12px 12px; } to { background-size: 24px 24px; } }
+@-moz-keyframes cells { from { background-size: 12px 12px; } to { background-size: 24px 24px; } }
+@-ms-keyframes cells { from { background-size: 12px 12px; } to { background-size: 24px 24px; } }
+@-o-keyframes cells { from { background-size: 12px 12px; } to { background-size: 24px 24px; } }
+@keyframes cells { from { background-size: 12px 12px; } to { background-size: 24px 24px; } }
+
+.jelly {
+    background-size: 60px 60px;
+    background-color: hsla(320,80%,60%,1);
+
+    background-image:     -webkit-repeating-radial-gradient( hsla(320,100%,60%,.6) 0px, hsla(220,100%,60%,0) 60%),
+    -webkit-repeating-radial-gradient( hsla(330,100%,40%,1) 12%, hsla(320,80%,60%,1) 24px);
+    background-image:        -moz-repeating-radial-gradient( hsla(320,100%,60%,.6) 0px, hsla(220,100%,60%,0) 60%),
+    -moz-repeating-radial-gradient( hsla(330,100%,40%,1) 12%, hsla(320,80%,60%,1) 24px);
+    background-image:         -ms-repeating-radial-gradient( hsla(320,100%,60%,.6) 0px, hsla(220,100%,60%,0) 60%),
+    -ms-repeating-radial-gradient( hsla(330,100%,40%,1) 12%, hsla(320,80%,60%,1) 24px);
+    background-image:          -o-repeating-radial-gradient( hsla(320,100%,60%,.6) 0px, hsla(220,100%,60%,0) 60%),
+    -o-repeating-radial-gradient( hsla(330,100%,40%,1) 12%, hsla(320,80%,60%,1) 24px);
+    background-image:             repeating-radial-gradient( hsla(320,100%,60%,.6) 0px, hsla(220,100%,60%,0) 60%),
+    repeating-radial-gradient( hsla(330,100%,40%,1) 12%, hsla(320,80%,60%,1) 24px);
+}
+.jelly:hover {
+    -webkit-animation: jelly 1.4s cubic-bezier(.1,.4,.9,.6) infinite;
+    -moz-animation: jelly 1.4s cubic-bezier(.1,.4,.9,.6) infinite;
+    -ms-animation: jelly 1.4s cubic-bezier(.1,.4,.9,.6) infinite;
+    -o-animation: jelly 1.4s cubic-bezier(.1,.4,.9,.6) infinite;
+    animation: jelly 1.4s cubic-bezier(.1,.4,.9,.6) infinite;
+}
+
+@-webkit-keyframes jelly {
+    from { background-size:  60px  60px,  24px  24px; }
+    50%  { background-size: 120px 120px, 100px 100px; }
+    to   { background-size:  24px  24px, 140px 140px; }
+}
+@-moz-keyframes jelly {
+    from { background-size:  60px  60px,  24px  24px; }
+    50%  { background-size: 120px 120px, 100px 100px; }
+    to   { background-size:  24px  24px, 140px 140px; }
+}
+@-webkit-keyframes jelly {
+    from { background-size:  60px  60px,  24px  24px; }
+    50%  { background-size: 120px 120px, 100px 100px; }
+    to   { background-size:  24px  24px, 140px 140px; }
+}
+@-webkit-keyframes jelly {
+    from { background-size:  60px  60px,  24px  24px; }
+    50%  { background-size: 120px 120px, 100px 100px; }
+    to   { background-size:  24px  24px, 140px 140px; }
+}
+@-webkit-keyframes jelly {
+    from { background-size:  60px  60px,  24px  24px; }
+    50%  { background-size: 120px 120px, 100px 100px; }
+    to   { background-size:  24px  24px, 140px 140px; }
+}
+
+.blobbs {
+    background-size: 66px 66px;
+    background-color: hsl(200,100%,50%);
+
+    background-image:     -webkit-repeating-radial-gradient( hsla(200,100%,80%,.8) 0px, hsla(200,100%,80%,.5) 4px, hsla(200,100%,80%,0) 50px),
+    -webkit-repeating-radial-gradient( hsla(260,100%, 0%, 0) 0px, hsla(260,100%,50%,.1) 2px, hsla(260,100%, 0%,0) 10px);
+    background-image:        -moz-repeating-radial-gradient( hsla(200,100%,80%,.8) 0px, hsla(200,100%,80%,.5) 4px, hsla(200,100%,80%,0) 50px),
+    -moz-repeating-radial-gradient( hsla(260,100%, 0%, 0) 0px, hsla(260,100%,50%,.1) 2px, hsla(260,100%, 0%,0) 10px);
+    background-image:         -ms-repeating-radial-gradient( hsla(200,100%,80%,.8) 0px, hsla(200,100%,80%,.5) 4px, hsla(200,100%,80%,0) 50px),
+    -ms-repeating-radial-gradient( hsla(260,100%, 0%, 0) 0px, hsla(260,100%,50%,.1) 2px, hsla(260,100%, 0%,0) 10px);
+    background-image:          -o-repeating-radial-gradient( hsla(200,100%,80%,.8) 0px, hsla(200,100%,80%,.5) 4px, hsla(200,100%,80%,0) 50px),
+    -o-repeating-radial-gradient( hsla(260,100%, 0%, 0) 0px, hsla(260,100%,50%,.1) 2px, hsla(260,100%, 0%,0) 10px);
+    background-image:             repeating-radial-gradient( hsla(200,100%,80%,.8) 0px, hsla(200,100%,80%,.5) 4px, hsla(200,100%,80%,0) 50px),
+    repeating-radial-gradient( hsla(260,100%, 0%, 0) 0px, hsla(260,100%,50%,.1) 2px, hsla(260,100%, 0%,0) 10px);
+}
+.blobbs:hover {
+    -webkit-animation:     blobbs-position   6s cubic-bezier(.4,0,.2,1) infinite,
+    blobbs-size     .75s cubic-bezier(.4,0,.2,1) infinite alternate;
+    -moz-animation:     blobbs-position   6s cubic-bezier(.4,0,.2,1) infinite,
+    blobbs-size     .75s cubic-bezier(.4,0,.2,1) infinite alternate;
+    -ms-animation:     blobbs-position   6s cubic-bezier(.4,0,.2,1) infinite,
+    blobbs-size     .75s cubic-bezier(.4,0,.2,1) infinite alternate;
+    -o-animation:     blobbs-position   6s cubic-bezier(.4,0,.2,1) infinite,
+    blobbs-size     .75s cubic-bezier(.4,0,.2,1) infinite alternate;
+    animation:     blobbs-position   6s cubic-bezier(.4,0,.2,1) infinite,
+    blobbs-size     .75s cubic-bezier(.4,0,.2,1) infinite alternate;
+}
+
+@-webkit-keyframes blobbs-position {
+    0% { background-position: left  top,      left  top; }
+    25% { background-position: right top,         left  bottom; }
+    50% { background-position: right bottom,     right bottom; }
+    75% { background-position: left  bottom,    right top; }
+    100% { background-position: left  top,        left  top; }
+}
+@-moz-keyframes blobbs-position {
+    0% { background-position: left  top,      left  top; }
+    25% { background-position: right top,         left  bottom; }
+    50% { background-position: right bottom,     right bottom; }
+    75% { background-position: left  bottom,    right top; }
+    100% { background-position: left  top,        left  top; }
+}
+@-ms-keyframes blobbs-position {
+    0% { background-position: left  top,      left  top; }
+    25% { background-position: right top,         left  bottom; }
+    50% { background-position: right bottom,     right bottom; }
+    75% { background-position: left  bottom,    right top; }
+    100% { background-position: left  top,        left  top; }
+}
+@-o-keyframes blobbs-position {
+    0% { background-position: left  top,      left  top; }
+    25% { background-position: right top,         left  bottom; }
+    50% { background-position: right bottom,     right bottom; }
+    75% { background-position: left  bottom,    right top; }
+    100% { background-position: left  top,        left  top; }
+}
+@keyframes blobbs-position {
+    0% { background-position: left  top,      left  top; }
+    25% { background-position: right top,         left  bottom; }
+    50% { background-position: right bottom,     right bottom; }
+    75% { background-position: left  bottom,    right top; }
+    100% { background-position: left  top,        left  top; }
+}
+
+@-webkit-keyframes blobbs-size { from { background-size: 200px 200px, 200px 200px; } to { background-size:  66px  66px, 66px 66px; } }
+@-moz-keyframes blobbs-size { from { background-size: 200px 200px, 200px 200px; } to { background-size:  66px  66px, 66px 66px; } }
+@-ms-keyframes blobbs-size { from { background-size: 200px 200px, 200px 200px; } to { background-size:  66px  66px, 66px 66px; } }
+@-o-keyframes blobbs-size { from { background-size: 200px 200px, 200px 200px; } to { background-size:  66px  66px, 66px 66px; } }
+@keyframes blobbs-size { from { background-size: 200px 200px, 200px 200px; } to { background-size:  66px  66px, 66px 66px; } }
+
+.aa{
+    margin-top:-6pc;
+}
+h1{
+    color: #ffffff;
+    font-size: 32px;
+    align-items: center;
+}
+h2{
+    color: lightgoldenrodyellow;
+    font-size: 8px;
+}
+.green{
+    position: absolute;
+    width: 400px;
+    color: #669900;
+    float: left;
+    height: 18px;
+    padding-bottom: 20px;
+    margin-left: 54pc;
+}
+.green a{color:#669900;}
+#wrapper {
+    width: 1024px;
+    left: 50%;
+    top: 50%;
+    margin-top: -80px;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-left: auto;
+}
+#carousel {
+    width: 1010px;
+    position:relative;
+    margin-left: 7px;
+}
+#carousel ul {
+    list-style: none;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+#carousel li {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    display: block;
+    width: 240px;
+    padding: 0;
+    margin: 6px;
+    float: left;
+    position: relative;
+    height: 400px;
+}
+
+#carousel li img {
+    width: 240px;
+    margin-top: 14px;
+}
+
+#carousel li span {
+    display: block;
+    width: 170px;
+    height: 100px;
+    position: absolute;
+    z-index: 2;
+    top: 280px;
+    left: 10px;
+    text-align: left;
+}
+#carousel li strong{font-size:18px;}
+
+.clearfix {
+    float: none;
+    clear: both;
+}
+#carousel .prev, #carousel .next {
+    text-indent: -999px;
+    display: block;
+    overflow: hidden;
+    width: 25px;
+    height: 46px;
+    /*margin-left: 10px;*/
+    position: absolute;
+    top: 120px;
+    background-color: transparent;
+    background-image: url(img/carousel_control1.png);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+#carousel .prev {
+    background-position: 0 0;
+    left: -40px;
+}
+#carousel .prev:hover {
+    left: -41px;
+}
+#carousel .next {
+    background-position: -25px 0;
+    right: -30px;
+}
+#carousel .next:hover {
+    right: -31px;
+}
+#carousel .pager {
+    text-align: center;
+    margin: 0 auto;
+}
+.cc{
+    position: absolute;
+    margin-top: -1pc;
+    margin-left: 26pc;
+
+}
+.dd{
+    position: absolute;
+    margin-top: 1pc;
+    margin-left: 37pc;
+    color: #babae4;
+}
+.center{
+    width: 200px;
+    float: left;
+}

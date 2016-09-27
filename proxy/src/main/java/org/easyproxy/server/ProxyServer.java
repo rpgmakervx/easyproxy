@@ -36,12 +36,11 @@ public class ProxyServer {
         new Config(Config.class.getResourceAsStream(Const.DEFAULT_CONFIGPATH));
     }
 
-    public void startup(int port) {
-        launch(port);
-    }
-
     public void startup() {
         launch(Config.getInt(Const.LISTEN));
+    }
+    public void startup(int port) {
+        launch(port);
     }
 
     private void launch(int port) {
@@ -54,7 +53,8 @@ public class ProxyServer {
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .childHandler(new BaseServerChildHandler())
                     .option(ChannelOption.SO_BACKLOG, 512)
-                    .option(ChannelOption.TCP_NODELAY,true);
+                    .option(ChannelOption.TCP_NODELAY,true)
+                    .option(ChannelOption.SO_REUSEADDR,true);
             f = b.bind(port).sync();
             System.out.println("服务已启动");
             f.channel().closeFuture().sync();

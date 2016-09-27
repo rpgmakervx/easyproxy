@@ -8,6 +8,8 @@ import org.easyproxy.constants.Const;
 import org.easyproxy.server.ProxyServer;
 import org.easyproxy.util.Config;
 
+import java.io.IOException;
+
 /**
  * Description :
  * Created by YangZH on 16-5-25
@@ -17,11 +19,9 @@ import org.easyproxy.util.Config;
 public class EasyProxy {
 
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
         //开源中国要有WWW
         String config = Const.DEFAULT_CONFIGPATH;
-//        XmlUtil xmlUtil = new XmlUtil(Config.class.getResourceAsStream(config));
-//        System.out.println("param: "+xmlUtil.xml2Json());
         if (args.length>0){
             config = args[0];
         }
@@ -31,23 +31,4 @@ public class EasyProxy {
         server.startup();
     }
 
-//    public static String getLocalIPForJava() {
-//        StringBuilder sb = new StringBuilder();
-//        try {
-//            Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-//            while (en.hasMoreElements()) {
-//                NetworkInterface intf = (NetworkInterface) en.nextElement();
-//                Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses();
-//                while (enumIpAddr.hasMoreElements()) {
-//                    InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
-//                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()
-//                            && inetAddress.isSiteLocalAddress()) {
-//                        sb.append(inetAddress.getHostAddress().toString() + "\n");
-//                    }
-//                }
-//            }
-//        } catch (SocketException e) {
-//        }
-//        return sb.toString();
-//    }
 }

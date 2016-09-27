@@ -10,13 +10,13 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.easyproxy.resources.Resource;
 import org.easyproxy.util.Config;
 
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
 
-import static org.easyproxy.constants.Const.IMAGE;
-import static org.easyproxy.constants.Const.LOCALHOST;
+import static org.easyproxy.constants.Const.*;
 
 /**
  * Description : SocksServerHandler
@@ -44,7 +44,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
                 //读取图片
                 if (pattern.matcher(request.uri()).matches()&&!antiLeechCheckUp(headers)) {
                     //防盗链
-                    response(ctx, "access deny!".getBytes(), HttpResponseStatus.FORBIDDEN);
+                    response(ctx, Resource.getResource(CODE_FORBIDDEN), HttpResponseStatus.FORBIDDEN);
                     return;
                 } else {
                     ctx.fireChannelRead(request);

@@ -9,13 +9,11 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -23,9 +21,12 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,8 @@ public class ProxyClient {
     CloseableHttpResponse response;
     HttpPost httpPost;
     HttpGet httpGet;
+    HttpPut httpPut;
+    HttpDelete httpDelete;
     HttpHost httpHost;
     String host;
     String HOST;
@@ -54,18 +57,15 @@ public class ProxyClient {
         String url = "http://";
         if (isLocal) {
             url += host + ":" + address.getPort() + uri;
-            httpPost = new HttpPost(url);
-            httpGet = new HttpGet(url);
-            HOST = host + ":" + address.getPort();
         } else if (!host.contains("http://")) {
             url += host + ":" + address.getPort() + uri;
-            httpPost = new HttpPost(url);
-            httpGet = new HttpGet(url);
         } else {
             url = "http://" + host + ":" + address.getPort() + uri;
-            httpPost = new HttpPost(host + address.getPort() + uri);
-            httpGet = new HttpGet(host + address.getPort() + uri);
         }
+        httpPost = new HttpPost(url);
+        httpGet = new HttpGet(url);
+        httpPut = new HttpPut(url);
+        httpDelete = new HttpDelete(url);
     }
 
     /**
@@ -98,10 +98,17 @@ public class ProxyClient {
         for (Map.Entry<String, Object> entry : param.entrySet()) {
             Object value = entry.getValue();
             if (value instanceof String) {
-                StringBody sb = new StringBody((String) entry.getValue(), ContentType.MULTIPART_FORM_DATA);
-                builder.addPart(entry.getKey(), sb);
-            } else if (value instanceof Byte[]) {
-                builder.addBinaryBody(entry.getKey(), (byte[]) value);
+                StringBody sb = null;
+                try {
+                    sb = new StringBody((String) entry.getValue(), Charset.forName("UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                builder.addPart(entry.getKey(),sb);
+                System.out.println("key:" + entry.getKey() + ", value:" + value);
+            } else if (value instanceof File) {
+                System.out.println("key:"+entry.getKey()+", value:"+value);
+                builder.addBinaryBody(entry.getKey(), (File) value);
             }
         }
         return builder.build();
@@ -135,7 +142,7 @@ public class ProxyClient {
         StringEntity s = null;
         CloseableHttpResponse response = null;
         try {
-            s = new StringEntity(json);
+            s = new StringEntity(json,Charset.forName("UTF-8"));
             httpPost.setEntity(s);
             response = httpclient.execute(httpPost);
         } catch (IOException e) {
@@ -152,15 +159,31 @@ public class ProxyClient {
      * @return
      */
     public CloseableHttpResponse postMultipartEntityRequest(Map<String, Object> param, HttpHeaders headers) {
-        setHeader(httpPost, headers);
+//        setHeader(httpPost, headers);
         CloseableHttpResponse response = null;
         try {
-            httpPost.setEntity(setMultipartEntity(param));
+            HttpEntity entity = setMultipartEntity(param);
+            httpPost.setEntity(entity);
             response = httpclient.execute(httpPost);
+            System.out.println("file upload response code:"+response.getStatusLine().getStatusCode());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return response;
+    }
+
+    public HttpEntity setFormDataEntity(Map<String,Object> param){
+        MultipartEntity entity = new MultipartEntity();
+        for (Map.Entry<String,Object> entry:param.entrySet()){
+            Object value = entry.getValue();
+            String key = entry.getKey();
+            if (value instanceof String){
+                StringBody sb = new StringBody((String) value, ContentType.MULTIPART_FORM_DATA);
+                entity.addPart(key,sb);
+            }else if (value instanceof byte[]){
+            }
+        }
+        return entity;
     }
 
     /**
@@ -190,8 +213,6 @@ public class ProxyClient {
             try {
                 body = EntityUtils.toString(entity);
                 EntityUtils.consume(entity);
-                //释放链接
-                response.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -207,13 +228,49 @@ public class ProxyClient {
                 byte[] body = EntityUtils.toByteArray(entity);
                 EntityUtils.consume(entity);
                 //释放链接
-                response.close();
                 return body;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return null;
+    }
+
+    public CloseableHttpResponse deleteRequest(HttpHeaders headers){
+        setHeader(httpDelete, headers);
+        CloseableHttpResponse response = null;
+        try {
+            response = httpclient.execute(httpDelete);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public CloseableHttpResponse putJsonRequest(String json, HttpHeaders headers) {
+        setHeader(httpPut, headers);
+        StringEntity s = null;
+        CloseableHttpResponse response = null;
+        try {
+            s = new StringEntity(json);
+            httpPut.setEntity(s);
+            response = httpclient.execute(httpPut);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public CloseableHttpResponse putEntityRequest(Map<String, Object> param, HttpHeaders headers) {
+        setHeader(httpPut, headers);
+        CloseableHttpResponse response = null;
+        try {
+            httpPut.setEntity(new UrlEncodedFormEntity(setRequestData(param), "UTF-8"));
+            response = httpclient.execute(httpPut);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     public static void main(String[] args) throws URISyntaxException, IOException {

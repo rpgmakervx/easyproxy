@@ -41,7 +41,6 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx,Object msg) throws Exception {
         System.out.println("IPFilterHandler");
         if(this.handleForbidden(ctx)) {
-            System.out.println("request pass");
             ctx.fireChannelRead(msg);
             return ;
         }

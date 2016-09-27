@@ -2,15 +2,16 @@
 
 <proxy>
     <!--lb_strategy range:roundrobin,weight_roundrobin,ip_hash,less_connection-->
-    <server listen="9524" localhost="10.42.0.1" lb_strategy="weight"/>
-    <cache_strategy cache_size="" cache_ttl="30" cache_type="redis"/>
+    <server listen="9524" localhost="192.168.89.1" lb_strategy="weight"/>
+    <cache_strategy cache_size="" cache_ttl="10" cache_type="redis"/>
     <!-- api_uri write your regex -->
-    <resource notfound_page="404page.html" error_page="error.html" forbidden_page="forbidden.html"/>
+    <resource personal_uri="/static/.*" notfound_page="404page.html" error_page="error.html" forbidden_page="forbidden.html"/>
+    <log logopen="true" />
     <!--api is start? uri and param-->
-    <api open="true" api_uri="/easyproxy/.*"  />
+    <api open="true" api_uri="/easyproxy.*"  />
     <proxy_pass>
-        <node host="192.168.89.1" port="8080" weight="4"/>
-        <node host="192.168.89.1" port="8081" weight="1"/>
+        <node host="192.168.89.1" port="8081" weight="4"/>
+        <node host="192.168.89.1" port="8080" weight="6"/>
     </proxy_pass>
     <cache_url>
         <request url="" method="" />

@@ -9,7 +9,8 @@ import org.easyproxy.pojo.AccessRecord;
 import org.easyproxy.util.EncryptUtil;
 import org.easyproxy.util.JedisUtil;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -20,14 +21,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Cache {
 
+    private JedisUtil util;
+    public Cache(){
+        util = new JedisUtil();
+    }
+
     public void save(String url, String param, String data) {
-        long key = EncryptUtil.hash(url + param);
-        JedisUtil.set(String.valueOf(key), data);
-        System.out.println("保存完，key=" + key + " , value=" + data);
+        String key = EncryptUtil.hash(url + param,EncryptUtil.SHA1);
+        util.set(key, data);
+        System.out.println("保存完，key=" + key );
     }
 
     private boolean isHit(String key) {
-        String value = JedisUtil.get(key);
+        String value = util.get(key);
         if (value == null || value.isEmpty()) {
             return false;
         }
@@ -36,7 +42,7 @@ public class Cache {
 
     public boolean isHit(String url, String param) {
         String key = EncryptUtil.hash(url + param, EncryptUtil.SHA1);
-        String value = JedisUtil.get(key);
+        String value = util.get(key);
         if (value == null || value.isEmpty()) {
             return false;
         }
@@ -44,35 +50,33 @@ public class Cache {
     }
 
     public String get(String url, String param) {
-        String key = EncryptUtil.hash(url + param, EncryptUtil.SHA1);
-        return JedisUtil.get(key);
+        String key = EncryptUtil.hash(url + param,EncryptUtil.SHA1);
+        return util.get(key);
     }
 
     public void addAccessRecord(String host){
-        if (JedisUtil.exists(host))
+        if (util.exists(host))
             return;
-        JedisUtil.set(host, String.valueOf(1),false);
+        util.set(host, String.valueOf(1),false);
     }
 
     public void incrAccessRecord(String host){
-        JedisUtil.incr(host);
+        util.incr(host);
     }
 
     public int getAccessRecord(String host){
-        return Integer.parseInt(JedisUtil.get(host));
+        return Integer.parseInt(util.get(host));
     }
 
     public List<AccessRecord> getAllAccessRecord(){
-        Set<String> keys = JedisUtil.keys(Const.LIKE+Const.ACCESSRECORD);
+        Set<String> keys = util.keys(Const.LIKE+Const.ACCESSRECORD);
         System.out.println("realserver的数量: "+keys.size());
         List<AccessRecord> records = new CopyOnWriteArrayList<AccessRecord>();
-//        Map<String,Integer> result = new HashMap<String,Integer>();
         for (String k:keys){
-            int num = Integer.parseInt(JedisUtil.get(k));
+            int num = Integer.parseInt(util.get(k));
             AccessRecord ar = new AccessRecord(k,num);
             records.add(ar);
         }
-//        AccessRecord maxRecord = Collections.max(records);
         return records;
     }
 

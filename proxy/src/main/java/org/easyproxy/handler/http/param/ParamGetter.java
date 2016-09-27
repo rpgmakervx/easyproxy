@@ -59,4 +59,17 @@ public class ParamGetter {
         }
         return requestParams;
     }
+
+    public static Map<String, Object> toPostParam(String str) {
+        System.out.println("原生请求字符串-----------： \n");
+        System.out.println(str);
+        System.out.println("原生请求字符串-----------： \n");
+        String[] param = str.split("&");
+        Map<String, Object> params = new HashMap<String, Object>();
+        for (String p : param) {
+            String[] pa = p.split("=");
+            params.put(pa[0], pa[1]);
+        }
+        return params;
+    }
 }

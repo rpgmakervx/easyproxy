@@ -34,13 +34,14 @@ public class APIHandler extends ChannelInboundHandlerAdapter {
         System.out.println(uri+","+Config.getString(API_URI)+", "+pattern.matcher(uri).matches());
         if (!pattern.matcher(uri).matches()){
             ctx.fireChannelRead(request);
+
             return;
         }
         Map<String,Object> map = ParamGetter.getRequestParams(request);
         String strategy = (String) map.get(LB_STRATEGY);
         Config.setLB_Strategy(strategy);
         Config.listAll();
-        response(ctx,API_ACK.getBytes());
+        response(ctx, API_ACK.getBytes());
     }
 
     @Override

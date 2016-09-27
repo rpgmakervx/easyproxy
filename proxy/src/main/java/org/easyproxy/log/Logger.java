@@ -5,6 +5,7 @@ package org.easyproxy.log;/**
  */
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -33,7 +34,7 @@ public class Logger {
     }
 
     public Logger(){
-        threadPool  = Executors.newCachedThreadPool();
+        threadPool  = Executors.newFixedThreadPool(8*2);
     }
 
     public void accessLog(final String log){
@@ -41,7 +42,11 @@ public class Logger {
             @Override
             public void run() {
                 try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(ACCESSLOG,true));
+                    File logFile = new File(ACCESSLOG);
+                    if (!logFile.exists()){
+                        logFile.createNewFile();
+                    }
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(logFile,true));
                     writer.write(log);
                     writer.close();
                 } catch (IOException e) {

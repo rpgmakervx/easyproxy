@@ -9,6 +9,9 @@ import org.easyproxy.util.Config;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
 import static org.easyproxy.constants.Const.*;
 /**
  * Description :
@@ -17,6 +20,22 @@ import static org.easyproxy.constants.Const.*;
  */
 
 public class Resource {
+
+    public static byte[] getPage(String path){
+        File page = new File(path);
+        if (!page.exists()){
+            return getResource(CODE_NOTFOUND);
+        }
+        byte[] bytes = new byte[(int) page.length()];
+        try {
+            FileChannel channel = new FileInputStream(page).getChannel();
+            MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, page.length());
+            buffer.get(bytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
 
     public static byte[] getResource(int code){
         String resourceName = chooseResource(code);

@@ -9,23 +9,25 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
-import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
-import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
-import io.netty.handler.codec.http.multipart.InterfaceHttpData;
-import io.netty.handler.codec.http.multipart.MemoryAttribute;
+import io.netty.handler.codec.http.multipart.*;
 import io.netty.util.CharsetUtil;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.easyproxy.cache.Cache;
 import org.easyproxy.client.ProxyClient;
-import org.easyproxy.resources.Resource;
+import org.easyproxy.handler.http.param.ParamGetter;
 import org.easyproxy.selector.IPSelector;
+import org.easyproxy.util.FileUtil;
 import org.easyproxy.util.JSONUtil;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static io.netty.handler.codec.http.HttpMethod.POST;
 import static org.easyproxy.constants.Const.*;
 
 /**
@@ -59,7 +61,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
 //        threadPool.submit(new Task(ctx, msg));
         HttpRequest request = (HttpRequest) msg;
         try {
-            if (request.method().equals(HttpMethod.POST)) {
+            if (request.method().equals(POST)) {
                 InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                 String ip = addr.getHostString();
                 chooseAddress(ip);
@@ -69,38 +71,29 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 byte[] bytes = null;
                 System.out.println("POST 请求");
                 HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(false), request);
-
                 if (decoder.isMultipart()) {
-                    StringBuffer sb = new StringBuffer();
                     try {
-                        String paramstr = null;
                         List<InterfaceHttpData> postList = decoder.getBodyHttpDatas();
                         // 读取从客户端传过来的参数
-                        int index = 0;
+                        Map<String,Object> params = new HashMap<>();
+                        File hasFile = null;
                         for (InterfaceHttpData data : postList) {
                             String name = data.getName();
-                            String value = null;
                             if (InterfaceHttpData.HttpDataType.Attribute == data.getHttpDataType()) {
                                 MemoryAttribute attribute = (MemoryAttribute) data;
                                 attribute.setCharset(CharsetUtil.UTF_8);
-                                value = attribute.getValue();
-                                sb.append(name).append("=").append(value);
-                                if (!(index == postList.size() - 1)) {
-                                    sb.append("&");
-                                }
+                                params.put(name,attribute.getValue());
+                            }else if (InterfaceHttpData.HttpDataType.FileUpload == data.getHttpDataType()){
+                                MemoryFileUpload fileUpload = (MemoryFileUpload) data;
+                                hasFile = FileUtil.tempFile(fileUpload.get(),fileUpload.getFilename());
+                                params.put(name, hasFile);
                             }
                         }
-                        paramstr = sb.toString();
-                        //redis先查询，命中就不请求了。
-                        String cacheStr = cache.get(request.uri(), paramstr);
-                        if (cacheStr == null || cacheStr.isEmpty()) {
-                            response = client.postMultipartEntityRequest(JSONUtil.requestParam(paramstr), request.headers());
-                            String responseStr = client.getResponse(response);
-                            bytes = responseStr.getBytes();
-                            cache.save(request.uri(), paramstr, responseStr);
-                            response(ctx, bytes, response.getAllHeaders());
-                        } else {
-                            response(ctx, cacheStr.getBytes());
+                        System.out.println("request param: "+params);
+                        response = client.postMultipartEntityRequest(params, request.headers());
+                        //删除临时文件
+                        if (hasFile != null){
+                            FileUtil.delete(hasFile);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -111,41 +104,19 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                     String message = content.toString(CharsetUtil.UTF_8);
                     if (JSONUtil.isJson(message)) {
                         System.out.println("json 数据");
-                        String cacheStr = cache.get(request.uri(), message);
-                        if (cacheStr == null || cacheStr.isEmpty()) {
-                            System.out.println("cache并没有命中！");
-                            response = client.postJsonRequest(message, request.headers());
-                            String responseStr = client.getResponse(response);
-                            cache.save(request.uri(), message, responseStr);
-                            bytes = responseStr.getBytes();
-                            response(ctx, bytes, response.getAllHeaders());
-                        } else {
-                            System.out.println("cache命中！");
-                            response(ctx, cacheStr.getBytes());
-                        }
+                        response = client.postJsonRequest(message, request.headers());
                     } else {
                         System.out.println("key-value 数据");
-                        String cacheStr = cache.get(request.uri(), message);
-                        if (cacheStr == null || cacheStr.isEmpty()) {
-                            System.out.println("cache并没有命中！");
-                            response = client.postEntityRequest(JSONUtil.requestParam(message), request.headers());
-//                                int code = getStatusCode(response);
-//                                if (code!=CODE_OK){
-//                                    response(ctx, Resource.getResource(code));
-//                                }
-                            String responseStr = client.getResponse(response);
-                            cache.save(request.uri(), message, responseStr);
-                            bytes = responseStr.getBytes();
-                            response(ctx, bytes, response.getAllHeaders());
-                        } else {
-                            System.out.println("cache命中！");
-                            response(ctx, cacheStr.getBytes());
-                        }
+                        response = client.postEntityRequest(ParamGetter.getRequestParams(msg), request.headers());
                     }
                 }
+                String responseStr = client.getResponse(response);
+                System.out.println(responseStr);
+                bytes = responseStr.getBytes();
+                response(ctx, bytes, response.getAllHeaders());
             } else {
                 System.out.println("不是post请求");
-                response(ctx, Resource.getResource(CODE_BADREQUEST),HttpResponseStatus.BAD_REQUEST);
+                ctx.fireChannelRead(msg);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -189,110 +160,4 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
         cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
     }
 
-//    class Task implements Runnable {
-//        Object msg;
-//        ChannelHandlerContext ctx;
-//
-//        public Task(ChannelHandlerContext ctx, Object msg) {
-//            this.msg = msg;
-//            this.ctx = ctx;
-//        }
-//
-//        @Override
-//        public void run() {
-//            HttpRequest request = (HttpRequest) msg;
-//            try {
-//                if (request.method().equals(HttpMethod.POST)) {
-//                    InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
-//                    String ip = addr.getHostString();
-//                    chooseAddress(ip);
-//                    accessRecord(address.getHostString(),address.getPort());
-//                    CloseableHttpResponse response = null;
-//                    ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
-//                    byte[] bytes = null;
-//                    System.out.println("POST 请求");
-//                    HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(false), request);
-//
-//                    if (decoder.isMultipart()) {
-//                        StringBuffer sb = new StringBuffer();
-//                        try {
-//                            String paramstr = null;
-//                            List<InterfaceHttpData> postList = decoder.getBodyHttpDatas();
-//                            // 读取从客户端传过来的参数
-//                            int index = 0;
-//                            for (InterfaceHttpData data : postList) {
-//                                String name = data.getName();
-//                                String value = null;
-//                                if (InterfaceHttpData.HttpDataType.Attribute == data.getHttpDataType()) {
-//                                    MemoryAttribute attribute = (MemoryAttribute) data;
-//                                    attribute.setCharset(CharsetUtil.UTF_8);
-//                                    value = attribute.getValue();
-//                                    sb.append(name).append("=").append(value);
-//                                    if (!(index == postList.size() - 1)) {
-//                                        sb.append("&");
-//                                    }
-//                                }
-//                            }
-//                            paramstr = sb.toString();
-//                            //redis先查询，命中就不请求了。
-//                            String cacheStr = cache.get(request.uri(), paramstr);
-//                            if (cacheStr == null || cacheStr.isEmpty()) {
-//                                response = client.postMultipartEntityRequest(JSONUtil.requestParam(paramstr), request.headers());
-//                                String responseStr = client.getResponse(response);
-//                                bytes = responseStr.getBytes();
-//                                cache.save(request.uri(), paramstr, responseStr);
-//                                response(ctx, bytes, response.getAllHeaders());
-//                            } else {
-//                                response(ctx, cacheStr.getBytes());
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else if (request instanceof HttpContent) {
-//                        HttpContent httpContent = (HttpContent) request;
-//                        ByteBuf content = httpContent.content();
-//                        String message = content.toString(CharsetUtil.UTF_8);
-//                        if (JSONUtil.isJson(message)) {
-//                            System.out.println("json 数据");
-//                            String cacheStr = cache.get(request.uri(), message);
-//                            if (cacheStr == null || cacheStr.isEmpty()) {
-//                                System.out.println("cache并没有命中！");
-//                                response = client.postJsonRequest(message, request.headers());
-//                                String responseStr = client.getResponse(response);
-//                                cache.save(request.uri(), message, responseStr);
-//                                bytes = responseStr.getBytes();
-//                                response(ctx, bytes, response.getAllHeaders());
-//                            } else {
-//                                System.out.println("cache命中！");
-//                                response(ctx, cacheStr.getBytes());
-//                            }
-//                        } else {
-//                            System.out.println("key-value 数据");
-//                            String cacheStr = cache.get(request.uri(), message);
-//                            if (cacheStr == null || cacheStr.isEmpty()) {
-//                                System.out.println("cache并没有命中！");
-//                                response = client.postEntityRequest(JSONUtil.requestParam(message), request.headers());
-////                                int code = getStatusCode(response);
-////                                if (code!=CODE_OK){
-////                                    response(ctx, Resource.getResource(code));
-////                                }
-//                                String responseStr = client.getResponse(response);
-//                                cache.save(request.uri(), message, responseStr);
-//                                bytes = responseStr.getBytes();
-//                                response(ctx, bytes, response.getAllHeaders());
-//                            } else {
-//                                System.out.println("cache命中！");
-//                                response(ctx, cacheStr.getBytes());
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    System.out.println("不是post请求");
-//                    response(ctx, Resource.getResource(CODE_BADREQUEST),HttpResponseStatus.BAD_REQUEST);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 }

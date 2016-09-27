@@ -71,18 +71,26 @@ public class Const {
     public static final String FORBIDDEN_PAGE = "forbidden_page";
     public static final String BADREQUEST_PAGE = "bad_request";
     public static final String API_URI = "api_uri";
+    //log open
+    public static final String LOGOPEN = "logopen";
+    //personal uri
+    public static final String PERSONAL_URL = "personal_uri";
 
 
     //redis:
     public static final String MEMORY = "Memory";
 
-    //structure
+    //directory structure
 //    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
     public static final String DIR = System.getProperty("user.dir")+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
+    public static final String TMP = DIR+"tmp"+File.separator;
+    public static final String RESOURCES = DIR+"resources"+File.separator;
+    public static final String PERSONAL_PAGE = RESOURCES+"static"+File.separator;
+
+    //file name
     public static final String ACCESSLOG = LOGS+"access.log";
     public static final String NULLVALUE = "-";
-    public static final String RESOURCES = DIR+"resources"+File.separator;
 
     //redis static key
     public static final String LIKE = "*";
