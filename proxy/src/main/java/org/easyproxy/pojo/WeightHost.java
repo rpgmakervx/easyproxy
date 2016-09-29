@@ -12,7 +12,7 @@ import java.net.InetSocketAddress;
  * 下午3:12
  */
 
-public class WeightHost {
+public class WeightHost implements Comparable{
 
     public InetSocketAddress address;
 
@@ -47,5 +47,15 @@ public class WeightHost {
                 "address=" + address +
                 ", weight=" + weight +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        WeightHost host = (WeightHost) o;
+        if (host.weight>this.weight)
+            return -1;
+        else if (host.weight<this.weight)
+            return 1;
+        else return 0;
     }
 }

@@ -91,50 +91,5 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
 
     }
 
-//    class Task implements Runnable {
-//
-//        Object msg;
-//        ChannelHandlerContext ctx;
-//
-//        public Task(ChannelHandlerContext ctx, Object msg) {
-//            this.msg = msg;
-//            this.ctx = ctx;
-//        }
-//
-//        @Override
-//        public void run() {
-//            HttpRequest request = (HttpRequest) msg;
-//            try {
-//                if (request.method().equals(HttpMethod.GET)) {
-//                    Pattern pattern = Pattern.compile(".+\\.(" + IMAGE + ").*");
-//                    byte[] bytes = null;
-//                    CloseableHttpResponse response = null;
-//                    HttpHeaders headers = request.headers();
-//                    //读取图片
-//                    if (pattern.matcher(request.uri()).matches()&&!antiLeechCheckUp(headers)) {
-//                        //防盗链
-//                        response(ctx, "access deny!".getBytes(), HttpResponseStatus.FORBIDDEN);
-//                        return;
-//////                        fetchInetAddress();
-////                        InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
-////                        String ip = addr.getHostString();
-////                        chooseAddress(ip);
-////                        ProxyClient client = new ProxyClient(address,ROOT.equals(request.uri()) ? "" : request.uri());
-////                        //在这里强转类型，如果使用了聚合器，就会被阻塞
-//////                        System.out.println("读取到图片 " + request.uri());
-////                        response = client.makeResponse(headers);
-////                        bytes = client.getByteResponse(response);
-////                        response(ctx, bytes, response.getAllHeaders());
-//                    } else {
-//                        ctx.fireChannelRead(request);
-//                    }
-//                } else {
-//                    ctx.fireChannelRead(request);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
 }

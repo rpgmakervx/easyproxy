@@ -28,20 +28,11 @@ import java.util.concurrent.Executors;
 public class AccessLogHandler extends ChannelInboundHandlerAdapter {
     private ExecutorService threadPool = Executors.newCachedThreadPool();
     private Logger logger = new Logger();
-//    private Cache cache = new Cache();
-//    public void chooseAddress(String ip) {
-//        System.out.println("");
-//        IPSelector selector = new IPSelector(ip);
-//        this.address = selector.select();
-//        System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
-//    }
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        threadPool.submit(new Task(ctx, msg));
         InetSocketAddress addr = getAddress(ctx);
         String ip = addr.getHostString();
         //选择路由
         //记录真实节点的访问量
-//            System.out.println("client ip address: "+ip+" , port is: "+port);
         HttpRequest request = (HttpRequest) msg;
         generateLog(request,ip);
         ctx.fireChannelRead(request);

@@ -62,20 +62,17 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                 ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                 String cacheStr = cache.get(request.uri(), "");
                 if (cacheStr != null && !cacheStr.isEmpty()) {
-                    System.out.println("缓存命中");
                     response(ctx, cacheStr.getBytes());
                     return ;
                 }
-                System.out.println("缓存并没有命中");
+                response = client.makeResponse(request.headers());
                 if (isJSON) {
                     //redis缓存
-                    response = client.makeResponse(request.headers());
                     context = client.getResponse(response);
                     cache.save(request.uri(), "", context);
                     bytes = context.getBytes();
                     response(ctx, bytes, response.getAllHeaders());
                 } else {
-                    response = client.makeResponse(request.headers());
                     Pattern pattern = Pattern.compile(APP_JSON + ".*");
                     boolean isjson = false;
                     String respnseType = "no type";
@@ -84,7 +81,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                         isjson = pattern.matcher(respnseType).matches();
                     }
                     //非图片的 text/html请求,返回值是json
-
                     if (isjson) {
                         response = client.makeResponse(request.headers());
                         context = client.getResponse(response);
@@ -103,12 +99,12 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        complete();
     }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.channel().flush();
+    public void complete(){
     }
+
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -128,7 +124,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
 
     private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
-
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK, byteBuf);
         ctx.channel().writeAndFlush(response);

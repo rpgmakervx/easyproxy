@@ -29,7 +29,6 @@ public class PersonalPageHandler extends ChannelInboundHandlerAdapter {
         HttpRequest request = (HttpRequest) msg;
         String uri = request.uri();
         Pattern pattern = Pattern.compile(Config.getString(PERSONAL_URL));
-        System.out.println("PersonalPageHandler --> "+uri+", matches? "+pattern.matcher(uri).matches());
         System.out.println(uri+","+Config.getString(API_URI)+", "+pattern.matcher(uri).matches());
         if (!pattern.matcher(uri).matches()){
             ctx.fireChannelRead(request);

@@ -226,7 +226,7 @@ public class ProxyClient {
             //按指定编码转换结果实体为String类型
             try {
                 byte[] body = EntityUtils.toByteArray(entity);
-                EntityUtils.consume(entity);
+//                EntityUtils.consume(entity);
                 //释放链接
                 return body;
             } catch (IOException e) {

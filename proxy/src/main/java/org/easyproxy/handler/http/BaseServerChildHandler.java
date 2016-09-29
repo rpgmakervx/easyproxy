@@ -25,7 +25,6 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        System.out.println("客户端请求："+ch.remoteAddress().getHostString());
         boolean isOpen = Boolean.valueOf(Config.getString(Const.LOGOPEN));
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());

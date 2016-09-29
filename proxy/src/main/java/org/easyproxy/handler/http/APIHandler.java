@@ -31,10 +31,8 @@ public class APIHandler extends ChannelInboundHandlerAdapter {
         HttpRequest request = (HttpRequest) msg;
         String uri = request.uri();
         Pattern pattern = Pattern.compile(Config.getString(API_URI));
-        System.out.println(uri+","+Config.getString(API_URI)+", "+pattern.matcher(uri).matches());
         if (!pattern.matcher(uri).matches()){
             ctx.fireChannelRead(request);
-
             return;
         }
         Map<String,Object> map = ParamGetter.getRequestParams(request);
@@ -46,7 +44,6 @@ public class APIHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("APIHandler");
         messageReceived(ctx,msg);
     }
 

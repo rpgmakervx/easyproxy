@@ -45,14 +45,14 @@ public class ProxyServer {
 
     private void launch(int port) {
         System.out.println("正在启动服务。。。,服务端口:" + port);
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(32);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(32);
         ServerBootstrap b = new ServerBootstrap();
         ChannelFuture f = null;
         try {
             b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .childHandler(new BaseServerChildHandler())
-                    .option(ChannelOption.SO_BACKLOG, 512)
+                    .option(ChannelOption.SO_BACKLOG, 2048)
                     .option(ChannelOption.TCP_NODELAY,true)
                     .option(ChannelOption.SO_REUSEADDR,true);
             f = b.bind(port).sync();

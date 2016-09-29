@@ -69,7 +69,6 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 CloseableHttpResponse response = null;
                 ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                 byte[] bytes = null;
-                System.out.println("POST 请求");
                 HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(false), request);
                 if (decoder.isMultipart()) {
                     try {
@@ -89,7 +88,6 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                                 params.put(name, hasFile);
                             }
                         }
-                        System.out.println("request param: "+params);
                         response = client.postMultipartEntityRequest(params, request.headers());
                         //删除临时文件
                         if (hasFile != null){
@@ -103,10 +101,8 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                     ByteBuf content = httpContent.content();
                     String message = content.toString(CharsetUtil.UTF_8);
                     if (JSONUtil.isJson(message)) {
-                        System.out.println("json 数据");
                         response = client.postJsonRequest(message, request.headers());
                     } else {
-                        System.out.println("key-value 数据");
                         response = client.postEntityRequest(ParamGetter.getRequestParams(msg), request.headers());
                     }
                 }
@@ -115,12 +111,15 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 bytes = responseStr.getBytes();
                 response(ctx, bytes, response.getAllHeaders());
             } else {
-                System.out.println("不是post请求");
                 ctx.fireChannelRead(msg);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        complete();
+    }
+
+    public void complete(){
     }
 
     @Override
@@ -136,24 +135,8 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
             response.headers().set(header.getName(), header.getValue());
         }
         ctx.channel().writeAndFlush(response);
-        ctx.close();
     }
 
-    private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
-        ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
-                HttpResponseStatus.OK, byteBuf);
-        ctx.channel().writeAndFlush(response);
-        ctx.close();
-    }
-    private void response(ChannelHandlerContext ctx, byte[] contents,HttpResponseStatus status) throws UnsupportedEncodingException {
-        ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
-                status, byteBuf);
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, TEXT_HTML);
-        ctx.channel().writeAndFlush(response);
-        ctx.close();
-    }
 
     private void accessRecord(String realserver,int port){
         System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);

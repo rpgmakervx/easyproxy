@@ -39,7 +39,8 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx,Object msg) throws Exception {
-        System.out.println("IPFilterHandler");
+        HttpRequest request = (HttpRequest) msg;
+        System.out.printf("access: "+request.uri());
         if(this.handleForbidden(ctx)) {
             ctx.fireChannelRead(msg);
             return ;

@@ -66,6 +66,10 @@ public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        complete();
+    }
+
+    public void complete(){
     }
 
     @Override
@@ -84,13 +88,6 @@ public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
-    private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
-        ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
-                HttpResponseStatus.OK, byteBuf);
-        ctx.channel().writeAndFlush(response);
-        ctx.close();
-    }
     private void response(ChannelHandlerContext ctx, byte[] contents,HttpResponseStatus status) throws UnsupportedEncodingException {
         ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,

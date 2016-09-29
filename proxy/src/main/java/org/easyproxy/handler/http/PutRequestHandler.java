@@ -75,6 +75,10 @@ public class PutRequestHandler extends ChannelInboundHandlerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        complete();
+    }
+
+    public void complete(){
     }
 
     @Override
@@ -93,21 +97,6 @@ public class PutRequestHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
-    private void response(ChannelHandlerContext ctx, byte[] contents) throws UnsupportedEncodingException {
-        ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
-                HttpResponseStatus.OK, byteBuf);
-        ctx.channel().writeAndFlush(response);
-        ctx.close();
-    }
-    private void response(ChannelHandlerContext ctx, byte[] contents,HttpResponseStatus status) throws UnsupportedEncodingException {
-        ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
-        FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
-                status, byteBuf);
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, TEXT_HTML);
-        ctx.channel().writeAndFlush(response);
-        ctx.close();
-    }
 
     private void accessRecord(String realserver,int port){
         System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
