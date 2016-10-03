@@ -124,3 +124,6 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 **ip黑名单相关**
 
 * filtered_ip：被拉黑的ip地址
+
+## Thanks:
+感谢 [大魔王](https://github.com/andilyliao) 提供技术思路和部分方案
