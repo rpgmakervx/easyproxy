@@ -42,40 +42,41 @@
 </proxy>
 ```
 `proxy.xml` 采用“类json”的方式进行配置，每个标签的attribute都不会重名，下面简单介绍xml的配置信息
+
 **负载均衡器相关**：
 
-    * listen： easyproxy监听的端口。
-    * localhost: 设置主机ip地址或域名。
-    * lb_strategy: 负载均衡策略关键字（轮询：roundrobin,带权轮询：weight_roundrobin,源地址哈希：source_iphash,最小链接分配：less_connection）。
+* listen： easyproxy监听的端口。
+* localhost: 设置主机ip地址或域名。
+* lb_strategy: 负载均衡策略关键字（轮询：roundrobin,带权轮询：weight_roundrobin,源地址哈希：source_iphash,最小链接分配：less_connection）。
 
 **真实节点相关**：
 
-    * host: 真实节点ip地址
-    * port: 真实节点端口号
-    * weight: 真实节点的权重
+* host: 真实节点ip地址
+* port: 真实节点端口号
+* weight: 真实节点的权重
 
 **缓存相关**：
 
-    * cache_type： 缓存介质（目前只有redis）。
-    * cache_ttl:  缓存失效时间。
+* cache_type： 缓存介质（目前只有redis）。
+* cache_ttl:  缓存失效时间。
 
 **静态资源相关**：
 
-    * personal_uri： 静态资源uri(标准正则表达式写法)。
-    * notfound_page： 404页面文件名。
-    * error_page： 50x页面文件名。
-    * forbidden_page： 403页面文件名。
-    * bad_request： 400页面文件名。
+* personal_uri： 静态资源uri(标准正则表达式写法)。
+* notfound_page： 404页面文件名。
+* error_page： 50x页面文件名。
+* forbidden_page： 403页面文件名。
+* bad_request： 400页面文件名。
 
 **日志相关**：
 
-    * logopen： 是否开启access.log记录。
+* logopen： 是否开启access.log记录。
 
 **rest api相关**
 
-    * apiopen： 是否开启easyproxy的rest api(api可以)。
-    * api_uri： rest api的正则表达式
+* apiopen： 是否开启easyproxy的rest api(api可以)。
+* api_uri： rest api的正则表达式
 
 **ip黑名单相关**
 
-    * filtered_ip：被拉黑的ip地址
+* filtered_ip：被拉黑的ip地址
