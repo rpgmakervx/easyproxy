@@ -47,7 +47,7 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 ##easyproxy启动：
 
-首先请配置easyproxy的localhost，node等相关信息，详见[说明书](#anchor)
+首先请配置easyproxy的localhost，node等相关信息，详见[说明书](#说明书)
 
 进入`bin`目录，运行 `./startup` 启动服务
 
