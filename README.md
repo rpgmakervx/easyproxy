@@ -1,7 +1,7 @@
 ![logo](https://github.com/rpgmakervx/easyproxy/raw/master/resources/ep_logo.png)
 >EasyProxy 是一个基于非阻塞IO的内存级反向代理、负载均衡中间件。中间件整体用Java实现，部署和配置非常简单，便于用户快速搭建一套负载均衡架构
 
-## 中间件功能：
+# 中间件功能：
 * 基于http协议的反向代理/负载均衡
 * redis作为缓存介质
 * 四种负载均衡策略:轮询，带权轮询，源地址哈希，最小链接选择
@@ -9,15 +9,15 @@
 * ip黑名单，图片防盗链，请求数据gzip压缩
 * 基于xml的静态配置，以及运行后通过rest api的动态配置
 
-## 起步：
+# 起步：
 
-###准备工作：
+##准备工作：
 首先请确保你的操作系统是linux的任意distribution，并且安装了redis2.4以上和hotspot jdk7以上
 
 * [JDK7](http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-i586.tar.gz)
 * [redis](http://redis.io/download)
 
-### 真实节点：
+## 真实节点：
 你要有两个或以上web服务器，它能够提供基础的http服务，这里我们那常用的tomcat来举例。这里先给出tomcat下载链接，建议使用7.0版本
 
 * [tomcat7](http://tomcat.apache.org/download-70.cgi)
@@ -39,13 +39,13 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 进入每个tomcat的`/webapps/ROOT/`，打开`index.jsp`页面,在页面顶部添加tomcat **x**, **x**代表tomcat的编号，也代表了真实节点
 
-###缓存
+##缓存：
 
 目前版本只有`redis`作为缓存介质，redis相关配置不再介绍。
 
 安装好后直接启动服务：`redis-server`.启动后使用`redis-cli`,输入命令`ping`,能够收到响应`pong`说明redis服务已经成功启动
 
-###easyproxy启动
+##easyproxy启动：
 
 首先请配置easyproxy的localhost，node等相关信息，详见[说明书](#anchor)
 
@@ -53,9 +53,9 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 假设配置文件中`localhost`设置为**127.0.0.1**，打开浏览器输入(127.0.0.1:9524),看到tomcat的首页，说明服务启动成功。
 
-## 说明书
+# 说明书
 
-### 目录结构说明:
+## 目录结构说明:
 
 * bin:  存放easyproxy的启动和停机脚本以及easyproxy核心代码。
 * conf: easyproxy相关配置文件。
@@ -64,7 +64,7 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 * resources： 存放静态资源
 * logs: 存放日志
 
-### 配置文件说明：
+## 配置文件说明：
 解压安装包后，进入conf目录，使用 `vim proxy.xml` 来编辑配置文件
 ```xml
 <proxy>
