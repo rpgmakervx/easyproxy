@@ -65,11 +65,15 @@ public class Const {
     public static final String METHOD = "method";
     //ip_filter
     public static final String IP_FILTER = "ip_filter";
-    public static final String IP = "ip";
+    public static final String FILTERED_IP = "filtered_ip";
+    //static resource page
     public static final String NOTFOUND_PAGE = "notfound_page";
     public static final String ERROR_PAGE = "error_page";
     public static final String FORBIDDEN_PAGE = "forbidden_page";
     public static final String BADREQUEST_PAGE = "bad_request";
+
+    //API
+    public static final String APIOPEN = "apiopen";
     public static final String API_URI = "api_uri";
     //log open
     public static final String LOGOPEN = "logopen";

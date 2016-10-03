@@ -70,7 +70,7 @@ public class Config {
             int port = object.getIntValue(PORT);
             String host = object.getString(HOST);
             InetSocketAddress address = new InetSocketAddress(host,port);
-            WeightHost whost = new WeightHost(address,weight);
+            WeightHost whost = new WeightHost(address,weight<=0?1:weight);
             weight_hosts.add(whost);
             roundrobin_hosts.add(address);
         }

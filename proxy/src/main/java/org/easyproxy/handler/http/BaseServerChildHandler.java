@@ -25,7 +25,8 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        boolean isOpen = Boolean.valueOf(Config.getString(Const.LOGOPEN));
+        boolean isLogOpen = Boolean.valueOf(Config.getString(Const.LOGOPEN));
+        boolean isApiOpen = Boolean.valueOf(Config.getString(Const.APIOPEN));
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
@@ -33,11 +34,13 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         pipeline.addLast("decompress", new HttpContentDecompressor());
         pipeline.addLast("aggregator", new HttpObjectAggregator(1024000));
         pipeline.addLast(new IPFilterHandler(getForbiddenList()));
-        if (isOpen){
+        if (isLogOpen){
             pipeline.addLast(new AccessLogHandler());
         }
         pipeline.addLast(new AntiLeechHandler());
-        pipeline.addLast(new APIHandler());
+        if (isApiOpen){
+            pipeline.addLast(new APIHandler());
+        }
         pipeline.addLast(new PersonalPageHandler());
         pipeline.addLast(new GetRequestHandler());
         pipeline.addLast(new PostRequestHandler());

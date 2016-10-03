@@ -86,7 +86,7 @@ public class XmlUtil {
                     while (eleItr1.hasNext()) {
                         Map<String, String> kv = new HashMap<String, String>();
                         Element ele = eleItr1.next();
-                        kv.put(IP, ele.attributeValue(IP));
+                        kv.put(FILTERED_IP, ele.attributeValue(FILTERED_IP));
                         arr1.add(kv);
                     }
                     object.put(IP_FILTER, arr1);
