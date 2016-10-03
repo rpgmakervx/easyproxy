@@ -63,6 +63,9 @@ public class Cache {
     public void incrAccessRecord(String host){
         util.incr(host);
     }
+    public void decrAccessRecord(String host){
+        util.decr(host);
+    }
 
     public int getAccessRecord(String host){
         return Integer.parseInt(util.get(host));

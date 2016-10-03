@@ -65,7 +65,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                 String ip = addr.getHostString();
                 chooseAddress(ip);
-                accessRecord(address.getHostString(),address.getPort());
+//                accessRecord(address.getHostString(),address.getPort());
                 CloseableHttpResponse response = null;
                 ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                 byte[] bytes = null;
@@ -138,9 +138,9 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
     }
 
 
-    private void accessRecord(String realserver,int port){
-        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
-        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
-    }
+//    private void accessRecord(String realserver,int port){
+//        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
+//        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
+//    }
 
 }

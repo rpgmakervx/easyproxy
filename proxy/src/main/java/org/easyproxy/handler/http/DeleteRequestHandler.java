@@ -52,7 +52,7 @@ public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
                 InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                 String ip = addr.getHostString();
                 chooseAddress(ip);
-                accessRecord(address.getHostString(),address.getPort());
+//                accessRecord(address.getHostString(),address.getPort());
                 CloseableHttpResponse response = null;
                 ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                 response = client.deleteRequest(request.headers());
@@ -97,8 +97,8 @@ public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
-    private void accessRecord(String realserver,int port){
-        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
-        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
-    }
+//    private void accessRecord(String realserver,int port){
+//        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
+//        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
+//    }
 }

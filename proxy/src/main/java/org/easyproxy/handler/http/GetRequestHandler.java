@@ -58,7 +58,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                 InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
                 String ip = addr.getHostString();
                 chooseAddress(ip);
-                accessRecord(address.getHostString(),address.getPort());
+                accessRecord(address.getHostString(),address.getPort(),true);
                 ProxyClient client = new ProxyClient(address, ROOT.equals(request.uri()) ? "" : request.uri());
                 String cacheStr = cache.get(request.uri(), "");
                 if (cacheStr != null && !cacheStr.isEmpty()) {
@@ -103,6 +103,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     }
 
     public void complete(){
+        accessRecord(address.getHostString(),address.getPort(),false);
     }
 
 
@@ -130,8 +131,11 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
-    private void accessRecord(String realserver,int port){
-        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
+    private void accessRecord(String realserver,int port,boolean incr){
+        if (incr)
+            cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
+        else cache.decrAccessRecord(realserver+":"+port+ACCESSRECORD);
     }
+
 
 }

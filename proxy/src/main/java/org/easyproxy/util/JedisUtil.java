@@ -121,6 +121,12 @@ public class JedisUtil {
         recoverJedis(jedis);
     }
 
+    public void decr(String key){
+        Jedis jedis = pool.getResource();
+        jedis.decr(key);
+        recoverJedis(jedis);
+    }
+
     public void clear(String key){
         Jedis jedis = pool.getResource();
         jedis.del(key);
