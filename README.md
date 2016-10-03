@@ -11,6 +11,50 @@
 
 ## 起步：
 
+###准备工作：
+首先请确保你的操作系统是linux的任意distribution，并且安装了redis2.4以上和hotspot jdk7以上
+
+* [JDK7](http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-i586.tar.gz)
+* [redis](http://redis.io/download)
+
+### 真实节点：
+你要有两个或以上web服务器，它能够提供基础的http服务，这里我们那常用的tomcat来举例。这里先给出tomcat下载链接，建议使用7.0版本
+
+* [tomcat7](http://tomcat.apache.org/download-70.cgi)
+
+解压缩两个tomcat分别叫**tomcat1**和**tomcat2**，如果你只有一个节点，那么启动两台tomcat需要将他们配置成不同的端口。
+这里我们假设一个端口是8080，一个是8081.tomcat默认端口是8080因此这里只需要配置**tomcat2**即可。
+
+进入**tomcat2**的`conf`目录，使用命令vim server.xml,编辑tomcat配置文件
+
+```xml
+<Connector port="8081" protocol="HTTP/1.1"
+   connectionTimeout="20000"
+   redirectPort="8443" />
+```
+
+Connector的属性 `port`就是tomcat端口号，改成8081即可。
+
+为了能够看到负载均衡的效果，建议在每个tomcat的welcome page上标注当前的tomcat。
+
+进入每个tomcat的`/webapps/ROOT/`，打开`index.jsp`页面,在页面顶部添加tomcat **x**, **x**代表tomcat的编号，也代表了真实节点
+
+###缓存
+
+目前版本只有`redis`作为缓存介质，redis相关配置不再介绍。
+
+安装好后直接启动服务：`redis-server`.启动后使用`redis-cli`,输入命令`ping`,能够收到响应`pong`说明redis服务已经成功启动
+
+###easyproxy启动
+
+首先请配置easyproxy的localhost，node等相关信息，详见[说明书](#anchor)
+
+进入`bin`目录，运行 `./startup` 启动服务
+
+假设配置文件中`localhost`设置为**127.0.0.1**，打开浏览器输入(127.0.0.1:9524),看到tomcat的首页，说明服务启动成功。
+
+## 说明书
+
 ### 目录结构说明:
 
 * bin:  存放easyproxy的启动和停机脚本以及easyproxy核心代码。
