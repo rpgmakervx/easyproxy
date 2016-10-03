@@ -76,7 +76,7 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
     </proxy_pass>
     <cache_strategy cache_ttl="10" cache_type="redis"/>
     <resource personal_uri="/static/.*" notfound_page="404page.html" error_page="error.html"
-            forbidden_page="forbidden.html bad_request="badrequest.html""/>
+            forbidden_page="forbidden.html" bad_request="badrequest.html"/>
     <log logopen="true" />
     <api apiopen="true" api_uri="/easyproxy.*"  />
     <ip_filter>
