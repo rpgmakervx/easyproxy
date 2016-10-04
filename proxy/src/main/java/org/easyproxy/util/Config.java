@@ -7,6 +7,7 @@ package org.easyproxy.util;/**
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.cache.Cache;
+import org.easyproxy.cache.CacheUtil;
 import org.easyproxy.pojo.AccessRecord;
 import org.easyproxy.pojo.WeightHost;
 
@@ -43,7 +44,6 @@ public class Config {
     public Config(String path) {
         xmlUtil = new XmlUtil(path);
         params = JSONUtil.str2Json(xmlUtil.xml2Json());
-        cache = new Cache();
         init();
     }
 
@@ -51,7 +51,6 @@ public class Config {
         xmlUtil = new XmlUtil(is);
         System.out.println("param: "+xmlUtil.xml2Json());
         params = JSONUtil.str2Json(xmlUtil.xml2Json());
-        cache = new Cache();
         init();
     }
 
@@ -110,11 +109,12 @@ public class Config {
         JSONArray array = JSONUtil.getArrayFromJSON(IP_FILTER, params);
         for (int index=0;index<array.size();index++){
             JSONObject object = array.getJSONObject(index);
-            forbidden_hosts.add(object.getString(IP));
+            forbidden_hosts.add(object.getString(FILTERED_IP));
         }
     }
 
     private static void initCache(){
+        cache = CacheUtil.getCache();
         for (InetSocketAddress address:roundrobin_hosts){
             cache.addAccessRecord(address.getHostString()+":"+address.getPort()+ACCESSRECORD);
         }

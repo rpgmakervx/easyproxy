@@ -59,6 +59,12 @@ public class Const {
     public static final String WEIGHT_ROUNDROBIN = "weight";
     public static final String IP_HASH = "ip_hash";
     public static final String LESS_CONNECT = "less_connection";
+    //cache_type
+    public static final String REDIS = "redis";
+    public static final String EHCACHE = "ehcache";
+    public static final String JAVA = "java";
+
+
     //cache_url
     public static final String CACHE_URL = "cache_url";
     public static final String URL = "url";

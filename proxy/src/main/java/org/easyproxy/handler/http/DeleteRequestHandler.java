@@ -11,7 +11,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.easyproxy.cache.Cache;
 import org.easyproxy.client.ProxyClient;
 import org.easyproxy.resources.Resource;
 import org.easyproxy.selector.IPSelector;
@@ -31,8 +30,6 @@ import static org.easyproxy.constants.Const.*;
 public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
 
     private InetSocketAddress address;
-    private Cache cache = new Cache();
-
     public void chooseAddress(String ip) {
         IPSelector selector = new IPSelector(ip);
         this.address = selector.select();
