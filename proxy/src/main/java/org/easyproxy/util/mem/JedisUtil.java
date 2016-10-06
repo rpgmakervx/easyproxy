@@ -1,10 +1,11 @@
-package org.easyproxy.util;/**
+package org.easyproxy.util.mem;/**
  * Description : 
  * Created by YangZH on 16-6-4
  *  上午10:50
  */
 
 import org.easyproxy.constants.Const;
+import org.easyproxy.util.Config;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -19,7 +20,7 @@ import java.util.Set;
  * 上午10:50
  */
 
-public class JedisUtil {
+public class JedisUtil implements MemoryUtil{
 
 
 //    public Jedis jedisClient;
@@ -33,7 +34,6 @@ public class JedisUtil {
         config.setMaxWaitMillis(1000 * 30);
         config.setMaxTotal(1000);
         pool = new JedisPool(config, "127.0.0.1", 6379);
-
 
     }
 
@@ -82,8 +82,12 @@ public class JedisUtil {
     public void set(String key, String value,boolean expire) {
         Jedis jedis = pool.getResource();
         jedis.set(key, value);
-        if (expire)
-            jedis.expire(key, Config.getInt(Const.CACHE_TTL));
+        if (expire){
+            int ttl = Config.getInt(Const.CACHE_TTL);
+            if (ttl < -1)
+                ttl = -1;
+            jedis.expire(key, ttl);
+        }
         recoverJedis(jedis);
     }
     public void set(String key, String value) {
@@ -105,15 +109,6 @@ public class JedisUtil {
         return value;
     }
 
-    public float getMemoryUsed(){
-        Jedis jedis = pool.getResource();
-        System.out.println(jedis.info(Const.MEMORY));
-        String [] line = jedis.info(Const.MEMORY).split("\n");
-        String used_memory = line[1].split(":")[1];
-        System.out.println("used_memory : "+used_memory);
-        recoverJedis(jedis);
-        return Float.parseFloat(used_memory)/1024;
-    }
 
     public void incr(String key){
         Jedis jedis = pool.getResource();
@@ -137,5 +132,15 @@ public class JedisUtil {
         Jedis jedis = pool.getResource();
         jedis.flushAll();
         recoverJedis(jedis);
+    }
+
+    public float getMemoryUsed(){
+        Jedis jedis = pool.getResource();
+        System.out.println(jedis.info(Const.MEMORY));
+        String [] line = jedis.info(Const.MEMORY).split("\n");
+        String used_memory = line[1].split(":")[1];
+        System.out.println("used_memory : "+used_memory);
+        recoverJedis(jedis);
+        return Float.parseFloat(used_memory)/1024;
     }
 }

@@ -1,10 +1,11 @@
-package org.easyproxy.util;/**
+package org.easyproxy.util.disk;/**
  * Description : 
  * Created by YangZH on 16-9-26
  *  下午11:51
  */
 
 import org.easyproxy.constants.Const;
+import org.easyproxy.util.codec.EncryptUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class FileUtil {
      */
     public static File tempFile(byte[] bytes,String filename){
         System.out.println("byte length : "+bytes.length);
-        File file = new File(Const.TMP+EncryptUtil.hash(filename)+System.nanoTime());
+        File file = new File(Const.TMP+ EncryptUtil.hash(filename)+System.nanoTime());
         try {
             file.createNewFile();
         } catch (IOException e) {

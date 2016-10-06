@@ -1,4 +1,4 @@
-package org.easyproxy.util;/**
+package org.easyproxy.util.struct;/**
  * Description : 
  * Created by YangZH on 16-5-29
  *  下午5:50

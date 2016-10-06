@@ -16,9 +16,9 @@ import static org.easyproxy.constants.Const.*;
  * 下午9:43
  */
 
-public class CacheUtil {
+public class CacheManager {
 
-    private static Cache cache;
+    private static DefaultCache cache;
 
     static {
         String cacheType = Config.getString(CACHE_TYPE);
@@ -34,11 +34,11 @@ public class CacheUtil {
         }
     }
 
-    public static Cache getCache(){
+    public static DefaultCache getCache(){
         return cache;
     }
 
-    public static void setCache(Cache cache){
-        CacheUtil.cache = cache;
+    public static void setCache(DefaultCache cache){
+        CacheManager.cache = cache;
     }
 }

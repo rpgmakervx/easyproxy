@@ -13,13 +13,13 @@ import io.netty.handler.codec.http.multipart.*;
 import io.netty.util.CharsetUtil;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.easyproxy.cache.Cache;
+import org.easyproxy.cache.DefaultCache;
 import org.easyproxy.cache.redis.RedisCache;
 import org.easyproxy.client.ProxyClient;
 import org.easyproxy.handler.http.param.ParamGetter;
 import org.easyproxy.selector.IPSelector;
-import org.easyproxy.util.FileUtil;
-import org.easyproxy.util.JSONUtil;
+import org.easyproxy.util.disk.FileUtil;
+import org.easyproxy.util.struct.JSONUtil;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -40,7 +40,7 @@ import static org.easyproxy.constants.Const.*;
 public class PostRequestHandler extends ChannelInboundHandlerAdapter {
 
     private InetSocketAddress address;
-    private Cache cache = new RedisCache();
+    private DefaultCache cache = new RedisCache();
 //    private ExecutorService threadPool = Executors.newCachedThreadPool();
 
     /**

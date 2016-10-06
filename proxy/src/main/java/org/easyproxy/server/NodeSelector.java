@@ -8,8 +8,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.constants.Const;
-import org.easyproxy.util.EncryptUtil;
-import org.easyproxy.util.XmlUtil;
+import org.easyproxy.util.codec.EncryptUtil;
+import org.easyproxy.util.struct.XmlUtil;
 
 import java.net.InetSocketAddress;
 import java.util.*;

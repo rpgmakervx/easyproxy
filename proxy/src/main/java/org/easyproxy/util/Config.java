@@ -6,10 +6,13 @@ package org.easyproxy.util;/**
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.easyproxy.cache.Cache;
-import org.easyproxy.cache.CacheUtil;
+import org.easyproxy.cache.DefaultCache;
+import org.easyproxy.cache.CacheManager;
 import org.easyproxy.pojo.AccessRecord;
 import org.easyproxy.pojo.WeightHost;
+import org.easyproxy.util.codec.EncryptUtil;
+import org.easyproxy.util.struct.JSONUtil;
+import org.easyproxy.util.struct.XmlUtil;
 
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -40,7 +43,7 @@ public class Config {
     private static int node_num = 0;
     private static AtomicInteger weight_rrindex = new AtomicInteger(0);
     private static AtomicInteger rrindex = new AtomicInteger(0);
-    private static Cache cache ;
+    private static DefaultCache cache ;
     public Config(String path) {
         xmlUtil = new XmlUtil(path);
         params = JSONUtil.str2Json(xmlUtil.xml2Json());
@@ -114,7 +117,12 @@ public class Config {
     }
 
     private static void initCache(){
-        cache = CacheUtil.getCache();
+        try {
+            Class.forName(CacheManager.class.getName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        cache = CacheManager.getCache();
         for (InetSocketAddress address:roundrobin_hosts){
             cache.addAccessRecord(address.getHostString()+":"+address.getPort()+ACCESSRECORD);
         }

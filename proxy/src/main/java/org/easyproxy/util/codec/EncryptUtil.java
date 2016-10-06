@@ -1,4 +1,4 @@
-package org.easyproxy.util;/**
+package org.easyproxy.util.codec;/**
  * Description : MD5Util
  * Created by YangZH on 16-5-25
  *  下午2:25

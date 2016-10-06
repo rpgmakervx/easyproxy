@@ -12,17 +12,18 @@ import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.easyproxy.cache.Cache;
+import org.easyproxy.cache.DefaultCache;
+import org.easyproxy.cache.redis.RedisCache;
 import org.easyproxy.client.ProxyClient;
 import org.easyproxy.handler.http.param.ParamGetter;
 import org.easyproxy.selector.IPSelector;
-import org.easyproxy.util.JSONUtil;
+import org.easyproxy.util.struct.JSONUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 
 import static io.netty.handler.codec.http.HttpMethod.PUT;
-import static org.easyproxy.constants.Const.*;
+import static org.easyproxy.constants.Const.ROOT;
 
 /**
  * Description :
@@ -32,7 +33,7 @@ import static org.easyproxy.constants.Const.*;
 
 public class PutRequestHandler extends ChannelInboundHandlerAdapter {
     private InetSocketAddress address;
-    private Cache cache = new Cache();
+    private DefaultCache cache = new RedisCache();
 
     public void chooseAddress(String ip) {
         IPSelector selector = new IPSelector(ip);

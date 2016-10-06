@@ -7,7 +7,9 @@
         <node host="192.168.89.1" port="8081" weight="4"/>
         <node host="192.168.89.1" port="8080" weight="6"/>
     </proxy_pass>
-    <cache_strategy cache_size="" cache_ttl="10" cache_type="redis"/>
+    <!-- cache_size=""-->
+    <cache_strategy cache_ttl="10" cache_type="redis"/>
+    <ehcache />
     <!-- api_uri write your regex -->
     <resource personal_uri="/static/.*" notfound_page="404page.html" error_page="error.html"
               forbidden_page="forbidden.html" bad_request="badrequest.html"/>

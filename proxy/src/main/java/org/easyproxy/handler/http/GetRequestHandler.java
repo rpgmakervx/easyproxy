@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.easyproxy.cache.Cache;
+import org.easyproxy.cache.DefaultCache;
 import org.easyproxy.cache.redis.RedisCache;
 import org.easyproxy.client.ProxyClient;
 import org.easyproxy.selector.IPSelector;
@@ -30,7 +30,7 @@ import static org.easyproxy.constants.Const.*;
 
 public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     private InetSocketAddress address;
-    private Cache cache = new RedisCache();
+    private DefaultCache cache = new RedisCache();
 //    private ExecutorService threadPool = Executors.newCachedThreadPool();
 
     /**

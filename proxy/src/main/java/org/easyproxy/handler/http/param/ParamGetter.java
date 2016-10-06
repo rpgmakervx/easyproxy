@@ -14,7 +14,7 @@ import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.MemoryAttribute;
 import io.netty.util.CharsetUtil;
-import org.easyproxy.util.JSONUtil;
+import org.easyproxy.util.struct.JSONUtil;
 
 import java.util.HashMap;
 import java.util.List;

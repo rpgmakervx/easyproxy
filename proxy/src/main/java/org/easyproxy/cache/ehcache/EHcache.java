@@ -4,10 +4,8 @@ package org.easyproxy.cache.ehcache;/**
  *  下午10:33
  */
 
-import org.easyproxy.cache.Cache;
-import org.easyproxy.pojo.AccessRecord;
-
-import java.util.List;
+import org.easyproxy.cache.DefaultCache;
+import org.easyproxy.util.mem.EHcacheUtil;
 
 /**
  * Description :
@@ -15,39 +13,10 @@ import java.util.List;
  * 下午10:33
  */
 
-public class EHcache extends Cache {
-    @Override
-    public void save(String url, String param, String data) {
+public class EHcache extends DefaultCache {
 
+    public EHcache(){
+        super(new EHcacheUtil());
     }
 
-    @Override
-    public String get(String url, String param) {
-        return null;
-    }
-
-    @Override
-    public void addAccessRecord(String host) {
-
-    }
-
-    @Override
-    public void incrAccessRecord(String host) {
-
-    }
-
-    @Override
-    public void decrAccessRecord(String host) {
-
-    }
-
-    @Override
-    public int getAccessRecord(String host) {
-        return 0;
-    }
-
-    @Override
-    public List<AccessRecord> getAllAccessRecord() {
-        return null;
-    }
 }

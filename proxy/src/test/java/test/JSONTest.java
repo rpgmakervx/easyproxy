@@ -6,8 +6,8 @@ package test;/**
 
 import org.easyproxy.pojo.WeightHost;
 import org.easyproxy.util.Config;
-import org.easyproxy.util.JSONUtil;
-import org.easyproxy.util.XmlUtil;
+import org.easyproxy.util.struct.JSONUtil;
+import org.easyproxy.util.struct.XmlUtil;
 import org.junit.Test;
 
 import java.net.InetSocketAddress;
