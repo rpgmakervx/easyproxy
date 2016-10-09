@@ -120,8 +120,8 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3501805" vertical-offset="1906" max-vertical-offset="4080">
-              <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.3501805" vertical-offset="1996" max-vertical-offset="4080">
+              <caret line="73" column="82" selection-start-line="73" selection-start-column="82" selection-end-line="73" selection-end-column="82" />
               <folding />
             </state>
           </provider>
@@ -1098,12 +1098,12 @@
       <workItem from="1475831355596" duration="591000" />
       <workItem from="1475837610847" duration="3068000" />
       <workItem from="1475929594118" duration="1540000" />
-      <workItem from="1475973706166" duration="3400000" />
+      <workItem from="1475973706166" duration="3510000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="372750000" />
+    <option name="totallyTimeSpent" value="372860000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1623,8 +1623,8 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3501805" vertical-offset="1906" max-vertical-offset="4080">
-          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.3501805" vertical-offset="1996" max-vertical-offset="4080">
+          <caret line="73" column="82" selection-start-line="73" selection-start-column="82" selection-end-line="73" selection-end-column="82" />
           <folding />
         </state>
       </provider>

@@ -71,7 +71,7 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 进入`bin`目录，运行 `./startup` 启动服务
 
-假设配置文件中`localhost`设置为**127.0.0.1**，打开浏览器输入(127.0.0.1:9524/static/index.html),看到easyproxy的首页，说明服务启动成功。
+假设配置文件中`localhost`设置为**127.0.0.1**，打开浏览器输入[http://127.0.0.1:9524/static/index.html](http://127.0.0.1:9524/static/index.html),看到easyproxy的首页，说明服务启动成功。
 
 # 用户指南
 
