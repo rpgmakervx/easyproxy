@@ -65,6 +65,11 @@ public class Config {
 
     private static void configLoadbalanceStrategy(){
         JSONArray array = JSONUtil.getArrayFromJSON(PROXY_PASS, params);
+        if (array.size()==0){
+            params.put(PROXY_SERVER,false);
+            return;
+        }
+        params.put(PROXY_SERVER,true);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
         for (int index = 0; index < array.size(); index++) {
             JSONObject object = array.getJSONObject(index);
@@ -80,32 +85,6 @@ public class Config {
         Collections.reverse(weight_hosts);
         maxWeight = weight_hosts.get(0).getWeight();
         gcd = getMaxDivisor(weight_hosts);
-
-        //权重可能会被用户设置的过高，这时手动降低权重值的量级，维持在10以内，并把权重记录更新到权重list中
-//        if (weight_sum > 20) {
-//            int new_weight = 0;
-//            for (WeightHost host:weight_hosts){
-//                float percent = host.getWeight() / (float) weight_sum;
-//                int weight = 1;
-//                if ((20 * percent) > 0) {
-//                    weight = (int) Math.rint(20 * percent);
-//                }
-//                host.setWeight(weight);
-//                new_weight += weight;
-//                for (int index=0;index<weight;index++){
-//                    weight_hosts_list.add(host);
-//                }
-//            }
-//            //重新计算总权重
-//            weight_sum = new_weight;
-//        }else{
-//            for (WeightHost host:weight_hosts){
-//                for (int index=0;index<host.getWeight();index++){
-//                    weight_hosts_list.add(host);
-//                }
-//            }
-//
-//        }
     }
 
     private static void configForbiddenHosts(){

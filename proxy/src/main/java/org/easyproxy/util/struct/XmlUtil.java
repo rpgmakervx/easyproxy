@@ -63,7 +63,15 @@ public class XmlUtil {
                         Element ele = eleIt.next();
                         kv.put(PORT, ele.attributeValue(PORT));
                         kv.put(HOST, ele.attributeValue(HOST));
-                        kv.put(WEIGHT, ele.attributeValue(WEIGHT));
+                        int weight = 0;
+                        try{
+                            weight = Integer.parseInt(ele.attributeValue(WEIGHT));
+                        }catch (Exception e){
+                            weight = 1;
+                        }
+                        if (weight<=0)
+                            weight = 1;
+                        kv.put(WEIGHT, String.valueOf(weight));
                         array.add(kv);
                     }
                     object.put(PROXY_PASS, array);
@@ -99,6 +107,10 @@ public class XmlUtil {
                     }
                     break;
             }
+        }
+        JSONArray array = (JSONArray) object.get(PROXY_PASS);
+        if (array.size()==0){
+            object.put(PERSONAL_URL,"/*");
         }
     }
 

@@ -47,11 +47,31 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 ##easyproxy启动：
 
-首先请配置easyproxy的localhost，node等相关信息，详见[用户指南](#用户指南)
+首先请配置easyproxy的localhost，node等相关信息如下：
+```xml
+<proxy>
+
+    <server listen="9524" localhost="127.0.0.1" lb_strategy="weight"/>
+    <proxy_pass>
+        <node host="192.168.89.1" port="8081" weight="4"/>
+        <node host="192.168.89.1" port="8080" weight="6"/>
+    </proxy_pass>
+    <cache_strategy cache_ttl="30" cache_type="redis"/>
+    <resource personal_uri="/static/.*" notfound_page="404page.html" error_page="error.html"
+            forbidden_page="forbidden.html" bad_request="badrequest.html"/>
+    <log logopen="true" />
+    <api apiopen="true" api_uri="/easyproxy.*"  />
+    <ip_filter>
+        <!--<filter filtered_ip="192.168.117.1" />-->
+        <!--<filter filtered_ip="192.168.89.1" />-->
+    </ip_filter>
+</proxy>
+```
+配置信息详情见[用户指南](#用户指南)
 
 进入`bin`目录，运行 `./startup` 启动服务
 
-假设配置文件中`localhost`设置为**127.0.0.1**，打开浏览器输入(127.0.0.1:9524),看到tomcat的首页，说明服务启动成功。
+假设配置文件中`localhost`设置为**127.0.0.1**，打开浏览器输入(127.0.0.1:9524/static/index.html),看到easyproxy的首页，说明服务启动成功。
 
 # 用户指南
 
@@ -66,25 +86,7 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 ## 配置文件说明：
 解压安装包后，进入conf目录，使用 `vim proxy.xml` 来编辑配置文件
-```xml
-<proxy>
 
-    <server listen="9524" localhost="192.168.89.1" lb_strategy="weight"/>
-    <proxy_pass>
-        <node host="192.168.89.1" port="8081" weight="4"/>
-        <node host="192.168.89.1" port="8080" weight="6"/>
-    </proxy_pass>
-    <cache_strategy cache_ttl="10" cache_type="redis"/>
-    <resource personal_uri="/static/.*" notfound_page="404page.html" error_page="error.html"
-            forbidden_page="forbidden.html" bad_request="badrequest.html"/>
-    <log logopen="true" />
-    <api apiopen="true" api_uri="/easyproxy.*"  />
-    <ip_filter>
-        <filter filtered_ip="192.168.117.1" />
-        <filter filtered_ip="127.0.0.1" />
-    </ip_filter>
-</proxy>
-```
 `proxy.xml` 采用“类json”的方式进行配置，每个标签的attribute都不会重名，下面简单介绍xml的配置信息
 
 **负载均衡器相关**：

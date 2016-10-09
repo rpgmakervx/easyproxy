@@ -9,9 +9,11 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
+import org.easyproxy.constants.Const;
 import org.easyproxy.resources.Resource;
 import org.easyproxy.util.Config;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
 
@@ -30,9 +32,13 @@ public class PersonalPageHandler extends ChannelInboundHandlerAdapter {
         String uri = request.uri();
         Pattern pattern = Pattern.compile(Config.getString(PERSONAL_URL));
         System.out.println(uri+","+Config.getString(API_URI)+", "+pattern.matcher(uri).matches());
-        if (!pattern.matcher(uri).matches()){
+        boolean isProxy = Boolean.valueOf(Config.getString(Const.PROXY_SERVER));
+        if (!pattern.matcher(uri).matches()&&isProxy){
             ctx.fireChannelRead(request);
             return;
+        }
+        if (uri.equals(File.separator)){
+            uri = "static/index.html";
         }
         response(ctx, Resource.getPage(RESOURCES+uri));
     }

@@ -44,6 +44,7 @@ public class Const {
     public static final String LOCALHOST = "localhost";
     public static final String LISTEN = "listen";
     //real server settings
+    public static final String PROXY_SERVER = "proxy_server";
     public static final String PROXY_PASS = "proxy_pass";
     public static final String WEIGHT = "weight";
     public static final String HOST = "host";

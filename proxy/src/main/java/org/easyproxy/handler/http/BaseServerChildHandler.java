@@ -27,6 +27,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) throws Exception {
         boolean isLogOpen = Boolean.valueOf(Config.getString(Const.LOGOPEN));
         boolean isApiOpen = Boolean.valueOf(Config.getString(Const.APIOPEN));
+        boolean isProxy = Boolean.valueOf(Config.getString(Const.PROXY_SERVER));
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
@@ -42,10 +43,12 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
             pipeline.addLast(new APIHandler());
         }
         pipeline.addLast(new PersonalPageHandler());
-        pipeline.addLast(new GetRequestHandler());
-        pipeline.addLast(new PostRequestHandler());
-        pipeline.addLast(new PutRequestHandler());
-        pipeline.addLast(new DeleteRequestHandler());
+        if (isProxy){
+            pipeline.addLast(new GetRequestHandler());
+            pipeline.addLast(new PostRequestHandler());
+            pipeline.addLast(new PutRequestHandler());
+            pipeline.addLast(new DeleteRequestHandler());
+        }
 
     }
 
