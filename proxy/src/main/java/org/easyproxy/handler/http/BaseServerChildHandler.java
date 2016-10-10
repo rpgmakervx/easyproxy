@@ -58,6 +58,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         for (int index=0;index<forbidden_hosts.size();index++){
             rules[index] = new IpSubnetFilterRule(forbidden_hosts.get(index),32, IpFilterRuleType.REJECT);
         }
+        System.out.println("forbidden list:"+forbidden_hosts);
         return rules;
     }
 }

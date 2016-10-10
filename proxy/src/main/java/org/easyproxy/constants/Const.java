@@ -93,7 +93,7 @@ public class Const {
 
     //directory structure
 //    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
-    public static final String DIR = System.getProperty("user.dir")+File.separator;
+    public static final String DIR = System.getProperty("user.dir")+File.separator+".."+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String TMP = DIR+"tmp"+File.separator;
     public static final String RESOURCES = DIR+"resources"+File.separator;
