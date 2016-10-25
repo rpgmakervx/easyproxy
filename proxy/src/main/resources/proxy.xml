@@ -14,6 +14,7 @@
     <resource personal_uri="/static/.*" notfound_page="404page.html" error_page="error.html"
               forbidden_page="forbidden.html" bad_request="badrequest.html"/>
     <log logopen="true" />
+    <antileech antileech_open="false"/>
     <!--api is start? uri and param-->
     <api open="true" api_uri="/easyproxy.*"  />
     <!--<cache_url>-->

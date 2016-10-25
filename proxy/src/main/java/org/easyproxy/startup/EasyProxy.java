@@ -8,6 +8,7 @@ import org.easyproxy.constants.Const;
 import org.easyproxy.server.ProxyServer;
 import org.easyproxy.util.Config;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -20,7 +21,11 @@ public class EasyProxy {
 
 
     public static void main(final String[] args) throws IOException {
-        //开源中国要有WWW
+        String home = System.getProperty("easyproxy.home");
+        if (home == null){
+            System.setProperty("easyproxy.home",System.getProperty("user.dir")+File.separator);
+        }
+        System.out.println("easyproxy.home --> "+System.getProperty("easyproxy.home"));
         String config = Const.DEFAULT_CONFIGPATH;
         if (args.length>0){
             config = args[0];

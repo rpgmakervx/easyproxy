@@ -1,14 +1,15 @@
 #!/bin/sh  
 #============ get the file name ===========  
 
-service iptables stop
 cd ..
 path=`pwd`
+home=${path}
 folder=${path}"/lib"
 main_jar=":easyproxy.jar"
 all_jar=""  
 
 config_file=${path}"/conf/proxy.xml"
+echo
 for file in ${folder}/*; do  
     temp_file=`basename $file`  
     all_jar="${all_jar}:${folder}/${temp_file}"
@@ -17,7 +18,7 @@ main_class="org.easyproxy.startup.EasyProxy"
 cd "bin"
 
 if [ -n "$1" ];then
-	java -cp $all_jar$main_jar $main_class $1 &
+	java -cp $all_jar$main_jar -D${home} $main_class $1 &
 else 
-	java -cp $all_jar$main_jar $main_class ${config_file} &
+	java -cp $all_jar$main_jar -D${home} $main_class ${config_file} &
 fi

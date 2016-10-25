@@ -20,6 +20,8 @@
         <element id="library" level="project" name="Maven: org.hyperic:sigar:1.6.2" />
         <element id="library" level="project" name="Maven: redis.clients:jedis:2.7.2" />
         <element id="library" level="project" name="Maven: xml-apis:xml-apis:1.0.b2" />
+        <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:2.6.11" />
+        <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.6.1" />
       </element>
       <element id="directory" name="tmp" />
       <element id="directory" name="logs">
@@ -38,6 +40,8 @@
           <element id="module-output" name="proxy" />
         </element>
         <element id="file-copy" path="$PROJECT_DIR$/proxy/startup" />
+        <element id="file-copy" path="$PROJECT_DIR$/proxy/shutdown" />
+        <element id="file-copy" path="$PROJECT_DIR$/proxy/kill" />
       </element>
     </root>
   </artifact>

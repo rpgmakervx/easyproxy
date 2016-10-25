@@ -28,6 +28,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         boolean isLogOpen = Boolean.valueOf(Config.getString(Const.LOGOPEN));
         boolean isApiOpen = Boolean.valueOf(Config.getString(Const.APIOPEN));
         boolean isProxy = Boolean.valueOf(Config.getString(Const.PROXY_SERVER));
+        boolean isAntileechOpen = Boolean.valueOf(Config.getString(Const.ANTILEECH_OPEN));
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
@@ -38,7 +39,9 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         if (isLogOpen){
             pipeline.addLast(new AccessLogHandler());
         }
-        pipeline.addLast(new AntiLeechHandler());
+        if (isAntileechOpen){
+            pipeline.addLast(new AntiLeechHandler());
+        }
         if (isApiOpen){
             pipeline.addLast(new APIHandler());
         }
@@ -49,7 +52,6 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
             pipeline.addLast(new PutRequestHandler());
             pipeline.addLast(new DeleteRequestHandler());
         }
-
     }
 
     private IpSubnetFilterRule[] getForbiddenList(){

@@ -44,6 +44,7 @@ public class Const {
     public static final String LOCALHOST = "localhost";
     public static final String LISTEN = "listen";
     //real server settings
+    //proxy_server 配置文件不存在，是检测到proxy_pass下没有配置后中间件自己设置的
     public static final String PROXY_SERVER = "proxy_server";
     public static final String PROXY_PASS = "proxy_pass";
     public static final String WEIGHT = "weight";
@@ -84,6 +85,9 @@ public class Const {
     public static final String API_URI = "api_uri";
     //log open
     public static final String LOGOPEN = "logopen";
+    //anti-leech open
+    public static final String ANTILEECH_OPEN = "antileech_open";
+
     //personal uri
     public static final String PERSONAL_URL = "personal_uri";
 
@@ -93,7 +97,7 @@ public class Const {
 
     //directory structure
 //    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
-    public static final String DIR = System.getProperty("user.dir")+File.separator+".."+File.separator;
+    public static final String DIR = System.getProperty("easyproxy.home")+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String TMP = DIR+"tmp"+File.separator;
     public static final String RESOURCES = DIR+"resources"+File.separator;

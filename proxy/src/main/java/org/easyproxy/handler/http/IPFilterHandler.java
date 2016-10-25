@@ -49,6 +49,8 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
     }
 
     private boolean handleForbidden(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("localAddress: "+ctx.channel().localAddress());
+        System.out.println("remoteAddress: "+ctx.channel().remoteAddress());
         InetSocketAddress remoteAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         if(remoteAddress == null) {
             return false;

@@ -59,17 +59,15 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
         String referername = headers.get(HttpHeaderNames.REFERER);
         referername = referername==null? Const.NULLVALUE:referername;
         String userAgent = headers.get(HttpHeaderNames.USER_AGENT);
-        String contentType = headers.get(HttpHeaderNames.CONTENT_TYPE);
         HttpContent httpContent = (HttpContent) request;
         ByteBuf content = httpContent.content();
 
         String message = content.toString(CharsetUtil.UTF_8);
         buffer.append("method:").append(request.method().toString()).append("\n");
-        buffer.append("client-ip:").append(client_ip).append("\n");
-        buffer.append("contentType:").append(contentType).append("\n");
-        buffer.append("path:").append(request.uri()).append("\n");
+        buffer.append("remote-ip:").append(client_ip).append("\n");
+        buffer.append("uri:").append(request.uri()).append("\n");
         buffer.append("referer:").append(referername).append("\n");
-        buffer.append("User-Agent:").append(userAgent).append("\n");
+        buffer.append("user-agent:").append(userAgent).append("\n");
         buffer.append("body:").append(message).append("\n");
         logger.accessLog(buffer.toString() + "\n");
     }
