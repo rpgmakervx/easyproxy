@@ -50,8 +50,8 @@
       <file leaf-file-name="ProxyServer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/server/ProxyServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="34" column="34" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+            <state relative-caret-position="58">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
                 <element signature="e#642#643#0" expanded="true" />
                 <element signature="e#721#722#0" expanded="true" />
@@ -1316,12 +1316,12 @@
       <workItem from="1482214582162" duration="4350000" />
       <workItem from="1478936201049" duration="16000" />
       <workItem from="1478936244999" duration="1263000" />
-      <workItem from="1482242595082" duration="12703000" />
+      <workItem from="1482242595082" duration="12766000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="556477000" />
+    <option name="totallyTimeSpent" value="556540000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1845,8 +1845,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/proxy/src/main/java/org/easyproxy/server/ProxyServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="34" column="34" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
+        <state relative-caret-position="58">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
             <element signature="e#642#643#0" expanded="true" />
             <element signature="e#721#722#0" expanded="true" />
