@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<proxy>
+    <!--lb_strategy range:roundrobin,weight_roundrobin,ip_hash,less_connection-->
+    <server proxy.server.listen="9524" proxy.server.localhost="127.0.0.1" proxy.server.lb_strategy="weight"/>
+    <proxy_pass>
+        <node proxy.server.nodes.ip="192.168.89.1" proxy.server.nodes.port="8080" proxy.server.nodes.weight="4"/>
+        <node proxy.server.nodes.ip="192.168.89.1" proxy.server.nodes.port="8081" proxy.server.nodes.weight="6"/>
+    </proxy_pass>
+    <!-- cache_size=""-->
+    <cache_strategy proxy.cache.cache_ttl="20" proxy.cache.type="redis"/>
+    <ehcache />
+    <!--personal_uri api_uri write your regex -->
+    <resource proxy.resource.static_uri="/static/.*"
+              proxy.resource.notfound_page="404page.html"
+              proxy.resource.error_page="error.html"
+              proxy.resource.forbidden_page="forbidden.html"
+              proxy.resource.bad_request="badrequest.html"/>
+    <log proxy.log.logopen="true" />
+    <antileech proxy.antileech.open="false"/>
+    <!--api is start? uri and param-->
+    <api proxy.api.open="false"
+         proxy.api.uri="/easyproxy.*"  />
+    <!--<cache_url>-->
+        <!--<request url="" method="" />-->
+        <!--<request url="" method="" />-->
+    <!--</cache_url>-->
+    <ip_filter>
+        <filter proxy.firewall.filter="192.168.117.1" />
+        <filter proxy.firewall.filter="127.0.0.1" />
+    </ip_filter>
+</proxy>
