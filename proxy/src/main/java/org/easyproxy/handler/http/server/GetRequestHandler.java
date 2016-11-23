@@ -45,7 +45,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     }
 
     protected void messageRece(ChannelHandlerContext ctx, Object msg) throws Exception{
-        String context = "";
         byte[] bytes = null;
         FullHttpRequest request = (FullHttpRequest) msg;
         boolean isGet = request.method().equals(HttpMethod.GET);
@@ -64,7 +63,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         if (ArrayUtils.isNotEmpty(data)&&
                 StringUtils.isNotEmpty(headerStr)) {
             Map<String,Object> headMap = JSONUtil.json2Map(headerStr);
-//                    List<Header> headers = new ArrayList<>();
             for (Map.Entry<String,Object> entry:headMap.entrySet()){
                 request.headers().set(entry.getKey(),
                         String.valueOf(entry.getValue()));
