@@ -75,7 +75,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                     try {
                         List<InterfaceHttpData> postList = decoder.getBodyHttpDatas();
                         // 读取从客户端传过来的参数
-                        Map<String,Object> params = new HashMap<>();
+                        Map<String,Object> params = new HashMap<String,Object>();
                         File hasFile = null;
                         for (InterfaceHttpData data : postList) {
                             String name = data.getName();
@@ -111,16 +111,17 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
                 System.out.println(responseStr);
                 bytes = responseStr.getBytes();
                 response(ctx, bytes, response.getAllHeaders());
+                complete();
             } else {
                 ctx.fireChannelRead(msg);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        complete();
     }
 
-    public void complete(){
+    public void complete() {
+        accessRecord(address.getHostString(), address.getPort(), false);
     }
 
     @Override
@@ -139,9 +140,10 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
     }
 
 
-//    private void accessRecord(String realserver,int port){
-//        System.out.println("access record---> "+realserver+":"+port+ACCESSRECORD);
-//        cache.incrAccessRecord(realserver+":"+port+ACCESSRECORD);
-//    }
+    private void accessRecord(String realserver, int port, boolean incr) {
+        if (incr)
+            cache.incrAccessRecord(realserver + ":" + port + ACCESSRECORD);
+        else cache.decrAccessRecord(realserver + ":" + port + ACCESSRECORD);
+    }
 
 }

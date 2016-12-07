@@ -33,10 +33,9 @@ public class FileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (RandomAccessFile raf = new RandomAccessFile(file,"rw");
-             FileChannel channel = raf.getChannel()){
-//            FileInputStream fis;
-//            FileOutputStream fos''
+        try {
+            RandomAccessFile raf = new RandomAccessFile(file,"rw");
+            FileChannel channel = raf.getChannel();
             MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_WRITE, 0, bytes.length);
             buffer.put(bytes);
         }catch (Exception e) {

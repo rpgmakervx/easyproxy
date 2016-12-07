@@ -21,29 +21,29 @@ public class SigarDemo {
     public static void main(String[] args) {
         try {
             // System信息，从jvm获取
-            property();
-            System.out.println("----------------------------------");
-            // cpu信息
-            cpu();
-            System.out.println("----------------------------------");
-            // 内存信息
-            memory();
-            System.out.println("----------------------------------");
-            // 操作系统信息
-            os();
-            System.out.println("----------------------------------");
-            // 用户信息
-            who();
-            System.out.println("----------------------------------");
-            // 文件系统信息
+//            property();
+//            System.out.println("----------------------------------");
+//            // cpu信息
+//            cpu();
+//            System.out.println("----------------------------------");
+//            // 内存信息
+//            memory();
+//            System.out.println("----------------------------------");
+//            // 操作系统信息
+//            os();
+//            System.out.println("----------------------------------");
+//            // 用户信息
+//            who();
+//            System.out.println("----------------------------------");
+//            // 文件系统信息
             file();
-            System.out.println("----------------------------------");
-            // 网络信息
-            net();
-            System.out.println("----------------------------------");
-            // 以太网信息
-            ethernet();
-            System.out.println("----------------------------------");
+//            System.out.println("----------------------------------");
+//            // 网络信息
+//            net();
+//            System.out.println("----------------------------------");
+//            // 以太网信息
+//            ethernet();
+//            System.out.println("----------------------------------");
         } catch (Exception e1) {
             e1.printStackTrace();
         }
@@ -75,6 +75,7 @@ public class SigarDemo {
         //
         System.out.println("Java的运行环境版本：    "
                 + props.getProperty("java.version"));
+        System.out.println("Java library --> "+props.getProperty("java.library.path"));
         System.out.println("Java的运行环境供应商：    "
                 + props.getProperty("java.vendor"));
         System.out.println("Java供应商的URL：    "
@@ -126,18 +127,18 @@ public class SigarDemo {
         Sigar sigar = new Sigar();
         Mem mem = sigar.getMem();
         // 内存总量
-        System.out.println("内存总量:    " + mem.getTotal() / 1024L + "K av");
+        System.out.println("内存总量:    " + mem.getTotal() / 1024L/ 1024L/ 1024L + "g av");
         // 当前内存使用量
-        System.out.println("当前内存使用量:    " + mem.getUsed() / 1024L + "K used");
+        System.out.println("当前内存使用量:    " + mem.getUsed() / 1024L/ 1024L/ 1024L + "G used");
         // 当前内存剩余量
-        System.out.println("当前内存剩余量:    " + mem.getFree() / 1024L + "K free");
+        System.out.println("当前内存剩余量:    " + mem.getFree() / 1024L/ 1024L/ 1024L + "G free");
         Swap swap = sigar.getSwap();
         // 交换区总量
-        System.out.println("交换区总量:    " + swap.getTotal() / 1024L + "K av");
+        System.out.println("交换区总量:    " + swap.getTotal() / 1024L/ 1024L + "K av");
         // 当前交换区使用量
-        System.out.println("当前交换区使用量:    " + swap.getUsed() / 1024L + "K used");
+        System.out.println("当前交换区使用量:    " + swap.getUsed() / 1024L/ 1024L + "M used");
         // 当前交换区剩余量
-        System.out.println("当前交换区剩余量:    " + swap.getFree() / 1024L + "K free");
+        System.out.println("当前交换区剩余量:    " + swap.getFree() / 1024L/ 1024L + "M free");
     }
 
     private static void cpu() throws SigarException {
@@ -208,6 +209,7 @@ public class SigarDemo {
         Sigar sigar = new Sigar();
         FileSystem fslist[] = sigar.getFileSystemList();
         for (int i = 0; i < fslist.length; i++) {
+            System.out.println("----------------------------");
             System.out.println("分区的盘符名称" + i);
             FileSystem fs = fslist[i];
             // 分区的盘符名称
@@ -259,6 +261,7 @@ public class SigarDemo {
                     + usage.getDiskReads());
             System.out.println(fs.getDevName() + "写入：    "
                     + usage.getDiskWrites());
+            System.out.println("----------------------------");
         }
         return;
     }

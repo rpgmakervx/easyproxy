@@ -26,7 +26,8 @@ public class Const {
     public static final String TEXT_HTML = "text/html";
     public static final String APP_JSON = "application/json";
     public static final String IMAGE_PNG = "image/png";
-    public static final String CONTENTTYPE = "Content-Type";
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String HEADERS = "headers";
 
     //protocol
     public static final String HTTP = "http://";

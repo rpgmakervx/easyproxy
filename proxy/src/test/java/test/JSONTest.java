@@ -62,6 +62,6 @@ public class JSONTest {
             map.put(WEIGHT,weight);
             hostsmap.add(map);
         }
-        System.out.println(JSONUtil.listToJson(hostsmap).toJSONString());
+        System.out.println(JSONUtil.list2Json(hostsmap));
     }
 }

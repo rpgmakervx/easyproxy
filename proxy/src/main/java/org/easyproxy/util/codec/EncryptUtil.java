@@ -4,6 +4,11 @@ package org.easyproxy.util.codec;/**
  *  下午2:25
  */
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -79,4 +84,23 @@ public class EncryptUtil {
         return res & 0xffffffffL;
     }
 
+    public static String encodeBase64(byte[] key) throws Exception {
+        if (ArrayUtils.isEmpty(key)){
+            return "";
+        }
+        return (new BASE64Encoder()).encodeBuffer(key);
+    }
+
+    /**
+     * BASE64 解密
+     * @param key 需要解密的字符串
+     * @return 字节数组
+     * @throws Exception
+     */
+    public static byte[] decodeBase64(String key) throws Exception {
+        if (StringUtils.isEmpty(key)){
+            return null;
+        }
+        return (new BASE64Decoder()).decodeBuffer(key);
+    }
 }

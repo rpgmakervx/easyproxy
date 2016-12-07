@@ -20,12 +20,12 @@ import java.util.Set;
  * 上午10:50
  */
 
-public class JedisUtil implements MemoryUtil{
+public class RedisUtil implements MemoryUtil{
 
 
 //    public Jedis jedisClient;
     private JedisPool pool = null;
-    public JedisUtil(){
+    public RedisUtil(){
         JedisPoolConfig config = new JedisPoolConfig();
         //控制一个pool可分配多少个jedis实例，通过pool.getResource()来获取；
         //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。
@@ -38,7 +38,7 @@ public class JedisUtil implements MemoryUtil{
     }
 
     public void recoverJedis(Jedis jedis){
-        System.out.println("jedis 回收");
+//        System.out.println("jedis 回收");
         pool.returnResourceObject(jedis);
     }
 
@@ -50,7 +50,7 @@ public class JedisUtil implements MemoryUtil{
     }
 
     public String get(String key) {
-        System.out.println("jedis get("+key+") ");
+//        System.out.println("jedis get("+key+") ");
         Jedis jedis = pool.getResource();
         String value = jedis.get(key);
         recoverJedis(jedis);

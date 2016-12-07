@@ -30,7 +30,7 @@ public class ParamGetter {
 
     public static Map<String, Object> getRequestParams(Object msg){
         HttpRequest req = (HttpRequest) msg;
-        Map<String, Object>requestParams=new HashMap<>();
+        Map<String, Object>requestParams=new HashMap<String, Object>();
         // 处理get请求
         if (req.method() == HttpMethod.GET) {
             QueryStringDecoder decoder = new QueryStringDecoder(req.uri());
@@ -45,7 +45,7 @@ public class ParamGetter {
             ByteBuf content = httpContent.content();
             String message = content.toString(CharsetUtil.UTF_8);
             if (JSONUtil.isJson(message)){
-                return JSONUtil.strToMap(message);
+                return JSONUtil.json2Map(message);
             }
             HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(
                     new DefaultHttpDataFactory(false), req);

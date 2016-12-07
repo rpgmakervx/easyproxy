@@ -29,7 +29,7 @@ public class DefaultCache {
     public void save(String url, String param, String data) {
         String key = EncryptUtil.hash(url + param, EncryptUtil.SHA1);
         util.set(key, data);
-        System.out.println("保存完，key=" + key );
+//        System.out.println("保存完，key=" + key );
     }
     public String get(String url, String param) {
         String key = EncryptUtil.hash(url + param,EncryptUtil.SHA1);

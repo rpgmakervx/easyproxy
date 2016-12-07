@@ -70,7 +70,7 @@ public class EHcacheUtil implements MemoryUtil{
 
     public Set<String> keys(String regx){
         Pattern pattern = Pattern.compile(regx);
-        Set<String> result = new HashSet<>();
+        Set<String> result = new HashSet<String>();
         List<String> keys = cache.getKeys();
         for (String key:keys){
             Matcher matcher = pattern.matcher(key);
@@ -83,7 +83,7 @@ public class EHcacheUtil implements MemoryUtil{
 
     public void incr(String key){
         Element ele = cache.get(key);
-        int num = (int) ele.getObjectKey()+1;
+        int num = (Integer) ele.getObjectKey()+1;
         Element newele = new Element(ele.getObjectKey(),num);
         cache.remove(ele.getObjectKey());
         cache.put(newele);
@@ -91,7 +91,7 @@ public class EHcacheUtil implements MemoryUtil{
 
     public void decr(String key){
         Element ele = cache.get(key);
-        int num = (int) ele.getObjectKey()-1;
+        int num = (Integer) ele.getObjectKey()-1;
         Element newele = new Element(ele.getObjectKey(),num);
         cache.remove(ele.getObjectKey());
         cache.put(newele);

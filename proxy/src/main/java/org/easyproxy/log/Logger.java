@@ -1,8 +1,4 @@
-package org.easyproxy.log;/**
- * Description : 
- * Created by YangZH on 16-8-17
- *  上午3:01
- */
+package org.easyproxy.log;
 
 import java.io.BufferedWriter;
 import java.io.File;

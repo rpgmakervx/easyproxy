@@ -205,14 +205,14 @@ public class ProxyClient {
         return response;
     }
 
-    public String getResponse(CloseableHttpResponse response) {
+    public synchronized String getResponse(CloseableHttpResponse response) {
         String body = "";
         HttpEntity entity = response.getEntity();
         if (entity != null) {
             //按指定编码转换结果实体为String类型
             try {
                 body = EntityUtils.toString(entity);
-                EntityUtils.consume(entity);
+//                EntityUtils.consume(entity);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -5,7 +5,7 @@ package org.easyproxy.cache.redis;/**
  */
 
 import org.easyproxy.cache.DefaultCache;
-import org.easyproxy.util.mem.JedisUtil;
+import org.easyproxy.util.mem.RedisUtil;
 
 /**
  * Description :
@@ -16,7 +16,7 @@ import org.easyproxy.util.mem.JedisUtil;
 public class RedisCache extends DefaultCache {
 
     public RedisCache(){
-        super(new JedisUtil());
+        super(new RedisUtil());
     }
 
 }

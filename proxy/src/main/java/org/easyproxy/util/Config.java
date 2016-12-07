@@ -192,7 +192,7 @@ public class Config {
             map.put(WEIGHT,weight);
             hostsmap.add(map);
         }
-        params.put(PROXY_PASS,JSONUtil.listToJson(hostsmap));
+        params.put(PROXY_PASS,JSONUtil.list2Json(hostsmap));
         configLoadbalanceStrategy();
     }
 

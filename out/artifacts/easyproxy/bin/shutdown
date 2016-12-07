@@ -1,0 +1,10 @@
+#!/bin/sh
+#根据进程名杀死进程
+ 
+PROCESS=`ps -ef|grep 'EasyProxy'|grep -v grep|grep -v PPID|awk '{ print $2}'`
+for i in $PROCESS
+do
+  echo "Kill the EasyProxy process [ $i ]"
+  kill -9 $i
+done
+echo 'EasyProxy has been killed'
