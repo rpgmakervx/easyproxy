@@ -1,4 +1,4 @@
-package org.easyproxy.handler.http;/**
+package org.easyproxy.handler.http.server;/**
  * Description : SocksServerHandler
  * Created by YangZH on 16-5-25
  *  上午9:18

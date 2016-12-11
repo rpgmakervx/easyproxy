@@ -1,7 +1,7 @@
-package org.easyproxy.handler.http;/**
+package org.easyproxy.handler.http.server;/**
  * Description : 
- * Created by YangZH on 16-9-27
- *  下午1:48
+ * Created by YangZH on 16-8-23
+ *  下午2:30
  */
 
 import io.netty.buffer.ByteBuf;
@@ -9,43 +9,41 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
-import org.easyproxy.constants.Const;
-import org.easyproxy.resources.Resource;
+import org.easyproxy.handler.http.param.ParamGetter;
 import org.easyproxy.util.Config;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static org.easyproxy.constants.Const.*;
 
 /**
  * Description :
- * Created by YangZH on 16-9-27
- * 下午1:48
+ * Created by YangZH on 16-8-23
+ * 下午2:30
  */
 
-public class PersonalPageHandler extends ChannelInboundHandlerAdapter {
+public class APIHandler extends ChannelInboundHandlerAdapter {
+
 
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         HttpRequest request = (HttpRequest) msg;
         String uri = request.uri();
-        Pattern pattern = Pattern.compile(Config.getString(PERSONAL_URL));
-        System.out.println(uri+","+Config.getString(API_URI)+", "+pattern.matcher(uri).matches());
-        boolean isProxy = Boolean.valueOf(Config.getString(Const.PROXY_SERVER));
-        if (!pattern.matcher(uri).matches()&&isProxy){
+        Pattern pattern = Pattern.compile(Config.getString(API_URI));
+        if (!pattern.matcher(uri).matches()){
             ctx.fireChannelRead(request);
             return;
         }
-        if (uri.equals(File.separator)){
-            uri = "static/index.html";
-        }
-        response(ctx, Resource.getPage(RESOURCES+uri));
+        Map<String,Object> map = ParamGetter.getRequestParams(request);
+        String strategy = (String) map.get(LB_STRATEGY);
+        Config.setLB_Strategy(strategy);
+        Config.listAll();
+        response(ctx, API_ACK.getBytes());
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("APIHandler");
         messageReceived(ctx,msg);
     }
 

@@ -1,4 +1,4 @@
-package org.easyproxy.handler.http;/**
+package org.easyproxy.handler.http.server;/**
  * Description : 
  * Created by YangZH on 16-8-16
  *  下午2:19
@@ -14,6 +14,7 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.util.CharsetUtil;
 import org.easyproxy.constants.Const;
 import org.easyproxy.log.Logger;
+import org.easyproxy.util.time.TimeUtil;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
@@ -64,11 +65,12 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
 
         String message = content.toString(CharsetUtil.UTF_8);
         buffer.append("method:").append(request.method().toString()).append("\n");
+        buffer.append("visit time:").append(TimeUtil.getNowTime()).append("\n");
         buffer.append("remote-ip:").append(client_ip).append("\n");
         buffer.append("uri:").append(request.uri()).append("\n");
         buffer.append("referer:").append(referername).append("\n");
         buffer.append("user-agent:").append(userAgent).append("\n");
-        buffer.append("body:").append(message).append("\n");
+        buffer.append("body:\n").append(message).append("\n");
         logger.accessLog(buffer.toString() + "\n");
     }
 }

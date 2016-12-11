@@ -1,4 +1,4 @@
-package org.easyproxy.handler.http;/**
+package org.easyproxy.handler.http.server;/**
  * Description :
  * Created by YangZH on 16-8-14
  * 下午10:28
@@ -63,7 +63,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         for (int index = 0; index < forbidden_hosts.size(); index++) {
             rules[index] = new IpSubnetFilterRule(forbidden_hosts.get(index), 32, IpFilterRuleType.REJECT);
         }
-        System.out.println("forbidden list:" + forbidden_hosts);
+//        System.out.println("forbidden list:" + forbidden_hosts);
         return rules;
     }
 }

@@ -111,7 +111,7 @@ public class Config {
         InetSocketAddress address = roundrobin_hosts
                 .get(rrindex.get() % roundrobin_hosts.size());
         rrindex.incrementAndGet();
-        System.out.println("roundRobin新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+//        System.out.println("roundRobin新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
         return address;
     }
 
@@ -137,7 +137,7 @@ public class Config {
             address = weight_hosts.get(0).getAddress();
             System.out.println("weight负载均衡失败");
         }
-        System.out.println("weight新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+//        System.out.println("weight新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
         return address;
     }
 
@@ -145,7 +145,7 @@ public class Config {
         long hash = EncryptUtil.ip_hash(ip);
         InetSocketAddress address = roundrobin_hosts
                 .get((int) hash % roundrobin_hosts.size());
-        System.out.println("ip_hash新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+//        System.out.println("ip_hash新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
         return address;
     }
 

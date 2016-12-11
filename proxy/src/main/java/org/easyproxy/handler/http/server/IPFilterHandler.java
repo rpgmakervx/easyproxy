@@ -1,4 +1,4 @@
-package org.easyproxy.handler.http;/**
+package org.easyproxy.handler.http.server;/**
  * Description : 
  * Created by YangZH on 16-8-22
  *  上午12:56
@@ -40,7 +40,6 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx,Object msg) throws Exception {
         HttpRequest request = (HttpRequest) msg;
-        System.out.printf("access: "+request.uri());
         if(this.handleForbidden(ctx)) {
             ctx.fireChannelRead(msg);
             return ;
@@ -49,8 +48,6 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
     }
 
     private boolean handleForbidden(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("localAddress: "+ctx.channel().localAddress());
-        System.out.println("remoteAddress: "+ctx.channel().remoteAddress());
         InetSocketAddress remoteAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         if(remoteAddress == null) {
             return false;

@@ -123,8 +123,8 @@ public class ProxyClient {
                     || n.equalsIgnoreCase("If-Modified-Since")
                     || n.equalsIgnoreCase("If-None-Match");
             if (!exclusive) {
-                httpRequest.setHeader(name.toString(), headers.get(name).toString());
 //                System.out.println(name.toString() + ":" + headers.get(name).toString());
+                httpRequest.setHeader(name.toString(), headers.get(name).toString());
             }
         }
 //        System.out.println("END header ---------------");

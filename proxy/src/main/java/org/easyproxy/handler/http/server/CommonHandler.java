@@ -1,4 +1,4 @@
-package org.easyproxy.handler.http;/**
+package org.easyproxy.handler.http.server;/**
  * Description : 
  * Created by YangZH on 16-9-27
  *  下午8:19
