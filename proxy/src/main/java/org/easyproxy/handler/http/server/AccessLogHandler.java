@@ -17,18 +17,16 @@ import org.easyproxy.log.Logger;
 import org.easyproxy.util.time.TimeUtil;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Description :
- * Created by YangZH on 16-8-16
+ * Created by code4j on 16-8-16
  * 下午2:19
  */
 
 public class AccessLogHandler extends ChannelInboundHandlerAdapter {
-    private ExecutorService threadPool = Executors.newCachedThreadPool();
     private Logger logger = new Logger();
+
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         InetSocketAddress addr = getAddress(ctx);
         String ip = addr.getHostString();

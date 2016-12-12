@@ -4,7 +4,7 @@ package org.easyproxy.resources;/**
  *  上午1:08
  */
 
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

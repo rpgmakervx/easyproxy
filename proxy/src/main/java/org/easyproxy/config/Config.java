@@ -1,4 +1,4 @@
-package org.easyproxy.util;/**
+package org.easyproxy.config;/**
  * Description : 
  * Created by YangZH on 16-8-14
  *  下午11:08

@@ -5,7 +5,7 @@ package org.easyproxy.util.mem;/**
  */
 
 import org.easyproxy.constants.Const;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;

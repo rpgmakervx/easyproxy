@@ -5,7 +5,7 @@ package test;/**
  */
 
 import org.easyproxy.pojo.WeightHost;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 import org.easyproxy.util.struct.JSONUtil;
 import org.easyproxy.util.struct.XmlUtil;
 import org.junit.Test;

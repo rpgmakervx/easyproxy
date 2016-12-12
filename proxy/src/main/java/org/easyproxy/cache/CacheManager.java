@@ -6,7 +6,7 @@ package org.easyproxy.cache;/**
 
 import org.easyproxy.cache.ehcache.EHcache;
 import org.easyproxy.cache.redis.RedisCache;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 import static org.easyproxy.constants.Const.*;
 

@@ -6,7 +6,7 @@ package org.easyproxy.startup;/**
 
 import org.easyproxy.constants.Const;
 import org.easyproxy.server.ProxyServer;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 import java.io.File;
 import java.io.IOException;

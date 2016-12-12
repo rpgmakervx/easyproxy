@@ -11,7 +11,7 @@ import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRuleType;
 import io.netty.handler.ipfilter.IpSubnetFilterRule;
 import org.easyproxy.constants.Const;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.easyproxy.handler.http.param.ParamGetter;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;

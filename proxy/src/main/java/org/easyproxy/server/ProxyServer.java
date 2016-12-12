@@ -12,7 +12,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyproxy.constants.Const;
 import org.easyproxy.handler.http.server.BaseServerChildHandler;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 /**
  * Description :

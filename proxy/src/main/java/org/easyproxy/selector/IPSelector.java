@@ -4,7 +4,7 @@ package org.easyproxy.selector;/**
  *  下午10:44
  */
 
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 import java.net.InetSocketAddress;
 

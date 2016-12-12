@@ -14,12 +14,4 @@
     </modules>
 
 
-    <dependencies>
-        <dependency>
-            <groupId>org.hyperic</groupId>
-            <artifactId>sigar</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-    </dependencies>
-
 </project>

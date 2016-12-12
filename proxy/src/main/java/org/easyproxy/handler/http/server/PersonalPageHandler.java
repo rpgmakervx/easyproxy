@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.easyproxy.constants.Const;
 import org.easyproxy.resources.Resource;
-import org.easyproxy.util.Config;
+import org.easyproxy.config.Config;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
