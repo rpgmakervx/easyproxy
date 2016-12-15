@@ -5,7 +5,7 @@ package org.easyproxy.util.mem;/**
  */
 
 import org.easyproxy.constants.Const;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -28,7 +28,7 @@ public class RedisUtil implements MemoryUtil{
     public RedisUtil(){
         JedisPoolConfig config = new JedisPoolConfig();
         //控制一个pool可分配多少个jedis实例，通过pool.getResource()来获取；
-        //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。
+        //控制一个pool最多有多少个状态为idle(空闲的)的jedis实例。.
         config.setMaxIdle(100);
         //表示当borrow(引入)一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException；
         config.setMaxWaitMillis(1000 * 30);
@@ -83,7 +83,7 @@ public class RedisUtil implements MemoryUtil{
         Jedis jedis = pool.getResource();
         jedis.set(key, value);
         if (expire){
-            int ttl = Config.getInt(Const.CACHE_TTL);
+            int ttl = XmlConfig.getInt(Const.CACHE_TTL);
             if (ttl < -1)
                 ttl = -1;
             jedis.expire(key, ttl);

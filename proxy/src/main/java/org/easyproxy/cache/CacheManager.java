@@ -6,7 +6,7 @@ package org.easyproxy.cache;/**
 
 import org.easyproxy.cache.ehcache.EHcache;
 import org.easyproxy.cache.redis.RedisCache;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import static org.easyproxy.constants.Const.*;
 
@@ -21,7 +21,7 @@ public class CacheManager {
     private static DefaultCache cache;
 
     static {
-        String cacheType = Config.getString(CACHE_TYPE);
+        String cacheType = XmlConfig.getString(CACHE_TYPE);
         switch (cacheType){
             case REDIS:
                 cache = new RedisCache();

@@ -10,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.easyproxy.handler.http.param.ParamGetter;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -30,15 +30,15 @@ public class APIHandler extends ChannelInboundHandlerAdapter {
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         HttpRequest request = (HttpRequest) msg;
         String uri = request.uri();
-        Pattern pattern = Pattern.compile(Config.getString(API_URI));
+        Pattern pattern = Pattern.compile(XmlConfig.getString(API_URI));
         if (!pattern.matcher(uri).matches()){
             ctx.fireChannelRead(request);
             return;
         }
         Map<String,Object> map = ParamGetter.getRequestParams(request);
         String strategy = (String) map.get(LB_STRATEGY);
-        Config.setLB_Strategy(strategy);
-        Config.listAll();
+        XmlConfig.setLB_Strategy(strategy);
+        XmlConfig.listAll();
         response(ctx, API_ACK.getBytes());
     }
 

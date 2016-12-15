@@ -4,7 +4,7 @@ package org.easyproxy.selector;/**
  *  下午10:44
  */
 
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import java.net.InetSocketAddress;
 
@@ -25,17 +25,17 @@ public class IPSelector {
     }
 
     public InetSocketAddress select(){
-        switch (Config.getString(LB_STRATEGY)){
+        switch (XmlConfig.getString(LB_STRATEGY)){
             case ROUNDROBIN:
-                return Config.roundRobin();
+                return XmlConfig.roundRobin();
             case WEIGHT_ROUNDROBIN:
-                return Config.weight();
+                return XmlConfig.weight();
             case IP_HASH:
-                return Config.ip_hash(ip);
+                return XmlConfig.ip_hash(ip);
             case LESS_CONNECT:
-                return Config.less_connect();
+                return XmlConfig.less_connect();
             default:
-                return Config.roundRobin();
+                return XmlConfig.roundRobin();
         }
     }
 }

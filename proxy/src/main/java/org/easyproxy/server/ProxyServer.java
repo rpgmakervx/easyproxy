@@ -12,7 +12,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyproxy.constants.Const;
 import org.easyproxy.handler.http.server.BaseServerChildHandler;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 /**
  * Description :
@@ -25,19 +25,19 @@ public class ProxyServer {
 
     public ProxyServer(String path) {
         if (Const.DEFAULT_CONFIGPATH.equals(path)){
-            new Config(Config.class.getResourceAsStream(path));
+            new XmlConfig(XmlConfig.class.getResourceAsStream(path));
         }else{
-            new Config(path);
+            new XmlConfig(path);
         }
 
     }
 
     public ProxyServer() {
-        new Config(Config.class.getResourceAsStream(Const.DEFAULT_CONFIGPATH));
+        new XmlConfig(XmlConfig.class.getResourceAsStream(Const.DEFAULT_CONFIGPATH));
     }
 
     public void startup() {
-        launch(Config.getInt(Const.LISTEN));
+        launch(XmlConfig.getInt(Const.LISTEN));
     }
     public void startup(int port) {
         launch(port);

@@ -45,4 +45,14 @@ public enum ConfigEnum {
         }
         return keys;
     }
+
+    public static String getVal(String key){
+        ConfigEnum[] enums = ConfigEnum.values();
+        for (ConfigEnum en : enums){
+            if (en.key.equals(key)){
+                return en.defVal;
+            }
+        }
+        return "";
+    }
 }

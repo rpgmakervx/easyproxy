@@ -4,7 +4,7 @@ package org.easyproxy.resources;/**
  *  上午1:08
  */
 
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,7 +43,7 @@ public class Resource {
             File resource = new File(resourceName);
             if (!resource.isDirectory()&&!resource.exists()){
                 System.out.println("Resource Not Found!!");
-                resource = new File(RESOURCES+Config.getString(NOTFOUND_PAGE));
+                resource = new File(RESOURCES+ XmlConfig.getString(NOTFOUND_PAGE));
             }
             FileInputStream fis = new FileInputStream(resource);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -63,19 +63,19 @@ public class Resource {
         StringBuffer buffer = new StringBuffer(RESOURCES);
         switch (code){
             case CODE_NOTFOUND:
-                buffer.append(Config.getString(NOTFOUND_PAGE));
+                buffer.append(XmlConfig.getString(NOTFOUND_PAGE));
                 break;
             case CODE_FORBIDDEN:
-                buffer.append(Config.getString(FORBIDDEN_PAGE));
+                buffer.append(XmlConfig.getString(FORBIDDEN_PAGE));
                 break;
             case CODE_SERVERERROR:
-                buffer.append(Config.getString(ERROR_PAGE));
+                buffer.append(XmlConfig.getString(ERROR_PAGE));
                 break;
             case CODE_BADREQUEST:
-                buffer.append(Config.getString(BADREQUEST_PAGE));
+                buffer.append(XmlConfig.getString(BADREQUEST_PAGE));
                 break;
             default:
-                buffer.append(Config.getString(NOTFOUND_PAGE));
+                buffer.append(XmlConfig.getString(NOTFOUND_PAGE));
                 break;
         }
         return buffer.toString();

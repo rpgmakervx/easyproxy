@@ -6,7 +6,7 @@ package org.easyproxy.startup;/**
 
 import org.easyproxy.constants.Const;
 import org.easyproxy.server.ProxyServer;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class EasyProxy {
         }
         System.out.println("config path-->"+config);
         ProxyServer server = new ProxyServer(config);
-        System.out.println("负载均衡策略:"+ Config.getString(Const.LB_STRATEGY));
+        System.out.println("负载均衡策略:"+ XmlConfig.getString(Const.LB_STRATEGY));
         server.startup();
     }
 

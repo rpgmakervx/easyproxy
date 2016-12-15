@@ -9,7 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.easyproxy.resources.Resource;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import java.util.regex.Pattern;
 
@@ -69,7 +69,7 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
      */
     private boolean antiLeechCheckUp(FullHttpRequest request) throws Exception {
         String referername = request.headers().get(HttpHeaderNames.REFERER);
-        String localhost = Config.getString(LOCALHOST);
+        String localhost = XmlConfig.getString(LOCALHOST);
         Pattern pattern = Pattern.compile(".*" + localhost + ".*");
         return referername != null && pattern.matcher(referername).matches();
 

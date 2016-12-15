@@ -76,7 +76,7 @@ public class PropertiesUtil {
                 }
                 configMap.put(FIREWALL_FILTER.key,filterlsit);
             }else{
-                configMap.put(name,getValue(String.valueOf(name),ConfigEnum.valueOf(name).defVal));
+                configMap.put(name,getValue(String.valueOf(name),ConfigEnum.getVal(name)));
             }
         }
     }
@@ -89,6 +89,7 @@ public class PropertiesUtil {
     public static void main(String[] args) {
         PropertiesUtil util = new PropertiesUtil("/home/code4j/IDEAWorkspace/easyproxy/proxy/src/main/resources/proxy.properties");
         System.out.println(JSONUtil.map2Json(util.configMap));
+
     }
 
 }

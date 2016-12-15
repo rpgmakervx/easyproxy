@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.easyproxy.constants.Const;
 import org.easyproxy.resources.Resource;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -30,8 +30,8 @@ public class PersonalPageHandler extends ChannelInboundHandlerAdapter {
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         HttpRequest request = (HttpRequest) msg;
         String uri = request.uri();
-        Pattern pattern = Pattern.compile(Config.getString(PERSONAL_URL));
-        boolean isProxy = Boolean.valueOf(Config.getString(Const.PROXY_SERVER));
+        Pattern pattern = Pattern.compile(XmlConfig.getString(PERSONAL_URL));
+        boolean isProxy = Boolean.valueOf(XmlConfig.getString(Const.PROXY_SERVER));
         if (!pattern.matcher(uri).matches()&&isProxy){
             ctx.fireChannelRead(request);
             return;

@@ -11,7 +11,7 @@ import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRuleType;
 import io.netty.handler.ipfilter.IpSubnetFilterRule;
 import org.easyproxy.constants.Const;
-import org.easyproxy.config.Config;
+import org.easyproxy.config.XmlConfig;
 
 import java.util.List;
 
@@ -25,11 +25,11 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        boolean isLogOpen = Boolean.valueOf(Config.getString(Const.LOGOPEN));
-        boolean isApiOpen = Boolean.valueOf(Config.getString(Const.APIOPEN));
-        boolean isProxy = Boolean.valueOf(Config.getString(Const.PROXY_SERVER));
-        boolean isAntileechOpen = Boolean.valueOf(Config.getString(Const.ANTILEECH_OPEN));
-        boolean hasIPFilter = Config.getForbiddenHosts().size() != 0;
+        boolean isLogOpen = Boolean.valueOf(XmlConfig.getString(Const.LOGOPEN));
+        boolean isApiOpen = Boolean.valueOf(XmlConfig.getString(Const.APIOPEN));
+        boolean isProxy = Boolean.valueOf(XmlConfig.getString(Const.PROXY_SERVER));
+        boolean isAntileechOpen = Boolean.valueOf(XmlConfig.getString(Const.ANTILEECH_OPEN));
+        boolean hasIPFilter = XmlConfig.getForbiddenHosts().size() != 0;
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
@@ -58,7 +58,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     }
 
     private IpSubnetFilterRule[] getForbiddenList() {
-        List<String> forbidden_hosts = Config.getForbiddenHosts();
+        List<String> forbidden_hosts = XmlConfig.getForbiddenHosts();
         IpSubnetFilterRule[] rules = new IpSubnetFilterRule[forbidden_hosts.size()];
         for (int index = 0; index < forbidden_hosts.size(); index++) {
             rules[index] = new IpSubnetFilterRule(forbidden_hosts.get(index), 32, IpFilterRuleType.REJECT);
