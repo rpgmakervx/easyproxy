@@ -93,7 +93,7 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 * listen： easyproxy监听的端口。
 * localhost: 设置主机ip地址或域名。
-* lb_strategy: 负载均衡策略关键字（轮询：roundrobin,带权轮询：weight_roundrobin,源地址哈希：source_iphash,最小链接分配：less_connection）。
+* lb_strategy: 负载均衡策略关键字（轮询：roundrobin,带权轮询：weight_roundrobin,源地址哈希：source_iphash,最小链接分配：least_connection）。
 
 **真实节点相关**：
 
@@ -126,6 +126,40 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 **ip黑名单相关**
 
 * filtered_ip：被拉黑的ip地址
+
+
+## 新增 properties 配置文件说明：
+
+**负载均衡器相关**：
+* proxy.server.listen: easyproxy监听的端口
+* proxy.server.lb_strategy： 负载均衡策略关键字（轮询：roundrobin,带权轮询：weight_roundrobin,源地址哈希：source_iphash,最小链接分配：least_connection）。
+
+**真实节点相关**：
+* proxy.server.nodes.ip: 真实节点ip地址
+* proxy.server.nodes.port: 真实节点端口号
+* proxy.server.nodes.weight: 真实节点的权重
+
+**缓存相关**：
+* proxy.cache.open: 缓存是否开启
+* proxy.cache.cache_ttl: 缓存失效时间
+* proxy.cache.type: 缓存介质（目前只有redis）。
+
+**静态资源相关**：
+* proxy.resource.static_uri: 静态资源uri(标准正则表达式写法)。
+* proxy.resource.notfound_page: 404页面
+* proxy.resource.bad_request: 400页面
+* proxy.resource.forbidden_page: 403页面
+* proxy.resource.error_page: 50x页面
+
+**日志相关**：
+* proxy.log.logopen: 日志是否开启
+
+**防盗链相关**：
+* proxy.antileech.open=false
+
+**应用防火墙相关**：
+* proxy.firewall.open=false
+* proxy.firewall.filter=192.168.117.1,192.168.0.110
 
 ## Thanks:
 感谢 [大魔王](https://github.com/andilyliao) 提供技术思路和部分方案
