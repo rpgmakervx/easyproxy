@@ -62,7 +62,7 @@ public class Const {
     public static final String ROUNDROBIN = "roundrobin";
     public static final String WEIGHT_ROUNDROBIN = "weight";
     public static final String IP_HASH = "ip_hash";
-    public static final String LESS_CONNECT = "less_connection";
+    public static final String LESS_CONNECT = "least_connection";
     //cache_type
     public static final String REDIS = "redis";
     public static final String EHCACHE = "ehcache";

@@ -128,7 +128,7 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 * filtered_ip：被拉黑的ip地址
 
 
-## 新增 properties 配置文件说明：
+## 2016.12.18 新增 properties 配置文件说明：
 
 **负载均衡器相关**：
 * proxy.server.listen: easyproxy监听的端口
