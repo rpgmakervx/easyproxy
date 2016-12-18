@@ -4,7 +4,9 @@ package org.easyproxy.selector;/**
  *  下午10:44
  */
 
-import org.easyproxy.config.XmlConfig;
+import org.easyproxy.config.ConfigEnum;
+import org.easyproxy.config.ConfigFactory;
+import org.easyproxy.config.PropertyConfig;
 
 import java.net.InetSocketAddress;
 
@@ -25,17 +27,23 @@ public class IPSelector {
     }
 
     public InetSocketAddress select(){
-        switch (XmlConfig.getString(LB_STRATEGY)){
+        String lb_strategy = "";
+        if (ConfigFactory.getConfig() instanceof PropertyConfig){
+            lb_strategy = ConfigFactory.getConfig().getString(ConfigEnum.LB_STRATEGY.key);
+        }else{
+            lb_strategy = ConfigFactory.getConfig().getString(LB_STRATEGY);
+        }
+        switch (lb_strategy){
             case ROUNDROBIN:
-                return XmlConfig.roundRobin();
+                return ConfigFactory.getConfig().roundRobin();
             case WEIGHT_ROUNDROBIN:
-                return XmlConfig.weight();
+                return ConfigFactory.getConfig().weight();
             case IP_HASH:
-                return XmlConfig.ip_hash(ip);
+                return ConfigFactory.getConfig().ip_hash(ip);
             case LESS_CONNECT:
-                return XmlConfig.less_connect();
+                return ConfigFactory.getConfig().least_connect();
             default:
-                return XmlConfig.roundRobin();
+                return ConfigFactory.getConfig().roundRobin();
         }
     }
 }

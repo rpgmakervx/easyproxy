@@ -4,8 +4,8 @@ package org.easyproxy.util.mem;/**
  *  上午10:50
  */
 
+import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.constants.Const;
-import org.easyproxy.config.XmlConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -83,7 +83,7 @@ public class RedisUtil implements MemoryUtil{
         Jedis jedis = pool.getResource();
         jedis.set(key, value);
         if (expire){
-            int ttl = XmlConfig.getInt(Const.CACHE_TTL);
+            int ttl = ConfigFactory.getConfig().getInt(Const.CACHE_TTL);
             if (ttl < -1)
                 ttl = -1;
             jedis.expire(key, ttl);

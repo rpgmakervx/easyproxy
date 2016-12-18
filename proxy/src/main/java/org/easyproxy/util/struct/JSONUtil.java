@@ -110,6 +110,9 @@ public class JSONUtil {
     public static JSONArray getArrayFromJSON(String key, JSONObject json) {
         return (JSONArray) json.get(key);
     }
+    public static List getListFromJson(String key, JSONObject json) {
+        return (List) json.get(key);
+    }
 
     public static void main(String[] args) {
         Map<String,Object> map = new HashMap<>();

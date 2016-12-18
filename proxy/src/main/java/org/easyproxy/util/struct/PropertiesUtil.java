@@ -55,17 +55,17 @@ public class PropertiesUtil {
                 }
                 configMap.put(NODE_IP.key,iplist);
             }else if (NODE_PORT.key.equals(name)){
-                List<String> portlsit = new ArrayList<>();
+                List<Integer> portlsit = new ArrayList<>();
                 String[] ports = getValue(String.valueOf(name), NODE_PORT.defVal).split(",");
                 for (String port : ports){
-                    portlsit.add(port);
+                    portlsit.add(Integer.valueOf(port));
                 }
-                configMap.put(NODE_IP.key,portlsit);
+                configMap.put(NODE_PORT.key,portlsit);
             }else if (NODE_WEIGHT.key.equals(name)){
-                List<String> weightlist = new ArrayList<>();
+                List<Integer> weightlist = new ArrayList<>();
                 String[] weights = getValue(String.valueOf(name), NODE_WEIGHT.defVal).split(",");
                 for (String weight : weights){
-                    weightlist.add(weight);
+                    weightlist.add(Integer.valueOf(weight));
                 }
                 configMap.put(NODE_WEIGHT.key,weightlist);
             }else if (FIREWALL_FILTER.key.equals(name)){
@@ -81,9 +81,12 @@ public class PropertiesUtil {
         }
     }
 
+    private String getValue(String key, Object defVal) {
+        return properties.getProperty(key, String.valueOf(defVal));
+    }
 
-    public String getValue(String key, String defVal) {
-        return properties.getProperty(key, defVal);
+    public Map<String,Object> getConfigMap(){
+        return configMap;
     }
 
     public static void main(String[] args) {

@@ -1,61 +1,61 @@
-package org.easyproxy.config;/**
- * Description :
- * Created by YangZH on 16-8-14
- * 下午11:08
- */
+package org.easyproxy.config;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.cache.CacheManager;
 import org.easyproxy.pojo.AccessRecord;
 import org.easyproxy.pojo.WeightHost;
 import org.easyproxy.util.codec.EncryptUtil;
 import org.easyproxy.util.struct.JSONUtil;
-import org.easyproxy.util.struct.XmlUtil;
+import org.easyproxy.util.struct.PropertiesUtil;
 
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.Collections;
 import java.util.List;
 
-import static org.easyproxy.constants.Const.*;
+import static org.easyproxy.config.ConfigEnum.FIREWALL_FILTER;
+import static org.easyproxy.config.ConfigEnum.LB_STRATEGY;
+import static org.easyproxy.constants.Const.PROXY_SERVER;
+
 
 /**
  * Description :
- * Created by YangZH on 16-8-14
- * 下午11:08
+ * Created by xingtianyu on 16-12-16
+ * 下午8:29
  */
 
-public class XmlConfig extends Config {
-    private XmlUtil util;
+public class PropertyConfig extends Config {
 
-    public XmlConfig(String path) {
+    private PropertiesUtil util;
+
+    public PropertyConfig(String path){
         configPath = path;
-        util = new XmlUtil(path);
-        params = JSONUtil.str2Json(util.xml2Json());
+        util = new PropertiesUtil(path);
+        params = new JSONObject(util.getConfigMap());
         init();
     }
 
-    public XmlConfig(InputStream is) {
-        util = new XmlUtil(is);
-        System.out.println("param: " + util.xml2Json());
-        params = JSONUtil.str2Json(util.xml2Json());
+    public PropertyConfig(InputStream is){
+        util = new PropertiesUtil(is);
+        params = new JSONObject(util.getConfigMap());
         init();
     }
+    @Override
     public void configLoadbalanceStrategy(){
-        JSONArray array = JSONUtil.getArrayFromJSON(PROXY_PASS, params);
-        if (array.size()==0){
+        List ips = JSONUtil.getListFromJson(ConfigEnum.NODE_IP.key, params);
+        List ports = JSONUtil.getListFromJson(ConfigEnum.NODE_PORT.key, params);
+        List weights = JSONUtil.getListFromJson(ConfigEnum.NODE_WEIGHT.key, params);
+        if (ips.size()==0){
             params.put(PROXY_SERVER,false);
             return;
         }
         params.put(PROXY_SERVER,true);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
-        for (int index = 0; index < array.size(); index++) {
-            JSONObject object = array.getJSONObject(index);
-            int weight = object.getIntValue(WEIGHT);
-            int port = object.getIntValue(PORT);
-            String host = object.getString(HOST);
-            InetSocketAddress address = new InetSocketAddress(host,port);
+        for (int index = 0; index < ips.size(); index++) {
+            String ip = (String) ips.get(index);
+            int port = (int) ports.get(index);
+            int weight = (int) weights.get(index);
+            InetSocketAddress address = new InetSocketAddress(ip,port);
             WeightHost whost = new WeightHost(address,weight<=0?1:weight);
             weight_hosts.add(whost);
             roundrobin_hosts.add(address);
@@ -66,13 +66,14 @@ public class XmlConfig extends Config {
         gcd = getMaxDivisor(weight_hosts);
     }
 
+    @Override
     public void configForbiddenHosts(){
-        JSONArray array = JSONUtil.getArrayFromJSON(IP_FILTER, params);
+        List array = JSONUtil.getListFromJson(FIREWALL_FILTER.key, params);
         for (int index=0;index<array.size();index++){
-            JSONObject object = array.getJSONObject(index);
-            forbidden_hosts.add(object.getString(FILTERED_IP));
+            forbidden_hosts.add((String) array.get(index));
         }
     }
+
     @Override
     public InetSocketAddress roundRobin() {
         InetSocketAddress address = roundrobin_hosts
@@ -81,7 +82,6 @@ public class XmlConfig extends Config {
         return address;
     }
 
-    @Override
     public InetSocketAddress weight() {
         InetSocketAddress address = null;
         while (true) {
@@ -103,6 +103,7 @@ public class XmlConfig extends Config {
             address = weight_hosts.get(0).getAddress();
             System.out.println("weight负载均衡失败");
         }
+//        System.out.println("weight新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
         return address;
     }
 
@@ -111,12 +112,14 @@ public class XmlConfig extends Config {
         long hash = EncryptUtil.ip_hash(ip);
         InetSocketAddress address = roundrobin_hosts
                 .get((int) hash % roundrobin_hosts.size());
+//        System.out.println("ip_hash新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
         return address;
     }
 
     @Override
     public InetSocketAddress least_connect() {
         AccessRecord minRecord = Collections.min(CacheManager.getCache().getAllAccessRecord());
+        System.out.println(Thread.currentThread().getName() + " : AccessRecord--------: " + minRecord);
         String key = minRecord.getKey();
         String[] hostport = key.split("-")[0].split(":");
         return new InetSocketAddress(hostport[0], Integer.parseInt(hostport[1]));
@@ -143,12 +146,16 @@ public class XmlConfig extends Config {
 
     @Override
     public void setLB_Strategy(String strategy) {
-        params.put(LB_STRATEGY, strategy);
+        params.put(LB_STRATEGY.key, strategy);
     }
 
     @Override
     public String getConfigPath() {
         return configPath;
+    }
+
+    public void listAll() {
+        System.out.println(JSONObject.toJSONString(params));
     }
 
 }

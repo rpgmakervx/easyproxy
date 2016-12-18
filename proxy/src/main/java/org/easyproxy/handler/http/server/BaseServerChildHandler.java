@@ -10,10 +10,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRuleType;
 import io.netty.handler.ipfilter.IpSubnetFilterRule;
+import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.constants.Const;
-import org.easyproxy.config.XmlConfig;
 
 import java.util.List;
+
 
 /**
  * Description :
@@ -25,11 +26,11 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        boolean isLogOpen = Boolean.valueOf(XmlConfig.getString(Const.LOGOPEN));
-        boolean isApiOpen = Boolean.valueOf(XmlConfig.getString(Const.APIOPEN));
-        boolean isProxy = Boolean.valueOf(XmlConfig.getString(Const.PROXY_SERVER));
-        boolean isAntileechOpen = Boolean.valueOf(XmlConfig.getString(Const.ANTILEECH_OPEN));
-        boolean hasIPFilter = XmlConfig.getForbiddenHosts().size() != 0;
+        boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.LOGOPEN));
+        boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.APIOPEN));
+        boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.PROXY_SERVER));
+        boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.ANTILEECH_OPEN));
+        boolean hasIPFilter = ConfigFactory.getConfig().getForbiddenHosts().size() != 0;
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
@@ -58,7 +59,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     }
 
     private IpSubnetFilterRule[] getForbiddenList() {
-        List<String> forbidden_hosts = XmlConfig.getForbiddenHosts();
+        List<String> forbidden_hosts = ConfigFactory.getConfig().getForbiddenHosts();
         IpSubnetFilterRule[] rules = new IpSubnetFilterRule[forbidden_hosts.size()];
         for (int index = 0; index < forbidden_hosts.size(); index++) {
             rules[index] = new IpSubnetFilterRule(forbidden_hosts.get(index), 32, IpFilterRuleType.REJECT);

@@ -36,7 +36,8 @@ public class Const {
     //filter
     public static final String INNER_IMAGE = "url\\(.*\\.(png|ico|jpg|jpeg|bmp|swf|swf)\\)";
 
-    public static final String DEFAULT_CONFIGPATH = "/proxy.xml";
+    public static final String XML_CONFIGFILE = "proxy.xml";
+    public static final String DEFAULT_CONFIGFILE = "proxy.properties";
 
     //config file
     public static final String PROTOCOLNAME = "http";
@@ -99,6 +100,7 @@ public class Const {
     //directory structure
 //    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
     public static final String DIR = System.getProperty("easyproxy.home")+File.separator;
+    public static final String CONF = DIR+"conf"+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String TMP = DIR+"tmp"+File.separator;
     public static final String RESOURCES = DIR+"resources"+File.separator;
@@ -107,6 +109,13 @@ public class Const {
     //file name
     public static final String ACCESSLOG = LOGS+"access.log";
     public static final String NULLVALUE = "-";
+    //配置文件前缀名
+    public static final String CONFIGNAME = "proxy";
+    //配置文件后缀名
+    public static final String XMLCONFIG = "xml";
+    public static final String PROPCONFIG = "properties";
+    public static final String JSONCONFIG = "json";
+    public static final String YAMLCONFIG = "yaml";
 
     //redis static key
     public static final String LIKE = "*";

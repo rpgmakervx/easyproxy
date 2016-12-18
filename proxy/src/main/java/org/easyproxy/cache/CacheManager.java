@@ -6,7 +6,11 @@ package org.easyproxy.cache;/**
 
 import org.easyproxy.cache.ehcache.EHcache;
 import org.easyproxy.cache.redis.RedisCache;
-import org.easyproxy.config.XmlConfig;
+import org.easyproxy.config.ConfigEnum;
+import org.easyproxy.config.ConfigFactory;
+import org.easyproxy.config.PropertyConfig;
+
+import java.net.InetSocketAddress;
 
 import static org.easyproxy.constants.Const.*;
 
@@ -20,8 +24,14 @@ public class CacheManager {
 
     private static DefaultCache cache;
 
-    static {
-        String cacheType = XmlConfig.getString(CACHE_TYPE);
+    public static void init(){
+        System.out.println("config type --> "+ConfigFactory.getConfig());
+        String cacheType = "redis";
+        if (ConfigFactory.getConfig() instanceof PropertyConfig){
+            cacheType = ConfigFactory.getConfig().getString(ConfigEnum.CACHE_TYPE.key);
+        }else {
+            cacheType = ConfigFactory.getConfig().getString(CACHE_TYPE);
+        }
         switch (cacheType){
             case REDIS:
                 cache = new RedisCache();
@@ -31,6 +41,16 @@ public class CacheManager {
                 break;
             case JAVA:
                 break;
+        }
+    }
+
+    /**
+     * 初始化缓存中的值，现阶段只有 每个ip对应的连接数
+     */
+    public static void initCacheValue(){
+        cache = CacheManager.getCache();
+        for (InetSocketAddress address:ConfigFactory.getConfig().getServers()){
+            cache.addAccessRecord(address.getHostString()+":"+address.getPort()+ACCESSRECORD);
         }
     }
 

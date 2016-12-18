@@ -4,11 +4,11 @@ package org.easyproxy.startup;/**
  *  下午2:28
  */
 
-import org.easyproxy.constants.Const;
+import org.easyproxy.config.ConfigEnum;
+import org.easyproxy.config.ConfigFactory;
+import org.easyproxy.init.AppInit;
 import org.easyproxy.server.ProxyServer;
-import org.easyproxy.config.XmlConfig;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -21,18 +21,18 @@ public class EasyProxy {
 
 
     public static void main(final String[] args) throws IOException {
-        String home = System.getProperty("easyproxy.home");
-        if (home == null){
-            System.setProperty("easyproxy.home",System.getProperty("user.dir")+File.separator);
-        }
-        System.out.println("easyproxy.home --> "+System.getProperty("easyproxy.home"));
-        String config = Const.DEFAULT_CONFIGPATH;
+        String config = "";
         if (args.length>0){
             config = args[0];
         }
-        System.out.println("config path-->"+config);
-        ProxyServer server = new ProxyServer(config);
-        System.out.println("负载均衡策略:"+ XmlConfig.getString(Const.LB_STRATEGY));
+        ConfigFactory.setConfigDir(config);
+        //初始化配置信息
+        AppInit init = new AppInit();
+        init.initial();
+        System.out.println("easyproxy.home --> "+System.getProperty("easyproxy.home"));
+        System.out.println("config path-->"+ConfigFactory.getConfig().getConfigPath());
+        ProxyServer server = new ProxyServer();
+        System.out.println("负载均衡策略:"+ ConfigFactory.getConfig().getString(ConfigEnum.LB_STRATEGY.key));
         server.startup();
     }
 

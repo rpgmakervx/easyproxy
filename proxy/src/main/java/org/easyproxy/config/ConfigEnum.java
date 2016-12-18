@@ -11,13 +11,13 @@ import java.util.List;
 
 public enum ConfigEnum {
 
-    LISTEN("proxy.server.listen", "9999", "服务器监听的端口"),
+    LISTEN("proxy.server.listen", 9999, "服务器监听的端口"),
     LB_STRATEGY("proxy.server.lb_strategy", "roundrobin", "负载均衡策略"),
     NODE_IP("proxy.server.nodes.ip", "", "负载节点ip"),
     NODE_PORT("proxy.server.nodes.port", "", "负载节点端口号"),
     NODE_WEIGHT("proxy.server.nodes.weight", "", "负载节点权重"),
     CACHE_OPEN("proxy.cache.open", "false", "缓存是否打开"),
-    CACHE_TTL("proxy.cache.cache_ttl", "30", "缓存失效时间"),
+    CACHE_TTL("proxy.cache.cache_ttl", 30, "缓存失效时间"),
     CACHE_TYPE("proxy.cache.type", "redis", "缓存类型"),
     STATIC_URI("proxy.resource.static_uri", "/easyproxy/.*", "静态资源uri"),
     NOTFOUND_PAGE("proxy.resource.notfound_page", "404page.html", "404页面"),
@@ -29,10 +29,10 @@ public enum ConfigEnum {
     FIREWALL_FILTER("proxy.firewall.filter", "", "过滤的ip组");
 
     public String key;
-    public String defVal;
+    public Object defVal;
     public String note;
 
-    ConfigEnum(String key, String defVal, String note) {
+    ConfigEnum(String key, Object defVal, String note) {
         this.key = key;
         this.defVal = defVal;
         this.note = note;
@@ -46,7 +46,7 @@ public enum ConfigEnum {
         return keys;
     }
 
-    public static String getVal(String key){
+    public static Object getVal(String key){
         ConfigEnum[] enums = ConfigEnum.values();
         for (ConfigEnum en : enums){
             if (en.key.equals(key)){
