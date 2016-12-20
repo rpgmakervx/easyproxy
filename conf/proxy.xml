@@ -10,7 +10,7 @@
     <!-- cache_size=""-->
     <cache_strategy proxy.cache.ttl="20" proxy.cache.type="redis"/>
     <ehcache />
-    <!--personal_uri api_uri write your regex -->
+    <!--static_uri api_uri write your regex -->
     <resource proxy.resource.static_uri="/static/.*"
               proxy.resource.notfound_page="404page.html"
               proxy.resource.error_page="error.html"
@@ -21,10 +21,6 @@
     <!--api is start? uri and param-->
     <api proxy.api.open="false"
          proxy.api.uri="/easyproxy.*"  />
-    <!--<cache_url>-->
-        <!--<request url="" method="" />-->
-        <!--<request url="" method="" />-->
-    <!--</cache_url>-->
     <ip_filter>
         <filter proxy.firewall.filter="192.168.117.1" />
         <filter proxy.firewall.filter="127.0.0.1" />

@@ -50,20 +50,29 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 首先请配置easyproxy的localhost，node等相关信息如下：
 ```xml
 <proxy>
-
-    <server listen="9524" localhost="127.0.0.1" lb_strategy="weight"/>
+    <!--lb_strategy range:roundrobin,weight_roundrobin,ip_hash,less_connection-->
+    <server proxy.server.listen="9524" proxy.server.localhost="127.0.0.1" proxy.server.lb_strategy="weight"/>
     <proxy_pass>
-        <node host="192.168.89.1" port="8081" weight="4"/>
-        <node host="192.168.89.1" port="8080" weight="6"/>
+        <node proxy.server.nodes.ip="192.168.89.1" proxy.server.nodes.port="8080" proxy.server.nodes.weight="4"/>
+        <node proxy.server.nodes.ip="192.168.89.1" proxy.server.nodes.port="8081" proxy.server.nodes.weight="6"/>
     </proxy_pass>
-    <cache_strategy cache_ttl="30" cache_type="redis"/>
-    <resource personal_uri="/static/.*" notfound_page="404page.html" error_page="error.html"
-            forbidden_page="forbidden.html" bad_request="badrequest.html"/>
-    <log logopen="true" />
-    <api apiopen="true" api_uri="/easyproxy.*"  />
+    <!-- cache_size=""-->
+    <cache_strategy proxy.cache.ttl="20" proxy.cache.type="redis"/>
+    <ehcache />
+    <!--static_uri api_uri write your regex -->
+    <resource proxy.resource.static_uri="/static/.*"
+              proxy.resource.notfound_page="404page.html"
+              proxy.resource.error_page="error.html"
+              proxy.resource.forbidden_page="forbidden.html"
+              proxy.resource.bad_request="badrequest.html"/>
+    <log proxy.log.logopen="true" />
+    <antileech proxy.antileech.open="false"/>
+    <!--api is start? uri and param-->
+    <api proxy.api.open="false"
+         proxy.api.uri="/easyproxy.*"  />
     <ip_filter>
-        <!--<filter filtered_ip="192.168.117.1" />-->
-        <!--<filter filtered_ip="192.168.89.1" />-->
+        <filter proxy.firewall.filter="192.168.117.1" />
+        <filter proxy.firewall.filter="127.0.0.1" />
     </ip_filter>
 </proxy>
 ```
