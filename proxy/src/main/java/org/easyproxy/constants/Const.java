@@ -43,22 +43,22 @@ public class Const {
     public static final String PROTOCOLNAME = "http";
     //server itself
     public static final String PROXY = "proxy";
-    public static final String LOCALHOST = "localhost";
-    public static final String LISTEN = "listen";
+    public static final String LOCALHOST = "proxy.server.localhost";
+    public static final String LISTEN = "proxy.server.listen";
     //real server settings
     //proxy_server 配置文件不存在，是检测到proxy_pass下没有配置后中间件自己设置的
     public static final String PROXY_SERVER = "proxy_server";
     public static final String PROXY_PASS = "proxy_pass";
-    public static final String WEIGHT = "weight";
-    public static final String HOST = "host";
-    public static final String PORT = "port";
+    public static final String WEIGHT = "proxy.server.nodes.weight";
+    public static final String HOST = "proxy.server.nodes.ip";
+    public static final String PORT = "proxy.server.nodes.port";
 
     //cache_strategy
-    public static final String CACHE_TTL = "cache_ttl";
+    public static final String CACHE_TTL = "proxy.cache.ttl";
     public static final String CACHE_SIZE = "cache_size";
-    public static final String CACHE_TYPE = "cache_type";
+    public static final String CACHE_TYPE = "proxy.cache.type";
     //lb_strategy
-    public static final String LB_STRATEGY = "lb_strategy";
+    public static final String LB_STRATEGY = "proxy.server.lb_strategy";
     public static final String ROUNDROBIN = "roundrobin";
     public static final String WEIGHT_ROUNDROBIN = "weight";
     public static final String IP_HASH = "ip_hash";
@@ -75,23 +75,23 @@ public class Const {
     public static final String METHOD = "method";
     //ip_filter
     public static final String IP_FILTER = "ip_filter";
-    public static final String FILTERED_IP = "filtered_ip";
+    public static final String FILTERED_IP = "proxy.firewall.filter";
     //static resource page
-    public static final String NOTFOUND_PAGE = "notfound_page";
-    public static final String ERROR_PAGE = "error_page";
-    public static final String FORBIDDEN_PAGE = "forbidden_page";
-    public static final String BADREQUEST_PAGE = "bad_request";
+    public static final String NOTFOUND_PAGE = "proxy.firewall.notfound_page";
+    public static final String ERROR_PAGE = "proxy.firewall.error_page";
+    public static final String FORBIDDEN_PAGE = "proxy.firewall.forbidden_page";
+    public static final String BADREQUEST_PAGE = "proxy.firewall.bad_request";
 
     //API
-    public static final String APIOPEN = "apiopen";
-    public static final String API_URI = "api_uri";
+    public static final String APIOPEN = "proxy.api.open";
+    public static final String API_URI = "proxy.api.uri";
     //log open
-    public static final String LOGOPEN = "logopen";
+    public static final String LOGOPEN = "proxy.log.logopen";
     //anti-leech open
-    public static final String ANTILEECH_OPEN = "antileech_open";
+    public static final String ANTILEECH_OPEN = "proxy.antileech.open";
 
     //personal uri
-    public static final String PERSONAL_URL = "personal_uri";
+    public static final String PERSONAL_URL = "proxy.resource.static_uri";
 
 
     //redis:

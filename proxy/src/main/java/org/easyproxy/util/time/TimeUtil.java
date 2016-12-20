@@ -10,8 +10,8 @@ import java.util.Date;
  */
 
 public class TimeUtil {
-    private static SimpleDateFormat completeFormat = new SimpleDateFormat("yyyy-MM-DD hh:mm:ss");
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-DD");
+    private static SimpleDateFormat completeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String getNowTime(){
         return completeFormat.format(new Date());

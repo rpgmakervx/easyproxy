@@ -1,30 +1,54 @@
 method:GET
-remote-ip:127.0.0.1
+visit time:2016-12-20 15:23:41
+remote-ip:192.168.89.1
 uri:/
 referer:-
-user-agent:null
+user-agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
 body:
 
-method:GET
-remote-ip:127.0.0.1
-uri:/
-referer:-
-user-agent:null
-body:
 
 method:GET
-remote-ip:127.0.0.1
-uri:/
-referer:-
-user-agent:java/HttpUtils
+visit time:2016-12-20 15:23:42
+remote-ip:192.168.89.1
+uri:/favicon.ico
+referer:http://192.168.89.1:9524/
+user-agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
 body:
 
+
 method:GET
-visit time:2016-12-346 09:10:03
-remote-ip:127.0.0.1
+visit time:2016-12-20 15:23:42
+remote-ip:192.168.89.1
 uri:/
 referer:-
-user-agent:java/HttpUtils
+user-agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
+body:
+
+
+method:GET
+visit time:2016-12-20 15:23:42
+remote-ip:192.168.89.1
+uri:/favicon.ico
+referer:http://192.168.89.1:9524/
+user-agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
+body:
+
+
+method:GET
+visit time:2016-12-20 15:23:43
+remote-ip:192.168.89.1
+uri:/
+referer:-
+user-agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
+body:
+
+
+method:GET
+visit time:2016-12-20 15:23:43
+remote-ip:192.168.89.1
+uri:/favicon.ico
+referer:http://192.168.89.1:9524/
+user-agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36
 body:
 
 
