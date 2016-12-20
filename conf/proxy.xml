@@ -8,7 +8,7 @@
         <node proxy.server.nodes.ip="192.168.89.1" proxy.server.nodes.port="8081" proxy.server.nodes.weight="6"/>
     </proxy_pass>
     <!-- cache_size=""-->
-    <cache_strategy proxy.cache.cache_ttl="20" proxy.cache.type="redis"/>
+    <cache_strategy proxy.cache.ttl="20" proxy.cache.type="redis"/>
     <ehcache />
     <!--personal_uri api_uri write your regex -->
     <resource proxy.resource.static_uri="/static/.*"
