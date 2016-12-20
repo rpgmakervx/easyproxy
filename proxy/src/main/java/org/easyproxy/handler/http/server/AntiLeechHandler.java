@@ -13,7 +13,9 @@ import org.easyproxy.resources.Resource;
 
 import java.util.regex.Pattern;
 
-import static org.easyproxy.constants.Const.*;
+import static org.easyproxy.config.ConfigEnum.LOCALHOST;
+import static org.easyproxy.constants.Const.CODE_FORBIDDEN;
+import static org.easyproxy.constants.Const.IMAGE;
 
 /**
  * Description : SocksServerHandler
@@ -63,13 +65,12 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
     /**
      * 根据请球头的referer校验是否是盗链者
      *
-     * @param headers
      * @return
      * @throws Exception
      */
     private boolean antiLeechCheckUp(FullHttpRequest request) throws Exception {
         String referername = request.headers().get(HttpHeaderNames.REFERER);
-        String localhost = ConfigFactory.getConfig().getString(LOCALHOST);
+        String localhost = ConfigFactory.getConfig().getString(LOCALHOST.key);
         Pattern pattern = Pattern.compile(".*" + localhost + ".*");
         return referername != null && pattern.matcher(referername).matches();
 

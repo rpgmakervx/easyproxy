@@ -57,7 +57,7 @@ public class JSONTest {
             InetSocketAddress address = host.getAddress();
             int weight = host.getWeight();
             Map<String,Object> map = new HashMap<String,Object>();
-            map.put(HOST,address.getHostName());
+            map.put(IP,address.getHostName());
             map.put(PORT,address.getPort());
             map.put(WEIGHT,weight);
             hostsmap.add(map);

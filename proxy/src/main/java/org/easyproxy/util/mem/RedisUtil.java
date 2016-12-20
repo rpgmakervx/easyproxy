@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.easyproxy.config.ConfigEnum.CACHE_TTL;
+
+
 /**
  * Description :
  * Created by YangZH on 16-6-4
@@ -83,7 +86,7 @@ public class RedisUtil implements MemoryUtil{
         Jedis jedis = pool.getResource();
         jedis.set(key, value);
         if (expire){
-            int ttl = ConfigFactory.getConfig().getInt(Const.CACHE_TTL);
+            int ttl = ConfigFactory.getConfig().getInt(CACHE_TTL.key);
             if (ttl < -1)
                 ttl = -1;
             jedis.expire(key, ttl);

@@ -11,9 +11,11 @@ import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRuleType;
 import io.netty.handler.ipfilter.IpSubnetFilterRule;
 import org.easyproxy.config.ConfigFactory;
-import org.easyproxy.constants.Const;
 
 import java.util.List;
+
+import static org.easyproxy.config.ConfigEnum.*;
+import static org.easyproxy.constants.Const.ISPROXY;
 
 
 /**
@@ -26,10 +28,10 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.LOGOPEN));
-        boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.APIOPEN));
-        boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.PROXY_SERVER));
-        boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.ANTILEECH_OPEN));
+        boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(LOG_OPEN.key));
+        boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(API_OPEN.key));
+        boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(ISPROXY));
+        boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ANTILEECH_OPEN.key));
         boolean hasIPFilter = ConfigFactory.getConfig().getForbiddenHosts().size() != 0;
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
@@ -64,7 +66,6 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         for (int index = 0; index < forbidden_hosts.size(); index++) {
             rules[index] = new IpSubnetFilterRule(forbidden_hosts.get(index), 32, IpFilterRuleType.REJECT);
         }
-//        System.out.println("forbidden list:" + forbidden_hosts);
         return rules;
     }
 }

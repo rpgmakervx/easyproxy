@@ -16,7 +16,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static org.easyproxy.constants.Const.*;
+import static org.easyproxy.config.ConfigEnum.APIURI;
+import static org.easyproxy.config.ConfigEnum.LB_STRATEGY;
+import static org.easyproxy.constants.Const.API_ACK;
 
 
 /**
@@ -31,13 +33,13 @@ public class APIHandler extends ChannelInboundHandlerAdapter {
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         HttpRequest request = (HttpRequest) msg;
         String uri = request.uri();
-        Pattern pattern = Pattern.compile(ConfigFactory.getConfig().getString(API_URI));
+        Pattern pattern = Pattern.compile(ConfigFactory.getConfig().getString(APIURI.key));
         if (!pattern.matcher(uri).matches()){
             ctx.fireChannelRead(request);
             return;
         }
         Map<String,Object> map = ParamGetter.getRequestParams(request);
-        String strategy = (String) map.get(LB_STRATEGY);
+        String strategy = (String) map.get(LB_STRATEGY.key);
         ConfigFactory.getConfig().setLB_Strategy(strategy);
         response(ctx, API_ACK.getBytes());
     }

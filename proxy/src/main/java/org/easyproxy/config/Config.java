@@ -7,14 +7,11 @@ package org.easyproxy.config;/**
 import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.cache.DefaultCache;
 import org.easyproxy.pojo.WeightHost;
-import org.easyproxy.util.struct.JSONUtil;
 
 import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.easyproxy.constants.Const.*;
 
 /**
  * Description : 
@@ -44,6 +41,7 @@ abstract public class Config {
     protected String configPath;
 
     protected void init() {
+        System.out.println("params --> \n"+params);
         typeMapper.put(this.getClass(),params);
         configLoadbalanceStrategy();
         configForbiddenHosts();
@@ -75,24 +73,6 @@ abstract public class Config {
         return roundrobin_hosts;
     }
 
-    /**
-     * 动态添加节点
-     * @param hosts
-     */
-    public void setNodes(List<WeightHost> hosts) {
-        List<Map<String, Object>> hostsmap = new CopyOnWriteArrayList<Map<String, Object>>();
-        for (WeightHost host : hosts) {
-            InetSocketAddress address = host.getAddress();
-            int weight = host.getWeight();
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put(HOST, address.getHostName());
-            map.put(PORT, address.getPort());
-            map.put(WEIGHT, weight);
-            hostsmap.add(map);
-        }
-        params.put(PROXY_PASS, JSONUtil.list2Json(hostsmap));
-        configLoadbalanceStrategy();
-    }
 
     protected int getMaxDivisor(List<WeightHost> hosts) {
         int minN = Collections.min(hosts).getWeight();

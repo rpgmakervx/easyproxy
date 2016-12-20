@@ -4,8 +4,6 @@ package org.easyproxy.config;/**
  * 下午11:08
  */
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.cache.CacheManager;
 import org.easyproxy.pojo.AccessRecord;
 import org.easyproxy.pojo.WeightHost;
@@ -19,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.easyproxy.constants.Const.*;
+
 
 /**
  * Description :
@@ -42,20 +41,22 @@ public class XmlConfig extends Config {
         params = JSONUtil.str2Json(util.xml2Json());
         init();
     }
+    @Override
     public void configLoadbalanceStrategy(){
-        JSONArray array = JSONUtil.getArrayFromJSON(PROXY_PASS, params);
-        if (array.size()==0){
-            params.put(PROXY_SERVER,false);
+        List ips = JSONUtil.getListFromJson(IP, params);
+        List ports = JSONUtil.getListFromJson(PORT, params);
+        List weights = JSONUtil.getListFromJson(WEIGHT, params);
+        if (ips.size()==0){
+            params.put(ISPROXY,false);
             return;
         }
-        params.put(PROXY_SERVER,true);
+        params.put(ISPROXY,true);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
-        for (int index = 0; index < array.size(); index++) {
-            JSONObject object = array.getJSONObject(index);
-            int weight = object.getIntValue(WEIGHT);
-            int port = object.getIntValue(PORT);
-            String host = object.getString(HOST);
-            InetSocketAddress address = new InetSocketAddress(host,port);
+        for (int index = 0; index < ips.size(); index++) {
+            String ip = (String) ips.get(index);
+            int port = (int) ports.get(index);
+            int weight = (int) weights.get(index);
+            InetSocketAddress address = new InetSocketAddress(ip,port);
             WeightHost whost = new WeightHost(address,weight<=0?1:weight);
             weight_hosts.add(whost);
             roundrobin_hosts.add(address);
@@ -66,11 +67,11 @@ public class XmlConfig extends Config {
         gcd = getMaxDivisor(weight_hosts);
     }
 
+    @Override
     public void configForbiddenHosts(){
-        JSONArray array = JSONUtil.getArrayFromJSON(IP_FILTER, params);
+        List array = JSONUtil.getListFromJson(FILTERIP, params);
         for (int index=0;index<array.size();index++){
-            JSONObject object = array.getJSONObject(index);
-            forbidden_hosts.add(object.getString(FILTERED_IP));
+            forbidden_hosts.add((String) array.get(index));
         }
     }
     @Override

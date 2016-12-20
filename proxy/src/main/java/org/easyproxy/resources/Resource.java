@@ -12,7 +12,9 @@ import java.io.FileInputStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
+import static org.easyproxy.config.ConfigEnum.*;
 import static org.easyproxy.constants.Const.*;
+
 /**
  * Description :
  * Created by YangZH on 16-8-22
@@ -43,7 +45,7 @@ public class Resource {
             File resource = new File(resourceName);
             if (!resource.isDirectory()&&!resource.exists()){
                 System.out.println("Resource Not Found!!");
-                resource = new File(RESOURCES+ ConfigFactory.getConfig().getString(NOTFOUND_PAGE));
+                resource = new File(RESOURCES+ ConfigFactory.getConfig().getString(NOTFOUND_PAGE.key));
             }
             FileInputStream fis = new FileInputStream(resource);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -63,19 +65,19 @@ public class Resource {
         StringBuffer buffer = new StringBuffer(RESOURCES);
         switch (code){
             case CODE_NOTFOUND:
-                buffer.append(ConfigFactory.getConfig().getString(NOTFOUND_PAGE));
+                buffer.append(ConfigFactory.getConfig().getString(NOTFOUND_PAGE.key));
                 break;
             case CODE_FORBIDDEN:
-                buffer.append(ConfigFactory.getConfig().getString(FORBIDDEN_PAGE));
+                buffer.append(ConfigFactory.getConfig().getString(FORBIDDEN_PAGE.key));
                 break;
             case CODE_SERVERERROR:
-                buffer.append(ConfigFactory.getConfig().getString(ERROR_PAGE));
+                buffer.append(ConfigFactory.getConfig().getString(ERROR_PAGE.key));
                 break;
             case CODE_BADREQUEST:
-                buffer.append(ConfigFactory.getConfig().getString(BADREQUEST_PAGE));
+                buffer.append(ConfigFactory.getConfig().getString(BADREQUEST_PAGE.key));
                 break;
             default:
-                buffer.append(ConfigFactory.getConfig().getString(NOTFOUND_PAGE));
+                buffer.append(ConfigFactory.getConfig().getString(NOTFOUND_PAGE.key));
                 break;
         }
         return buffer.toString();

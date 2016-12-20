@@ -45,7 +45,9 @@ public class ConfigFactory {
         }
         if (configNames.contains(PROPCONFIG)) {
             config = new PropertyConfig(CONF + DEFAULT_CONFIGFILE);
+            System.out.println("通过proxy.properties启动");
         } else if (configNames.contains(XMLCONFIG)) {
+            System.out.println("通过proxy.xml启动");
             config = new XmlConfig(CONF + XML_CONFIGFILE);
         }
     }

@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.easyproxy.config.ConfigEnum.FIREWALL_FILTER;
 import static org.easyproxy.config.ConfigEnum.LB_STRATEGY;
-import static org.easyproxy.constants.Const.PROXY_SERVER;
+import static org.easyproxy.constants.Const.*;
 
 
 /**
@@ -42,14 +42,14 @@ public class PropertyConfig extends Config {
     }
     @Override
     public void configLoadbalanceStrategy(){
-        List ips = JSONUtil.getListFromJson(ConfigEnum.NODE_IP.key, params);
-        List ports = JSONUtil.getListFromJson(ConfigEnum.NODE_PORT.key, params);
-        List weights = JSONUtil.getListFromJson(ConfigEnum.NODE_WEIGHT.key, params);
+        List ips = JSONUtil.getListFromJson(IP, params);
+        List ports = JSONUtil.getListFromJson(PORT, params);
+        List weights = JSONUtil.getListFromJson(WEIGHT, params);
         if (ips.size()==0){
-            params.put(PROXY_SERVER,false);
+            params.put(ISPROXY,false);
             return;
         }
-        params.put(PROXY_SERVER,true);
+        params.put(ISPROXY,true);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
         for (int index = 0; index < ips.size(); index++) {
             String ip = (String) ips.get(index);

@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.util.*;
 
 import static org.easyproxy.config.ConfigEnum.*;
+import static org.easyproxy.constants.Const.IP;
+import static org.easyproxy.constants.Const.PORT;
+import static org.easyproxy.constants.Const.WEIGHT;
 
 /**
  * Description :
@@ -47,27 +50,23 @@ public class PropertiesUtil {
         Enumeration<?> enums = properties.propertyNames();
         while (enums.hasMoreElements()) {
             String name = String.valueOf(enums.nextElement());
-            if (NODE_IP.key.equals(name)) {
+            if (NODES.key.equals(name)) {
                 List<String> iplist = new ArrayList<>();
-                String[] ips = getValue(String.valueOf(name), NODE_IP.defVal).split(",");
-                for (String ip : ips){
-                    iplist.add(ip);
-                }
-                configMap.put(NODE_IP.key,iplist);
-            }else if (NODE_PORT.key.equals(name)){
-                List<Integer> portlsit = new ArrayList<>();
-                String[] ports = getValue(String.valueOf(name), NODE_PORT.defVal).split(",");
-                for (String port : ports){
-                    portlsit.add(Integer.valueOf(port));
-                }
-                configMap.put(NODE_PORT.key,portlsit);
-            }else if (NODE_WEIGHT.key.equals(name)){
                 List<Integer> weightlist = new ArrayList<>();
-                String[] weights = getValue(String.valueOf(name), NODE_WEIGHT.defVal).split(",");
-                for (String weight : weights){
-                    weightlist.add(Integer.valueOf(weight));
+                List<Integer> portlist = new ArrayList<>();
+                String[] nodes = getValue(String.valueOf(name), NODES.defVal).split(",");
+                for (String node : nodes){
+                    String[] vals = node.split(":");
+                    String ip = vals[0];
+                    Integer port = Integer.valueOf(vals[1]);
+                    Integer weight = Integer.valueOf(vals[2]);
+                    iplist.add(ip);
+                    weightlist.add(weight);
+                    portlist.add(port);
                 }
-                configMap.put(NODE_WEIGHT.key,weightlist);
+                configMap.put(IP,iplist);
+                configMap.put(PORT,portlist);
+                configMap.put(WEIGHT,weightlist);
             }else if (FIREWALL_FILTER.key.equals(name)){
                 List<String> filterlsit = new ArrayList<>();
                 String[] weights = getValue(String.valueOf(name), FIREWALL_FILTER.defVal).split(",");

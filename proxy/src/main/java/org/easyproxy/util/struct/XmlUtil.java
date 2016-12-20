@@ -4,18 +4,21 @@ package org.easyproxy.util.struct;/**
  *  下午11:08
  */
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.dom4j.Attribute;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.easyproxy.config.ConfigEnum;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
+
 import static org.easyproxy.constants.Const.*;
+
 /**
  * Description :
  * Created by YangZH on 16-8-14
@@ -50,67 +53,46 @@ public class XmlUtil {
         }
     }
 
-    private void init() {
+    private void init(){
         Iterator<Element> elementIterator = root.elementIterator();
         while (elementIterator.hasNext()) {
             Element element = elementIterator.next();
-            switch (element.getName()) {
-                case PROXY_PASS:
-                    JSONArray array = new JSONArray();
-                    Iterator<Element> eleIt = element.elementIterator();
-                    while (eleIt.hasNext()) {
-                        Map<String, String> kv = new HashMap<String, String>();
-                        Element ele = eleIt.next();
-                        kv.put(PORT, ele.attributeValue(PORT));
-                        kv.put(HOST, ele.attributeValue(HOST));
-                        int weight = 0;
-                        try{
-                            weight = Integer.parseInt(ele.attributeValue(WEIGHT));
-                        }catch (Exception e){
-                            weight = 1;
-                        }
-                        if (weight<=0)
-                            weight = 1;
-                        kv.put(WEIGHT, String.valueOf(weight));
-                        array.add(kv);
+            Element nameElem = element.element("name");
+            Element valueElem = element.element("value");
+            ConfigEnum em = ConfigEnum.getEnum(nameElem.getTextTrim());
+            switch (em){
+                case NODES:
+                    List<String> ips = new ArrayList<>();
+                    List<Integer> ports = new ArrayList<>();
+                    List<Integer> weights = new ArrayList<>();
+                    String text = valueElem.getTextTrim();
+                    if (StringUtils.isEmpty(text)){
+                        break;
                     }
-                    object.put(PROXY_PASS, array);
+                    String[] nodes = text.split(",");
+                    for (String node:nodes){
+                        String[] vals = node.split(":");
+                        ips.add(vals[0]);
+                        ports.add(Integer.parseInt(vals[1]));
+                        weights.add(Integer.parseInt(vals[2]));
+                    }
+                    object.put(IP,ips);
+                    object.put(PORT,ports);
+                    object.put(WEIGHT,weights);
                     break;
-                case CACHE_URL:
-                    JSONArray arr = new JSONArray();
-                    Iterator<Element> eleItr = element.elementIterator();
-                    while (eleItr.hasNext()) {
-                        Map<String, String> kv = new HashMap<String, String>();
-                        Element ele = eleItr.next();
-                        kv.put(URL, ele.attributeValue(URL));
-                        kv.put(METHOD, ele.attributeValue(METHOD));
-                        arr.add(kv);
+                case FIREWALL_FILTER:
+                    List<String> filterIP = new ArrayList<>();
+                    String textTrim = valueElem.getTextTrim();
+                    String[] filtered = textTrim.split(",");
+                    for (String ip:filtered){
+                        filterIP.add(ip);
                     }
-                    object.put(CACHE_URL, arr);
-                    break;
-                case IP_FILTER:
-                    JSONArray arr1 = new JSONArray();
-                    Iterator<Element> eleItr1 = element.elementIterator();
-                    while (eleItr1.hasNext()) {
-                        Map<String, String> kv = new HashMap<String, String>();
-                        Element ele = eleItr1.next();
-                        kv.put(FILTERED_IP, ele.attributeValue(FILTERED_IP));
-                        arr1.add(kv);
-                    }
-                    object.put(IP_FILTER, arr1);
+                    object.put(FILTERIP,filterIP);
                     break;
                 default:
-                    Iterator<Attribute> attrIterator = element.attributeIterator();
-                    while (attrIterator.hasNext()) {
-                        Attribute attr = attrIterator.next();
-                        object.put(attr.getName(), attr.getValue());
-                    }
+                    object.put(nameElem.getTextTrim(),valueElem.getTextTrim());
                     break;
             }
-        }
-        JSONArray array = (JSONArray) object.get(PROXY_PASS);
-        if (array.size()==0){
-            object.put(PERSONAL_URL,"/*");
         }
     }
 

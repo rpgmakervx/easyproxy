@@ -4,13 +4,15 @@ package org.easyproxy.selector;/**
  *  下午10:44
  */
 
-import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.config.PropertyConfig;
+import org.easyproxy.constants.Const;
 
 import java.net.InetSocketAddress;
 
+import static org.easyproxy.config.ConfigEnum.LB_STRATEGY;
 import static org.easyproxy.constants.Const.*;
+
 
 /**
  * Description :
@@ -29,18 +31,18 @@ public class IPSelector {
     public InetSocketAddress select(){
         String lb_strategy = "";
         if (ConfigFactory.getConfig() instanceof PropertyConfig){
-            lb_strategy = ConfigFactory.getConfig().getString(ConfigEnum.LB_STRATEGY.key);
+            lb_strategy = ConfigFactory.getConfig().getString(LB_STRATEGY.key);
         }else{
-            lb_strategy = ConfigFactory.getConfig().getString(LB_STRATEGY);
+            lb_strategy = ConfigFactory.getConfig().getString(LB_STRATEGY.key);
         }
         switch (lb_strategy){
-            case ROUNDROBIN:
+            case Const.ROUNDROBIN:
                 return ConfigFactory.getConfig().roundRobin();
             case WEIGHT_ROUNDROBIN:
                 return ConfigFactory.getConfig().weight();
             case IP_HASH:
                 return ConfigFactory.getConfig().ip_hash(ip);
-            case LESS_CONNECT:
+            case LEAST_CONNECT:
                 return ConfigFactory.getConfig().least_connect();
             default:
                 return ConfigFactory.getConfig().roundRobin();
