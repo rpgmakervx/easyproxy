@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>proxy</module>
-        <module>agent</module>
+        <module>easyproxy-proxy</module>
+        <module>easyproxy-agent</module>
     </modules>
 
 

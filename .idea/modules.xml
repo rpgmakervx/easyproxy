@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/agent/agent.iml" filepath="$PROJECT_DIR$/agent/agent.iml" />
       <module fileurl="file://$PROJECT_DIR$/easyproxy.iml" filepath="$PROJECT_DIR$/easyproxy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/proxy/proxy.iml" filepath="$PROJECT_DIR$/proxy/proxy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easyproxy-agent/easyproxy-agent.iml" filepath="$PROJECT_DIR$/easyproxy-agent/easyproxy-agent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easyproxy-core/easyproxy-core.iml" filepath="$PROJECT_DIR$/easyproxy-core/easyproxy-core.iml" />
     </modules>
   </component>
 </project>

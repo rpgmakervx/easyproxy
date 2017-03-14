@@ -35,15 +35,15 @@
         <element id="file-copy" path="$PROJECT_DIR$/resources/forbidden.html" />
       </element>
       <element id="directory" name="conf">
-        <element id="file-copy" path="$PROJECT_DIR$/proxy/src/main/resources/proxy.xml" />
+        <element id="file-copy" path="$PROJECT_DIR$/easyproxy-core/src/main/resources/proxy.xml" />
       </element>
       <element id="directory" name="bin">
         <element id="archive" name="easyproxy.jar">
-          <element id="module-output" name="proxy" />
+          <element id="module-output" name="easyproxy-core" />
         </element>
-        <element id="file-copy" path="$PROJECT_DIR$/proxy/startup" />
-        <element id="file-copy" path="$PROJECT_DIR$/proxy/shutdown" />
-        <element id="file-copy" path="$PROJECT_DIR$/proxy/kill" />
+        <element id="file-copy" path="$PROJECT_DIR$/easyproxy-core/startup" />
+        <element id="file-copy" path="$PROJECT_DIR$/easyproxy-core/shutdown" />
+        <element id="file-copy" path="$PROJECT_DIR$/easyproxy-core/kill" />
       </element>
     </root>
   </artifact>

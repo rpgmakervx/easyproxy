@@ -2,7 +2,7 @@
   <artifact type="jar" name="proxy:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/proxy_jar</output-path>
     <root id="archive" name="proxy.jar">
-      <element id="module-output" name="proxy" />
+      <element id="module-output" name="easyproxy-core" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-pool2/2.3/commons-pool2-2.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/hyperic/sigar/1.6.2/sigar-1.6.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-pool/commons-pool/1.6/commons-pool-1.6.jar" path-in-jar="/" />

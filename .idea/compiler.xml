@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <option name="DEFAULT_COMPILER" value="Javac" />
-    <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
       <entry name="!?*.form" />
@@ -14,21 +12,21 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="false">
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="agent" />
+        <module name="easyproxy-agent" />
+        <module name="easyproxy-core" />
         <module name="proxy" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="agent" target="1.5" />
       <module name="easyproxy" target="1.5" />
+      <module name="easyproxy-agent" target="1.5" />
+      <module name="easyproxy-core" target="1.7" />
       <module name="proxy" target="1.7" />
     </bytecodeTargetLevel>
   </component>
