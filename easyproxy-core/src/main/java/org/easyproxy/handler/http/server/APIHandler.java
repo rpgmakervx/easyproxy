@@ -40,7 +40,7 @@ public class APIHandler extends ChannelInboundHandlerAdapter {
         }
         Map<String,Object> map = ParamGetter.getRequestParams(request);
         String strategy = (String) map.get(LB_STRATEGY.key);
-        ConfigFactory.getConfig().setLB_Strategy(strategy);
+        ConfigFactory.getConfig().setLBStrategy(strategy);
         response(ctx, API_ACK.getBytes());
     }
 

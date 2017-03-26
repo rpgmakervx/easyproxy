@@ -58,26 +58,26 @@ public class XmlConfig extends Config {
             int weight = (int) weights.get(index);
             InetSocketAddress address = new InetSocketAddress(ip,port);
             WeightHost whost = new WeightHost(address,weight<=0?1:weight);
-            weight_hosts.add(whost);
-            roundrobin_hosts.add(address);
+            weightHosts.add(whost);
+            roundrobinHosts.add(address);
         }
-        Collections.sort(weight_hosts);
-        Collections.reverse(weight_hosts);
-        maxWeight = weight_hosts.get(0).getWeight();
-        gcd = getMaxDivisor(weight_hosts);
+        Collections.sort(weightHosts);
+        Collections.reverse(weightHosts);
+        maxWeight = weightHosts.get(0).getWeight();
+        gcd = getMaxDivisor(weightHosts);
     }
 
     @Override
     public void configForbiddenHosts(){
         List array = JSONUtil.getListFromJson(FILTERIP, params);
         for (int index=0;index<array.size();index++){
-            forbidden_hosts.add((String) array.get(index));
+            forbiddenHosts.add((String) array.get(index));
         }
     }
     @Override
     public InetSocketAddress roundRobin() {
-        InetSocketAddress address = roundrobin_hosts
-                .get(rrindex.get() % roundrobin_hosts.size());
+        InetSocketAddress address = roundrobinHosts
+                .get(rrindex.get() % roundrobinHosts.size());
         rrindex.incrementAndGet();
         return address;
     }
@@ -86,7 +86,7 @@ public class XmlConfig extends Config {
     public InetSocketAddress weight() {
         InetSocketAddress address = null;
         while (true) {
-            index.set((index.get() + 1) % weight_hosts.size());
+            index.set((index.get() + 1) % weightHosts.size());
             if (index.get() == 0) {
                 cw = cw - gcd;
                 if (cw <= 0) {
@@ -95,28 +95,28 @@ public class XmlConfig extends Config {
                         break;
                 }
             }
-            if (weight_hosts.get(index.get()).getWeight() >= cw) {
-                address = weight_hosts.get(index.get()).getAddress();
+            if (weightHosts.get(index.get()).getWeight() >= cw) {
+                address = weightHosts.get(index.get()).getAddress();
                 break;
             }
         }
         if (address == null) {
-            address = weight_hosts.get(0).getAddress();
+            address = weightHosts.get(0).getAddress();
             System.out.println("weight负载均衡失败");
         }
         return address;
     }
 
     @Override
-    public InetSocketAddress ip_hash(String ip) {
+    public InetSocketAddress ipHash(String ip) {
         long hash = EncryptUtil.ip_hash(ip);
-        InetSocketAddress address = roundrobin_hosts
-                .get((int) hash % roundrobin_hosts.size());
+        InetSocketAddress address = roundrobinHosts
+                .get((int) hash % roundrobinHosts.size());
         return address;
     }
 
     @Override
-    public InetSocketAddress least_connect() {
+    public InetSocketAddress leastConnect() {
         AccessRecord minRecord = Collections.min(CacheManager.getCache().getAllAccessRecord());
         String key = minRecord.getKey();
         String[] hostport = key.split("-")[0].split(":");
@@ -139,11 +139,11 @@ public class XmlConfig extends Config {
 
     @Override
     public List<String> getForbiddenHosts() {
-        return forbidden_hosts;
+        return forbiddenHosts;
     }
 
     @Override
-    public void setLB_Strategy(String strategy) {
+    public void setLBStrategy(String strategy) {
         params.put(LB_STRATEGY, strategy);
     }
 

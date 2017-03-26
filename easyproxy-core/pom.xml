@@ -9,15 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>easyproxy-proxy</artifactId>
+    <artifactId>easyproxy-core</artifactId>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -99,24 +99,8 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
         </dependency>
-
-
     </dependencies>
 
     <!-- 在central库中没有这个包，需要添加以下的repo -->
-    <repositories>
-        <repository>
-            <id>bintray</id>
-            <url>http://dl.bintray.com/typesafe/maven-releases/</url>
-        </repository>
-        <repository>
-            <id>oschina</id>
-            <url>http://maven.oschina.net/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>terracotta-releases</id>
-            <url>http://www.terracotta.org/download/reflector/releases/</url>
-        </repository>
-    </repositories>
 
 </project>

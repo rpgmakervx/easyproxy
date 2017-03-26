@@ -41,9 +41,9 @@ public class IPSelector {
             case WEIGHT_ROUNDROBIN:
                 return ConfigFactory.getConfig().weight();
             case IP_HASH:
-                return ConfigFactory.getConfig().ip_hash(ip);
+                return ConfigFactory.getConfig().ipHash(ip);
             case LEAST_CONNECT:
-                return ConfigFactory.getConfig().least_connect();
+                return ConfigFactory.getConfig().leastConnect();
             default:
                 return ConfigFactory.getConfig().roundRobin();
         }

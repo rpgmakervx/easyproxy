@@ -23,12 +23,12 @@ abstract public class Config {
 
     protected Map<Class<? extends Config>,JSONObject> typeMapper = new HashMap<>();
 
-    protected List<InetSocketAddress> roundrobin_hosts = new CopyOnWriteArrayList<InetSocketAddress>();
+    protected List<InetSocketAddress> roundrobinHosts = new CopyOnWriteArrayList<InetSocketAddress>();
     //weight host list
 //    protected  List<WeightHost> weight_hosts_list = new CopyOnWriteArrayList<WeightHost>();
-    protected List<WeightHost> weight_hosts = new ArrayList<WeightHost>();
+    protected List<WeightHost> weightHosts = new ArrayList<WeightHost>();
     //ip_filter
-    protected List<String> forbidden_hosts = new CopyOnWriteArrayList<String>();
+    protected List<String> forbiddenHosts = new CopyOnWriteArrayList<String>();
     protected AtomicInteger index = new AtomicInteger(-1);
     protected int cw = 0;
     protected int gcd = 0;
@@ -55,9 +55,9 @@ abstract public class Config {
 
     abstract public InetSocketAddress weight();
 
-    abstract public InetSocketAddress ip_hash(String ip);
+    abstract public InetSocketAddress ipHash(String ip);
 
-    abstract public InetSocketAddress least_connect();
+    abstract public InetSocketAddress leastConnect();
 
     abstract public String getString(String param);
 
@@ -65,12 +65,12 @@ abstract public class Config {
 
     abstract public List<String> getForbiddenHosts();
 
-    abstract public void setLB_Strategy(String strategy);
+    abstract public void setLBStrategy(String strategy);
 
     abstract public String getConfigPath();
 
     public List<InetSocketAddress> getServers(){
-        return roundrobin_hosts;
+        return roundrobinHosts;
     }
 
 
