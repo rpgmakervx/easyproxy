@@ -1,6 +1,7 @@
 package org.easyproxy.web.handler;
 
 
+import org.easyarch.netcat.asynclient.AsyncHttpClient;
 import org.easyarch.netcat.http.request.HandlerRequest;
 import org.easyarch.netcat.http.response.HandlerResponse;
 import org.easyarch.netcat.mvc.action.handler.HttpHandler;
@@ -15,6 +16,8 @@ public class IndexHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
-        response.html("index");
+        AsyncHttpClient client = new AsyncHttpClient("https://www.baidu.com");
+        byte[] content = client.getc();
+        response.write(content);
     }
 }

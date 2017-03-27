@@ -13,7 +13,7 @@ import org.easyproxy.config.ConfigFactory;
  * description:
  */
 
-public class APIHandler implements HttpHandler {
+public class LBStrategyHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
