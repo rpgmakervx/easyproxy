@@ -1,13 +1,13 @@
 package org.easyproxy.util.struct;
 
+import org.easyproxy.config.ConfigEnum;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static org.easyproxy.constants.Const.IP;
-import static org.easyproxy.constants.Const.PORT;
-import static org.easyproxy.constants.Const.WEIGHT;
+import static org.easyproxy.constants.Const.*;
 
 /**
  * Description :
@@ -47,11 +47,11 @@ public class PropertiesUtil {
         Enumeration<?> enums = properties.propertyNames();
         while (enums.hasMoreElements()) {
             String name = String.valueOf(enums.nextElement());
-            if (NODES.key.equals(name)) {
+            if (ConfigEnum.NODES.key.equals(name)) {
                 List<String> iplist = new ArrayList<>();
                 List<Integer> weightlist = new ArrayList<>();
                 List<Integer> portlist = new ArrayList<>();
-                String[] nodes = getValue(String.valueOf(name), NODES.defVal).split(",");
+                String[] nodes = getValue(String.valueOf(name), ConfigEnum.NODES.defVal).split(",");
                 for (String node : nodes){
                     String[] vals = node.split(":");
                     String ip = vals[0];
@@ -64,15 +64,15 @@ public class PropertiesUtil {
                 configMap.put(IP,iplist);
                 configMap.put(PORT,portlist);
                 configMap.put(WEIGHT,weightlist);
-            }else if (FIREWALL_FILTER.key.equals(name)){
+            }else if (ConfigEnum.FIREWALL_FILTER.key.equals(name)){
                 List<String> filterlsit = new ArrayList<>();
-                String[] weights = getValue(String.valueOf(name), FIREWALL_FILTER.defVal).split(",");
+                String[] weights = getValue(String.valueOf(name), ConfigEnum.FIREWALL_FILTER.defVal).split(",");
                 for (String weight : weights){
                     filterlsit.add(weight);
                 }
-                configMap.put(FIREWALL_FILTER.key,filterlsit);
+                configMap.put(ConfigEnum.FIREWALL_FILTER.key,filterlsit);
             }else{
-                configMap.put(name,getValue(String.valueOf(name), getVal(name)));
+                configMap.put(name,getValue(String.valueOf(name), ConfigEnum.getVal(name)));
             }
         }
     }
