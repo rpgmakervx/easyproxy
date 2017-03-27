@@ -109,7 +109,11 @@ public class PropertyConfig extends Config {
 
     @Override
     public InetSocketAddress ipHash(String ip) {
-        long hash = EncryptUtil.ip_hash(ip);
+        long hash = EncryptUtil.ipHash(ip);
+
+        System.out.println("roundrobinHosts size:"+roundrobinHosts.size());
+        System.out.println("ip hash:"+hash);
+        System.out.println("result:"+((int) hash % roundrobinHosts.size()));
         InetSocketAddress address = roundrobinHosts
                 .get((int) hash % roundrobinHosts.size());
 //        System.out.println("ip_hash新获取的地址-->  " + address.getHostName() + ":" + address.getPort());

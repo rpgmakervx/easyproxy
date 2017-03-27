@@ -13,6 +13,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.handler.http.server.BaseServerChildHandler;
+import org.easyproxy.api.app.handler.APIHandler;
+import org.easyproxy.api.app.handler.IndexHandler;
+import org.easyproxy.api.server.App;
 
 /**
  * Description :
@@ -22,10 +25,9 @@ import org.easyproxy.handler.http.server.BaseServerChildHandler;
 
 public class ProxyServer {
 
-
-
-
+    private App app;
     public void startup() {
+        app = new App();
         launch(ConfigFactory.getConfig().getInt(ConfigEnum.LISTEN.key));
     }
     public void startup(int port) {
@@ -46,6 +48,7 @@ public class ProxyServer {
                     .option(ChannelOption.SO_REUSEADDR,true);
             f = b.bind(port).sync();
             System.out.println("服务已启动");
+            initWebApp();
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -53,5 +56,11 @@ public class ProxyServer {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
+    }
+
+    private void initWebApp(){
+        app.get("/api",new APIHandler())
+                .get("/index",new IndexHandler())
+                .start(7000);
     }
 }

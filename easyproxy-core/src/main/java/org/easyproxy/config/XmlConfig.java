@@ -109,7 +109,7 @@ public class XmlConfig extends Config {
 
     @Override
     public InetSocketAddress ipHash(String ip) {
-        long hash = EncryptUtil.ip_hash(ip);
+        long hash = EncryptUtil.ipHash(ip);
         InetSocketAddress address = roundrobinHosts
                 .get((int) hash % roundrobinHosts.size());
         return address;

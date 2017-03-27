@@ -1,5 +1,5 @@
-/home/code4j/IDEAWorkspace/easyproxy/proxy/src/test/java/test/CompressTest.java
-/home/code4j/IDEAWorkspace/easyproxy/proxy/src/test/java/test/JSONTest.java
-/home/code4j/IDEAWorkspace/easyproxy/proxy/src/test/java/test/CompareTest.java
-/home/code4j/IDEAWorkspace/easyproxy/proxy/src/test/java/test/HttpTest.java
-/home/code4j/IDEAWorkspace/easyproxy/proxy/src/test/java/test/TestStrategy.java
+/home/code4j/IDEAWorkspace/easyproxy/easyproxy-core/src/test/java/test/TestStrategy.java
+/home/code4j/IDEAWorkspace/easyproxy/easyproxy-core/src/test/java/test/CompareTest.java
+/home/code4j/IDEAWorkspace/easyproxy/easyproxy-core/src/test/java/test/CompressTest.java
+/home/code4j/IDEAWorkspace/easyproxy/easyproxy-core/src/test/java/test/JSONTest.java
+/home/code4j/IDEAWorkspace/easyproxy/easyproxy-core/src/test/java/test/HttpTest.java

@@ -40,7 +40,7 @@ public class Const {
     public static final String LB_STRATEGY = "proxy.server.lb_strategy";
     public static final String ROUNDROBIN = "roundrobin";
     public static final String WEIGHT_ROUNDROBIN = "weight";
-    public static final String IP_HASH = "ipHash";
+    public static final String IP_HASH = "iphash";
     public static final String LEAST_CONNECT = "least_connection";
     //cache_type
     public static final String REDIS = "redis";

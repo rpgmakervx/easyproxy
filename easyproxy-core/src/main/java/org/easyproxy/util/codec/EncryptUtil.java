@@ -56,7 +56,7 @@ public class EncryptUtil {
         return des.toString();
     }
 
-    public static int ip_hash(String key) {
+    public static int ipHash(String key) {
         int hash, i;
         for (hash = 0, i = 0; i < key.length(); ++i) {
             hash += key.charAt(i);
@@ -67,6 +67,9 @@ public class EncryptUtil {
         hash ^= (hash >> 11);
         hash += (hash << 15);
         //   return (hash & M_MASK);
+        if (hash<=0){
+            hash = -hash;
+        }
         return hash;
     }
 

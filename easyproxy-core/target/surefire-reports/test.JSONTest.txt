@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: test.JSONTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.242 sec <<< FAILURE!
-testJSON(test.JSONTest)  Time elapsed: 0.389 sec  <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 3.15 sec <<< FAILURE!
+testJSON(test.JSONTest)  Time elapsed: 0.111 sec  <<< ERROR!
 java.lang.NullPointerException
-	at org.easyproxy.config.XmlConfig.configLoadbalanceStrategy(XmlConfig.java:50)
-	at org.easyproxy.config.Config.init(Config.java:45)
-	at org.easyproxy.config.XmlConfig.<init>(XmlConfig.java:46)
+	at org.easyproxy.config.XmlConfig.configLoadbalanceStrategy(XmlConfig.java:49)
+	at org.easyproxy.config.Config.init(Config.java:46)
+	at org.easyproxy.config.XmlConfig.<init>(XmlConfig.java:42)
 	at test.JSONTest.testJSON(JSONTest.java:34)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
