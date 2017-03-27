@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder;
 import org.easyproxy.api.context.HandlerContext;
+import org.easyproxy.api.http.Const;
 import org.easyproxy.api.http.cookie.HttpCookie;
 import org.easyproxy.api.http.protocol.HttpHeaderName;
 import org.easyproxy.api.http.protocol.HttpHeaderValue;
@@ -13,6 +14,7 @@ import org.easyproxy.api.kits.ByteKits;
 import org.easyproxy.api.kits.StringKits;
 import org.easyproxy.api.kits.file.FileKits;
 import org.easyproxy.api.mvc.entity.Json;
+import org.easyproxy.api.mvc.router.Router;
 import org.easyproxy.api.mvc.temp.TemplateParser;
 
 import java.io.IOException;
@@ -230,7 +232,7 @@ public class HttpHandlerResponse implements HandlerResponse {
     @Override
     public void html(String view,int statusCode) throws Exception {
         StringBuffer pathBuffer = new StringBuffer();
-        pathBuffer.append(view).append(POINT)
+        pathBuffer.append(view).append(Router.POINT)
                 .append(context.getViewSuffix());
         String wholePath = context.getWebView()+context.getViewPrefix()+pathBuffer.toString();
         System.out.println("whole path:"+wholePath);
@@ -298,11 +300,11 @@ public class HttpHandlerResponse implements HandlerResponse {
         int statusCode = HttpResponseStatus.NOT_FOUND.code();
         StringBuffer pathBuffer = new StringBuffer();
         pathBuffer.append(context.getErrorPage())
-                .append(POINT)
+                .append(Router.POINT)
                 .append(context.getViewSuffix());
-        addModel(HTTPSTATUS,statusCode);
-        addModel(REASONPHASE, HttpResponseStatus.NOT_FOUND.reasonPhrase());
-        addModel(MESSAGE,"");
+        addModel(Const.HTTPSTATUS,statusCode);
+        addModel(Const.REASONPHASE, HttpResponseStatus.NOT_FOUND.reasonPhrase());
+        addModel(Const.MESSAGE,"");
         TemplateParser parser = new TemplateParser(HandlerContext.DEFAULT_RESOURCE);
         parser.addParam(models);
         byte[] content = parser.getTemplate(pathBuffer.toString()).getBytes();

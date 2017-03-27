@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.easyproxy.config.ConfigEnum.FIREWALL_FILTER;
+import static org.easyproxy.config.ConfigEnum.LB_STRATEGY;
 
 
 /**
@@ -41,14 +42,14 @@ public class PropertyConfig extends Config {
     }
     @Override
     public void configLoadbalanceStrategy(){
-        List ips = JSONUtil.getListFromJson(IP, params);
-        List ports = JSONUtil.getListFromJson(PORT, params);
-        List weights = JSONUtil.getListFromJson(WEIGHT, params);
+        List ips = JSONUtil.getListFromJson(Const.IP, params);
+        List ports = JSONUtil.getListFromJson(Const.PORT, params);
+        List weights = JSONUtil.getListFromJson(Const.WEIGHT, params);
         if (ips.size()==0){
-            params.put(ISPROXY,false);
+            params.put(Const.ISPROXY,false);
             return;
         }
-        params.put(ISPROXY,true);
+        params.put(Const.ISPROXY,true);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
         for (int index = 0; index < ips.size(); index++) {
             String ip = (String) ips.get(index);
@@ -149,7 +150,7 @@ public class PropertyConfig extends Config {
 
     @Override
     public void setLBStrategy(String strategy) {
-        params.put(Const.LB_STRATEGY.key, strategy);
+        params.put(ConfigEnum.LB_STRATEGY.key, strategy);
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.easyproxy.cache.ehcache.EHcache;
 import org.easyproxy.cache.redis.RedisCache;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.config.PropertyConfig;
+import org.easyproxy.constants.Const;
 
 import static org.easyproxy.config.ConfigEnum.CACHE_TYPE;
 
@@ -31,13 +32,13 @@ public class CacheManager {
             cacheType = ConfigFactory.getConfig().getString(CACHE_TYPE.key);
         }
         switch (cacheType){
-            case REDIS:
+            case Const.REDIS:
                 cache = new RedisCache();
                 break;
-            case EHCACHE:
+            case Const.EHCACHE:
                 cache = new EHcache();
                 break;
-            case JAVA:
+            case Const.JAVA:
                 break;
         }
     }

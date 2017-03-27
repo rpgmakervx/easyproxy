@@ -10,11 +10,11 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRuleType;
 import io.netty.handler.ipfilter.IpSubnetFilterRule;
+import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
+import org.easyproxy.constants.Const;
 
 import java.util.List;
-
-import static org.easyproxy.constants.Const.ISPROXY;
 
 
 /**
@@ -27,10 +27,10 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(LOG_OPEN.key));
-        boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(API_OPEN.key));
-        boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(ISPROXY));
-        boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ANTILEECH_OPEN.key));
+        boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.LOG_OPEN.key));
+        boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.API_OPEN.key));
+        boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.ISPROXY));
+        boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.ANTILEECH_OPEN.key));
         boolean hasIPFilter = ConfigFactory.getConfig().getForbiddenHosts().size() != 0;
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());

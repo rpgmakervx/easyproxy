@@ -8,6 +8,7 @@ import org.easyproxy.api.http.protocol.HttpStatus;
 import org.easyproxy.api.http.request.HandlerRequest;
 import org.easyproxy.api.http.response.HandlerResponse;
 import org.easyproxy.api.kits.TimeKits;
+import org.easyproxy.api.kits.file.FileFilter;
 import org.easyproxy.api.kits.file.FileKits;
 import org.easyproxy.api.mvc.action.handler.HttpHandler;
 
@@ -29,7 +30,7 @@ public class StaticHttpHandler implements HttpHandler {
         HandlerContext context = request.getContext();
         String webView = context.getWebView();
         String uri = request.getRequestURI();
-        Pattern cachedPattern = Pattern.compile(CACHEPATTERN);
+        Pattern cachedPattern = Pattern.compile(FileFilter.CACHEPATTERN);
 
         StringBuffer resourcePath = new StringBuffer();
         resourcePath.append(webView).append(uri);
@@ -51,11 +52,11 @@ public class StaticHttpHandler implements HttpHandler {
             }
             response.write(FileKits.read(resourcePath.toString())
                     , HttpHeaderValue.getContentType(suffix));
-        }else if (suffix.endsWith(DOCX)||suffix.endsWith(DOC)){
+        }else if (suffix.endsWith(FileFilter.DOCX)||suffix.endsWith(FileFilter.DOC)){
             response.download(FileKits.read(resourcePath.toString()),filename,HttpHeaderValue.DOC);
-        }else if (suffix.endsWith(XLS)||suffix.endsWith(XLSX)){
+        }else if (suffix.endsWith(FileFilter.XLS)||suffix.endsWith(FileFilter.XLSX)){
             response.download(FileKits.read(resourcePath.toString()),filename,HttpHeaderValue.XLS);
-        }else if (suffix.endsWith(PDF)){
+        }else if (suffix.endsWith(FileFilter.PDF)){
             response.download(FileKits.read(resourcePath.toString()),filename,HttpHeaderValue.PDF);
         }else{
             response.write(FileKits.read(resourcePath.toString()));

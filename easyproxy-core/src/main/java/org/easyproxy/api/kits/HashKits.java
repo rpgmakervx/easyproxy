@@ -6,6 +6,7 @@ package org.easyproxy.api.kits;/**
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+import sun.security.provider.MD5;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -40,17 +41,17 @@ public class HashKits {
     }
 
     public static String sha1(byte[] bytes){
-        return hash(bytes,SHA1.name);
+        return hash(bytes,HashType.SHA1.name);
     }
 
     public static String md5(byte[] bytes){
-        return hash(bytes,MD5.name);
+        return hash(bytes,HashType.MD5.name);
     }
     public static String md5(String key){
-        return hash(key,MD5.name);
+        return hash(key, HashType.MD5.name);
     }
     public static String sha1(String key){
-        return hash(key,SHA1.name);
+        return hash(key,HashType.SHA1.name);
     }
 
     public static String hash(String strSrc, String encName) {
@@ -60,7 +61,7 @@ public class HashKits {
     public static long hash(String key) {
         MessageDigest md5 = null;
         try {
-            md5 = MessageDigest.getInstance(SHA1.name);
+            md5 = MessageDigest.getInstance(HashType.SHA1.name);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -75,7 +76,7 @@ public class HashKits {
         SecretKey secretKey;
         byte[] bytes = null;
         try {
-            secretKey = new SecretKeySpec(decodeBase64(key), HMACSHA1.name);
+            secretKey = new SecretKeySpec(decodeBase64(key), HashType.HMACSHA1.name);
             Mac mac = Mac.getInstance(secretKey.getAlgorithm());
             mac.init(secretKey);
             bytes = mac.doFinal(data);

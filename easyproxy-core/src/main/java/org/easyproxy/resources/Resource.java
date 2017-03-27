@@ -12,6 +12,9 @@ import java.io.FileInputStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
+import static org.easyproxy.config.ConfigEnum.*;
+import static org.easyproxy.constants.Const.*;
+
 /**
  * Description :
  * Created by YangZH on 16-8-22

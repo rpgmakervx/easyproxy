@@ -123,12 +123,12 @@ public class ActionHolder {
             boolean matched = false;
             List<String> storeSegements = storeRouter.getSegements();
             List<String> cmpSegements = cmpRouter.getSegements();
-            if (strPath.startsWith(WILDCARD)
-                    &&strPath.contains(POINT)){
+            if (strPath.startsWith(Router.WILDCARD)
+                    &&strPath.contains(Router.POINT)){
                 String seg = cmpSegements.get(cmpSegements.size()-1);
-                if (seg.contains(POINT)){
-                    String suffix1 = seg.split("\\"+POINT)[1];
-                    String suffix2 = strPath.split("\\"+POINT)[1];
+                if (seg.contains(Router.POINT)){
+                    String suffix1 = seg.split("\\"+Router.POINT)[1];
+                    String suffix2 = strPath.split("\\"+Router.POINT)[1];
                     return suffix1.equals(suffix2);
                 }
             }
@@ -145,19 +145,19 @@ public class ActionHolder {
                 //两个片段不相等，或当前片段不是参数化的,
                 //再检查router是否是filter类型且否包含通配符，是则认为相等，否则不相等
                 if (!seg1.equals(seg2) && paramSeg1 == null) {
-                    if (WILDCARD.equals(seg1)){
+                    if (Router.WILDCARD.equals(seg1)){
                         return true;
-                    }else if (seg1.contains(POINT)
-                            &&seg2.contains(POINT)
-                            &&seg2.startsWith(WILDCARD)){
-                        String suffix1 = seg1.split("\\"+POINT)[1];
-                        String suffix2 = seg2.split("\\"+POINT)[1];
+                    }else if (seg1.contains(Router.POINT)
+                            &&seg2.contains(Router.POINT)
+                            &&seg2.startsWith(Router.WILDCARD)){
+                        String suffix1 = seg1.split("\\"+Router.POINT)[1];
+                        String suffix2 = seg2.split("\\"+Router.POINT)[1];
                         return suffix1.equals(suffix2);
                     }
                     return false;
                 }
                 if (paramSeg1 != null&&!isFilter) {
-                    String name = StringKits.strip(paramSeg1, LEFT, RIGHT);
+                    String name = StringKits.strip(paramSeg1, Router.LEFT, Router.RIGHT);
                     cmpRouter.getPathParams().put(name, seg2);
                     matched = true;
                 }

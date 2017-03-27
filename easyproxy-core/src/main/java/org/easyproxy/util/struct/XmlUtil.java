@@ -10,6 +10,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.easyproxy.config.ConfigEnum;
+import org.easyproxy.constants.Const;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -74,9 +75,9 @@ public class XmlUtil {
                         ports.add(Integer.parseInt(vals[1]));
                         weights.add(Integer.parseInt(vals[2]));
                     }
-                    object.put(IP,ips);
-                    object.put(PORT,ports);
-                    object.put(WEIGHT,weights);
+                    object.put(Const.IP,ips);
+                    object.put(Const.PORT,ports);
+                    object.put(Const.WEIGHT,weights);
                     break;
                 case FIREWALL_FILTER:
                     List<String> filterIP = new ArrayList<>();
@@ -85,7 +86,7 @@ public class XmlUtil {
                     for (String ip:filtered){
                         filterIP.add(ip);
                     }
-                    object.put(FILTERIP,filterIP);
+                    object.put(Const.FILTERIP,filterIP);
                     break;
                 default:
                     object.put(nameElem.getTextTrim(),valueElem.getTextTrim());
