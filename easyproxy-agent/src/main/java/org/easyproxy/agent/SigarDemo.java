@@ -1,4 +1,4 @@
-package test;
+package org.easyproxy.agent;
 
 import org.hyperic.sigar.*;
 

@@ -1,13 +1,10 @@
 package org.easyproxy.util.struct;
 
-import org.easyproxy.config.ConfigEnum;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static org.easyproxy.config.ConfigEnum.*;
 import static org.easyproxy.constants.Const.IP;
 import static org.easyproxy.constants.Const.PORT;
 import static org.easyproxy.constants.Const.WEIGHT;
@@ -75,7 +72,7 @@ public class PropertiesUtil {
                 }
                 configMap.put(FIREWALL_FILTER.key,filterlsit);
             }else{
-                configMap.put(name,getValue(String.valueOf(name),ConfigEnum.getVal(name)));
+                configMap.put(name,getValue(String.valueOf(name), getVal(name)));
             }
         }
     }

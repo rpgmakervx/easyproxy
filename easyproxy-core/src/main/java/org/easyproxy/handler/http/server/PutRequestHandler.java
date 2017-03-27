@@ -15,8 +15,6 @@ import org.easyproxy.selector.IPSelector;
 
 import java.net.InetSocketAddress;
 
-import static io.netty.handler.codec.http.HttpMethod.PUT;
-
 /**
  * Description :
  * Created by YangZH on 16-9-27
@@ -40,7 +38,7 @@ public class PutRequestHandler extends ChannelInboundHandlerAdapter {
 
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         FullHttpRequest request = (FullHttpRequest) msg;
-        if (!request.method().equals(PUT)) {
+        if (!request.method().equals(HttpMethod.PUT)) {
             System.out.println("不是put请求");
             ctx.fireChannelRead(msg);
             return;

@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.easyproxy.api.http.Const.*;
 import static org.easyproxy.api.http.protocol.HttpHeaderName.SET_COOKIE;
 
 

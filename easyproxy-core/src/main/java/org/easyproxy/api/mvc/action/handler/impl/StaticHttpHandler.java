@@ -14,8 +14,6 @@ import org.easyproxy.api.mvc.action.handler.HttpHandler;
 import java.io.File;
 import java.util.regex.Pattern;
 
-import static org.easyproxy.api.kits.file.FileFilter.*;
-
 
 /**
  * Created by xingtianyu on 17-3-9

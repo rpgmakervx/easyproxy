@@ -7,8 +7,6 @@ import java.io.FileFilter;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.easyproxy.constants.Const.*;
-
 /**
  * Description :
  * Created by xingtianyu on 16-12-18

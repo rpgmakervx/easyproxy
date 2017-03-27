@@ -16,8 +16,6 @@ import java.net.InetSocketAddress;
 import java.util.Collections;
 import java.util.List;
 
-import static org.easyproxy.constants.Const.*;
-
 
 /**
  * Description :

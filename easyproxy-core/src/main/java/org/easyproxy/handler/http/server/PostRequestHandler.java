@@ -15,7 +15,6 @@ import org.easyproxy.selector.IPSelector;
 
 import java.net.InetSocketAddress;
 
-import static io.netty.handler.codec.http.HttpMethod.POST;
 import static org.easyproxy.constants.Const.ACCESSRECORD;
 
 /**
@@ -45,7 +44,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
 
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
         FullHttpRequest request = (FullHttpRequest) msg;
-        if (!request.method().equals(POST)){
+        if (!request.method().equals(HttpMethod.POST)){
             ctx.fireChannelRead(request);
             return;
         }

@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.easyproxy.constants.Const.*;
-
 /**
  * Description :
  * Created by YangZH on 16-8-14

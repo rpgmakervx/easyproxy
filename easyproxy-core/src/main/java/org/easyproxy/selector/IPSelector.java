@@ -6,12 +6,10 @@ package org.easyproxy.selector;/**
 
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.config.PropertyConfig;
-import org.easyproxy.constants.Const;
 
 import java.net.InetSocketAddress;
 
 import static org.easyproxy.config.ConfigEnum.LB_STRATEGY;
-import static org.easyproxy.constants.Const.*;
 
 
 /**
@@ -36,7 +34,7 @@ public class IPSelector {
             lb_strategy = ConfigFactory.getConfig().getString(LB_STRATEGY.key);
         }
         switch (lb_strategy){
-            case Const.ROUNDROBIN:
+            case ROUNDROBIN:
                 return ConfigFactory.getConfig().roundRobin();
             case WEIGHT_ROUNDROBIN:
                 return ConfigFactory.getConfig().weight();

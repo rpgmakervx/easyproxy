@@ -10,7 +10,6 @@ import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.config.PropertyConfig;
 
 import static org.easyproxy.config.ConfigEnum.CACHE_TYPE;
-import static org.easyproxy.constants.Const.*;
 
 
 /**

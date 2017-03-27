@@ -2,6 +2,7 @@ package org.easyproxy.config;
 
 import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.cache.CacheManager;
+import org.easyproxy.constants.Const;
 import org.easyproxy.pojo.AccessRecord;
 import org.easyproxy.pojo.WeightHost;
 import org.easyproxy.util.codec.EncryptUtil;
@@ -14,8 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.easyproxy.config.ConfigEnum.FIREWALL_FILTER;
-import static org.easyproxy.config.ConfigEnum.LB_STRATEGY;
-import static org.easyproxy.constants.Const.*;
 
 
 /**
@@ -150,7 +149,7 @@ public class PropertyConfig extends Config {
 
     @Override
     public void setLBStrategy(String strategy) {
-        params.put(LB_STRATEGY.key, strategy);
+        params.put(Const.LB_STRATEGY.key, strategy);
     }
 
     @Override

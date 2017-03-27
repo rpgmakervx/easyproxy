@@ -14,7 +14,6 @@ import org.easyproxy.config.ConfigFactory;
 
 import java.util.List;
 
-import static org.easyproxy.config.ConfigEnum.*;
 import static org.easyproxy.constants.Const.ISPROXY;
 
 

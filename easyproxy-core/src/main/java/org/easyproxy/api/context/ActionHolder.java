@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.easyproxy.api.mvc.action.ActionType.FILTER;
-import static org.easyproxy.api.mvc.router.Router.*;
 
 
 /**

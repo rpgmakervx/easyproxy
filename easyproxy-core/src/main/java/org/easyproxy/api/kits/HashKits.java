@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import static org.easyproxy.api.kits.HashKits.HashType.*;
-
 /**
  * Description : MD5Util
  * Created by YangZH on 16-5-25
