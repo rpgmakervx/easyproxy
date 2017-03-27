@@ -11,6 +11,6 @@
     <modules>
         <module>easyproxy-core</module>
         <module>easyproxy-agent</module>
+        <module>easyproxy-web</module>
     </modules>
-
 </project>

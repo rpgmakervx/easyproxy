@@ -10,12 +10,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.easyarch.netcat.server.App;
+import org.easyproxy.api.app.handler.APIHandler;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.handler.http.server.BaseServerChildHandler;
-import org.easyproxy.api.app.handler.APIHandler;
-import org.easyproxy.api.app.handler.IndexHandler;
-import org.easyproxy.api.server.App;
 
 /**
  * Description :
@@ -60,7 +59,6 @@ public class ProxyServer {
 
     private void initWebApp(){
         app.get("/api",new APIHandler())
-                .get("/index",new IndexHandler())
                 .start(7000);
     }
 }

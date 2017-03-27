@@ -25,9 +25,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.fusesource</groupId>
-            <artifactId>sigar</artifactId>
-            <version>1.6.4</version>
+            <groupId>org.easyarch</groupId>
+            <artifactId>netcat</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

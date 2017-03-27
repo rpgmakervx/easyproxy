@@ -1,11 +1,11 @@
 package org.easyproxy.api.app.handler;
 
+import org.easyarch.netcat.http.request.HandlerRequest;
+import org.easyarch.netcat.http.response.HandlerResponse;
+import org.easyarch.netcat.mvc.action.handler.HttpHandler;
+import org.easyarch.netcat.mvc.entity.Json;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigFactory;
-import org.easyproxy.api.http.request.HandlerRequest;
-import org.easyproxy.api.http.response.HandlerResponse;
-import org.easyproxy.api.mvc.action.handler.HttpHandler;
-import org.easyproxy.api.mvc.entity.Json;
 
 /**
  * Created by xingtianyu on 17-3-26
