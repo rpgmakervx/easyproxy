@@ -5,7 +5,7 @@
 
 .idea/*
 */target
-target/*
+target/
 out/
 # BlueJ files
 *.ctxt
