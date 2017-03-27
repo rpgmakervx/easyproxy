@@ -1,8 +1,12 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Java template
 *.class
-easyproxy.iml
+*.iml
+
 .idea/*
+*/target
+target/*
+out/
 # BlueJ files
 *.ctxt
 
