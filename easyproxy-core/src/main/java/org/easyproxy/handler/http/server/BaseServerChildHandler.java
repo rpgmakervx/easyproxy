@@ -28,7 +28,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.LOG_OPEN.key));
-        boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.API_OPEN.key));
+        
         boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.ISPROXY));
         boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.ANTILEECH_OPEN.key));
         boolean hasIPFilter = ConfigFactory.getConfig().getForbiddenHosts().size() != 0;
@@ -46,9 +46,6 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         }
         if (isAntileechOpen) {
             pipeline.addLast(new AntiLeechHandler());
-        }
-        if (isApiOpen) {
-            pipeline.addLast(new APIHandler());
         }
         pipeline.addLast(new PersonalPageHandler());
         if (isProxy) {

@@ -11,5 +11,23 @@ package org.easyproxy.constants;/**
  */
 
 public enum  LBStrategy {
-    ROUNDROBIN,WEIGHT_ROUNDROBIN,IP_HASH,LESS_CONNECT
+    ROUNDROBIN("roundrobin"),
+    WEIGHT_ROUNDROBIN("weight_roundrobin"),
+    IP_HASH("iphash"),
+    LESS_CONNECT("less_connection");
+
+    public String key;
+
+    LBStrategy(String key) {
+        this.key = key;
+    }
+
+    public static LBStrategy getStrategy(String key){
+        for (LBStrategy value:values()){
+            if (value.key.equals(key)){
+                return value;
+            }
+        }
+        return null;
+    }
 }

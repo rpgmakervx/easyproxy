@@ -6,6 +6,7 @@ package org.easyproxy.config;/**
 
 import org.easyproxy.cache.CacheManager;
 import org.easyproxy.constants.Const;
+import org.easyproxy.constants.LBStrategy;
 import org.easyproxy.pojo.AccessRecord;
 import org.easyproxy.pojo.WeightHost;
 import org.easyproxy.util.codec.EncryptUtil;
@@ -144,6 +145,12 @@ public class XmlConfig extends Config {
     @Override
     public void setLBStrategy(String strategy) {
         params.put(Const.LB_STRATEGY, strategy);
+    }
+
+    @Override
+    public LBStrategy getLBStrategy() {
+        String strategy = (String) params.get(ConfigEnum.LB_STRATEGY.key);
+        return LBStrategy.getStrategy(strategy);
     }
 
     @Override

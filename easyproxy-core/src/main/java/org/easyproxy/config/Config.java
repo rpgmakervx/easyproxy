@@ -6,6 +6,7 @@ package org.easyproxy.config;/**
 
 import com.alibaba.fastjson.JSONObject;
 import org.easyproxy.cache.DefaultCache;
+import org.easyproxy.constants.LBStrategy;
 import org.easyproxy.pojo.WeightHost;
 
 import java.net.InetSocketAddress;
@@ -66,6 +67,8 @@ abstract public class Config {
     abstract public List<String> getForbiddenHosts();
 
     abstract public void setLBStrategy(String strategy);
+
+    abstract public LBStrategy getLBStrategy();
 
     abstract public String getConfigPath();
 

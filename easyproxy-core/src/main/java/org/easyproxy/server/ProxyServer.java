@@ -10,7 +10,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.easyarch.netcat.server.App;
+import org.easyarch.netcat.web.server.App;
+import org.easyproxy.api.app.handler.GetStrategyHandler;
 import org.easyproxy.api.app.handler.LBStrategyHandler;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
@@ -58,7 +59,12 @@ public class ProxyServer {
     }
 
     private void initWebApp(){
-        app.get("/api",new LBStrategyHandler())
-                .start(7000);
+        boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.API_OPEN.key));
+        System.out.println("is api open?:"+isApiOpen);
+        if (isApiOpen){
+            app.post("/lbstrategy/{strategy}",new LBStrategyHandler())
+                    .get("/lbstrategy",new GetStrategyHandler())
+                    .start(7000);
+        }
     }
 }

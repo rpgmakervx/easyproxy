@@ -58,6 +58,10 @@
         <value>true</value>
     </property>
     <property>
+        <name>proxy.api.key</name>
+        <value>T5GX1KD58F9O9B46QZ8S11V04D</value>
+    </property>
+    <property>
         <name>proxy.api.uri</name>
         <value>/easyproxy.*</value>
     </property>

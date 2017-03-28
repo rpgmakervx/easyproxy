@@ -4,6 +4,9 @@ package test;/**
  *  上午11:12
  */
 
+import org.easyarch.netcat.asynclient.AsyncHttpClient;
+import org.junit.jupiter.api.Test;
+
 /**
  * Description :
  * Created by YangZH on 16-9-26
@@ -11,6 +14,11 @@ package test;/**
  */
 
 public class HttpTest {
+
+    @Test
+    public void testJson(){
+        AsyncHttpClient client = new AsyncHttpClient("http://localhost:8800/index/user");
+    }
 
 //    @Test
 //    public void test() throws IOException {
