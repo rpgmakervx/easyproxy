@@ -1,6 +1,6 @@
 package org.easyproxy.web.app;
 
-import org.easyarch.netcat.server.App;
+import org.easyarch.netcat.web.server.App;
 import org.easyproxy.web.handler.IndexHandler;
 
 /**
