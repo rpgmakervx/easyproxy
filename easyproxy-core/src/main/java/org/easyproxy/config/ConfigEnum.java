@@ -42,6 +42,8 @@ public enum ConfigEnum {
     FIREWALL_FILTER("proxy.firewall.filter", "", "过滤的ip组"),
 
     API_OPEN("proxy.api.open", false, "easyproxy的api接口"),
+    API_ADMIN("proxy.api.admin", "", "easyproxy的api接口"),
+    API_KEY("proxy.api.key", "", "easyproxy的api接口"),
     APIURI("proxy.api.uri", "", "easyproxy的api接口");
 
     public String key;
