@@ -26,7 +26,7 @@
     <dependencies>
         <dependency>
             <groupId>org.easyarch</groupId>
-            <artifactId>netcat</artifactId>
+            <artifactId>netpet</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

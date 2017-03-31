@@ -1,9 +1,9 @@
 package org.easyproxy.api.app.handler;
 
-import org.easyarch.netcat.web.http.request.HandlerRequest;
-import org.easyarch.netcat.web.http.response.HandlerResponse;
-import org.easyarch.netcat.web.mvc.action.handler.HttpHandler;
-import org.easyarch.netcat.web.mvc.entity.Json;
+import org.easyarch.netpet.web.http.request.HandlerRequest;
+import org.easyarch.netpet.web.http.response.HandlerResponse;
+import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
+import org.easyarch.netpet.web.mvc.entity.Json;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.constants.LBStrategy;

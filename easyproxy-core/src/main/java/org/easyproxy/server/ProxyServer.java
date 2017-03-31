@@ -10,7 +10,9 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.easyarch.netcat.web.server.App;
+import org.easyarch.netpet.web.server.App;
+import org.easyproxy.api.app.filter.OperateFilter;
+import org.easyproxy.api.app.handler.ConfigHandler;
 import org.easyproxy.api.app.handler.LBStrategyHandler;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigEnum;
@@ -69,7 +71,9 @@ public class ProxyServer {
         System.out.println("is api open?:"+isApiOpen);
         if (isApiOpen){
             app.config().webView("/home/code4j/dumps");
-            app.post("/config",new LBStrategyHandler())
+            app.post("/config",new ConfigHandler())
+                    .get("/index",new LBStrategyHandler())
+                    .filter("/*",new OperateFilter())
                     .start(7000);
         }
     }

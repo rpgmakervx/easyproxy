@@ -4,7 +4,7 @@ package test;/**
  *  上午11:12
  */
 
-import org.easyarch.netcat.asynclient.AsyncHttpClient;
+import org.easyarch.netpet.asynclient.AsyncHttpClient;
 import org.junit.jupiter.api.Test;
 
 /**

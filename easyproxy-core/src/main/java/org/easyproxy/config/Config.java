@@ -81,7 +81,7 @@ abstract public class Config {
     }
 
     public void configForbiddenHosts(){
-        List array = JSONUtil.getListFromJson(Const.FILTERIP, params);
+        List array = JSONUtil.getListFromJson(ConfigEnum.FIREWALL_FILTER.key, params);
         for (int index=0;index<array.size();index++){
             forbiddenHosts.add((String) array.get(index));
         }

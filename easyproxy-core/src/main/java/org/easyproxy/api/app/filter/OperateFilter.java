@@ -1,9 +1,10 @@
 package org.easyproxy.api.app.filter;
 
-import org.easyarch.netcat.web.http.request.impl.HttpHandlerRequest;
-import org.easyarch.netcat.web.http.response.impl.HttpHandlerResponse;
-import org.easyarch.netcat.web.http.session.HttpSession;
-import org.easyarch.netcat.web.mvc.action.filter.HttpFilter;
+import org.easyarch.netpet.web.http.request.impl.HttpHandlerRequest;
+import org.easyarch.netpet.web.http.response.impl.HttpHandlerResponse;
+import org.easyarch.netpet.web.http.session.HttpSession;
+import org.easyarch.netpet.web.mvc.action.filter.HttpFilter;
+import org.easyarch.netpet.web.mvc.entity.Json;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
@@ -21,8 +22,8 @@ public class OperateFilter implements HttpFilter {
     @Override
     public boolean before(HttpHandlerRequest request, HttpHandlerResponse response) throws Exception {
         HttpSession session = request.getSession();
-        Boolean status = (Boolean) session.getAttr(STATUS);
-        if (status){
+        Object status = session.getAttr(STATUS);
+        if (status!=null){
             return true;
         }
         Config config = ConfigFactory.getConfig();
@@ -31,9 +32,10 @@ public class OperateFilter implements HttpFilter {
         String user = request.getParam("user");
         String passwd = request.getParam("passwd");
         if (admin.equals(user)&&key.equals(passwd)){
-            request.getSession().setAttr(STATUS,true);
+            request.getSession().setAttr(STATUS,new Object());
             return true;
         }
+        response.json(new Json("messgae","permission deny","code",403));
         return false;
     }
 

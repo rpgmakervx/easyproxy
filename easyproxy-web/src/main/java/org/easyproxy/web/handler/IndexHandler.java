@@ -1,9 +1,9 @@
 package org.easyproxy.web.handler;
 
 
-import org.easyarch.netcat.web.http.request.HandlerRequest;
-import org.easyarch.netcat.web.http.response.HandlerResponse;
-import org.easyarch.netcat.web.mvc.action.handler.HttpHandler;
+import org.easyarch.netpet.web.http.request.HandlerRequest;
+import org.easyarch.netpet.web.http.response.HandlerResponse;
+import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 
 /**
  * Created by xingtianyu on 17-3-26

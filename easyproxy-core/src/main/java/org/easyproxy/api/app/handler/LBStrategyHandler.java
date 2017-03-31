@@ -1,9 +1,9 @@
 package org.easyproxy.api.app.handler;
 
-import org.easyarch.netcat.web.http.request.HandlerRequest;
-import org.easyarch.netcat.web.http.response.HandlerResponse;
-import org.easyarch.netcat.web.mvc.action.handler.HttpHandler;
-import org.easyarch.netcat.web.mvc.entity.Json;
+import org.easyarch.netpet.web.http.request.HandlerRequest;
+import org.easyarch.netpet.web.http.response.HandlerResponse;
+import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
+import org.easyarch.netpet.web.mvc.entity.Json;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.constants.LBStrategy;
@@ -32,7 +32,7 @@ public class LBStrategyHandler implements HttpHandler {
             response.json(new Json(CODE,404,MESSAGE,ERRORMSG));
         }else{
             config.setLBStrategy(strategy);
-            response.json(new Json(CODE,200,OK));
+            response.json(new Json(MESSAGE,OK,CODE,200));
         }
     }
 }

@@ -1,7 +1,7 @@
 package org.easyproxy.web.app;
 
-import org.easyarch.netcat.web.context.HandlerContext;
-import org.easyarch.netcat.web.server.App;
+import org.easyarch.netpet.web.context.HandlerContext;
+import org.easyarch.netpet.web.server.App;
 import org.easyproxy.web.handler.IndexHandler;
 
 /**
