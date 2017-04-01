@@ -11,7 +11,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyarch.netpet.web.server.App;
-import org.easyproxy.api.app.filter.OperateFilter;
 import org.easyproxy.api.app.handler.ConfigHandler;
 import org.easyproxy.api.app.handler.LBStrategyHandler;
 import org.easyproxy.config.Config;
@@ -73,7 +72,6 @@ public class ProxyServer {
             app.config().webView("/home/code4j/dumps");
             app.post("/config",new ConfigHandler())
                     .get("/index",new LBStrategyHandler())
-                    .filter("/*",new OperateFilter())
                     .start(7000);
         }
     }

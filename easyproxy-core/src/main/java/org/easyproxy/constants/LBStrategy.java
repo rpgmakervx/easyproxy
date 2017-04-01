@@ -10,7 +10,7 @@ package org.easyproxy.constants;/**
  * 下午3:00
  */
 
-public enum  LBStrategy {
+public enum LBStrategy {
     ROUNDROBIN("roundrobin"),
     WEIGHT_ROUNDROBIN("weight_roundrobin"),
     IP_HASH("iphash"),

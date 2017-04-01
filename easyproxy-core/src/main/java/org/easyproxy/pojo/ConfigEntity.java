@@ -13,38 +13,98 @@ import java.util.List;
  */
 
 public class ConfigEntity {
-
+    /**
+     * 负载均衡器端口
+     */
     private Integer port;
-
+    /**
+     * 负载均衡策略
+     */
     private LBStrategy strategy;
-
+    /**
+     * 所负载的子节点以及权重信息
+     */
     private List<WeightHost> nodes;
-
+    /**
+     * 缓存是否开启
+     */
     private Boolean cacheOpen;
-
+    /**
+     * 缓存超时时长
+     */
     private Integer cacheTTL;
-
+    /**
+     * 缓存类型
+     */
     private CacheType cacheType;
-
+    /**
+     * 静态资源路径
+     */
     private String staticUrl;
-
+    /**
+     * 404页面文件名
+     */
     private String notFoundPage;
-
+    /**
+     * 400页面文件名
+     */
     private String badRequestPage;
-
+    /**
+     * 403页面文件名
+     */
     private String forbidPage;
-
+    /**
+     * 50x页面文件名
+     */
     private String errorPage;
-
+    /**
+     * 是否开启api接口
+     */
     private Boolean apiOpen;
-
+    /**
+     * 是否开启日志
+     */
     private Boolean logOpen;
-
+    /**
+     * 防盗链开关
+     */
     private Boolean antiLeechOpen;
-
+    /**
+     * 防火墙开关
+     */
     private Boolean fireWallOpen;
-
+    /**
+     * 防火墙黑名单
+     */
     private List<String> blackList ;
+    /**
+     * tcp back log
+     */
+    private Integer backLog;
+    /**
+     * tcp nodely(是否启用Nagle算法)
+     */
+    private Boolean noDely;
+    /**
+     * tcp reuse addr
+     */
+    private Boolean reuseAddress;
+    /**
+     * tcp keepalive
+     */
+    private Boolean keepAlive;
+    /**
+     * tcp solinger
+     */
+    private Integer soLinger;
+    /**
+     * tcp send buffer
+     */
+    private Integer sendBuffer;
+    /**
+     * tcp recieve buffer
+     */
+    private Integer recieveBuffer;
 
     public ConfigEntity() {
         nodes = new ArrayList<>();
@@ -185,5 +245,61 @@ public class ConfigEntity {
 
     public void addNode(WeightHost host){
         this.nodes.add(host);
+    }
+
+    public Integer getBackLog() {
+        return backLog;
+    }
+
+    public void setBackLog(Integer backLog) {
+        this.backLog = backLog;
+    }
+
+    public Boolean getNoDely() {
+        return noDely;
+    }
+
+    public void setNoDely(Boolean noDely) {
+        this.noDely = noDely;
+    }
+
+    public Boolean getReuseAddress() {
+        return reuseAddress;
+    }
+
+    public void setReuseAddress(Boolean reuseAddress) {
+        this.reuseAddress = reuseAddress;
+    }
+
+    public Boolean getKeepAlive() {
+        return keepAlive;
+    }
+
+    public void setKeepAlive(Boolean keepAlive) {
+        this.keepAlive = keepAlive;
+    }
+
+    public Integer getSoLinger() {
+        return soLinger;
+    }
+
+    public void setSoLinger(Integer soLinger) {
+        this.soLinger = soLinger;
+    }
+
+    public Integer getSendBuffer() {
+        return sendBuffer;
+    }
+
+    public void setSendBuffer(Integer sendBuffer) {
+        this.sendBuffer = sendBuffer;
+    }
+
+    public Integer getRecieveBuffer() {
+        return recieveBuffer;
+    }
+
+    public void setRecieveBuffer(Integer recieveBuffer) {
+        this.recieveBuffer = recieveBuffer;
     }
 }

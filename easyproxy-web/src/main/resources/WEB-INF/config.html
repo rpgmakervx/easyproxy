@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>配置中心</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,6 +26,11 @@
     <!-- Custom Fonts -->
     <link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <style>
+        .padding{
+            padding: 45px 15px 15px;
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,7 +46,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/index">EasyProxy 监控管理平台 v1.0</a>
+                <a class="navbar-brand" href="/index">EasyProxy 管理平台 v1.0</a>
             </div>
 
             <div class="navbar-default sidebar" role="navigation">
@@ -78,8 +83,42 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-12">
-                    
+                <div class="col-lg-12 ">
+                    <h4>负载均衡器属性</h4>
+                    <div class="col-lg-2">
+                        <label for="port">端口</label>
+                        <input type="text" class="form-control" id="port" name="port" placeholder="">
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="strategy">负载策略</label>
+                        <select class="form-control" id="strategy" name="strategy">
+                            <option value="roundrobin">轮询</option>
+                            <option value="weight_roundrobin">带权轮询</option>
+                            <option value="iphash">原地址哈希</option>
+                            <option value="less_connection">最小连接数</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-12 padding">
+                    <h4>缓存属性</h4>
+                    <div class="col-lg-2">
+                        <label for="cacheOpen">缓存开关</label>
+                        <select class="form-control" id="cacheOpen" name="cacheOpen">
+                            <option value="true">是</option>
+                            <option value="false">否</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="cacheOpen">缓存类型</label>
+                        <select class="form-control" id="cacheType" name="cacheType">
+                            <option value="redis">redis</option>
+                            <option value="ehcache">ehcache</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
+                        <label for="cacheTTL">缓存时长</label>
+                        <input type="text" class="form-control" id="cacheTTL" name="cacheTTL" placeholder="">
+                    </div>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

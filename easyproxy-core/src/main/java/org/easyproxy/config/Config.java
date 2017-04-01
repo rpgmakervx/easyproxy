@@ -168,6 +168,13 @@ abstract public class Config {
         setAntiLeechOpen(entity.getAntiLeechOpen());
         setFireWallOpen(entity.getFireWallOpen());
         setBlackList(entity.getBlackList());
+        setBackLog(entity.getBackLog());
+        setNoDely(entity.getNoDely());
+        setReuseAddress(entity.getReuseAddress());
+        setKeepAlive(entity.getKeepAlive());
+        setSoLinger(entity.getSoLinger());
+        setSendBuffer(entity.getSendBuffer());
+        setRecieveBuffer(entity.getRecieveBuffer());
     }
 
     public void setPort(Integer port){
@@ -274,6 +281,48 @@ abstract public class Config {
             params.put(Const.IP,iplist);
             params.put(Const.PORT,portlist);
             params.put(Const.WEIGHT,weightlist);
+        }
+    }
+
+    public void setBackLog(Integer backLog){
+        if (backLog != null){
+            params.put(ConfigEnum.BACKLOG.key,backLog);
+        }
+    }
+
+    public void setNoDely(Boolean noDely){
+        if (noDely != null){
+            params.put(ConfigEnum.NODELAY.key,noDely);
+        }
+    }
+
+    public void setReuseAddress(Boolean reuseAddress){
+        if (reuseAddress != null){
+            params.put(ConfigEnum.REUSEADDR.key,reuseAddress);
+        }
+    }
+
+    public void setKeepAlive(Boolean keepAlive){
+        if (keepAlive != null){
+            params.put(ConfigEnum.KEEPALIVE.key,keepAlive);
+        }
+    }
+
+    public void setSoLinger(Integer soLinger){
+        if (soLinger != null){
+            params.put(ConfigEnum.SOLINGER.key,soLinger);
+        }
+    }
+
+    public void setSendBuffer(Integer sendBuffer){
+        if (sendBuffer != null){
+            params.put(ConfigEnum.SNDBUF.key,sendBuffer);
+        }
+    }
+
+    public void setRecieveBuffer(Integer recieveBuffer){
+        if (recieveBuffer != null){
+            params.put(ConfigEnum.RCVBUF.key,recieveBuffer);
         }
     }
 
