@@ -2,6 +2,7 @@ package org.easyproxy.web.app;
 
 import org.easyarch.netpet.web.server.App;
 import org.easyproxy.web.handler.ConfigHandler;
+import org.easyproxy.web.handler.HostHandler;
 import org.easyproxy.web.handler.IndexHandler;
 
 /**
@@ -17,6 +18,7 @@ public class Application {
 //        app.config().webView("/home/code4j/dumps").notFound("notfound2");
         app.get("/index",new IndexHandler())
                 .get("/config",new ConfigHandler())
+                .get("/hosts",new HostHandler("http://127.0.0.1:7000/hosts"))
                 .start(9000);
     }
 }

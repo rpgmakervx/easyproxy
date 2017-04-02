@@ -12,7 +12,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyarch.netpet.web.server.App;
 import org.easyproxy.api.app.handler.ConfigHandler;
-import org.easyproxy.api.app.handler.LBStrategyHandler;
+import org.easyproxy.api.app.handler.HostHandler;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
@@ -69,9 +69,8 @@ public class ProxyServer {
         boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.API_OPEN.key));
         System.out.println("is api open?:"+isApiOpen);
         if (isApiOpen){
-            app.config().webView("/home/code4j/dumps");
             app.post("/config",new ConfigHandler())
-                    .get("/index",new LBStrategyHandler())
+                    .get("/hosts",new HostHandler())
                     .start(7000);
         }
     }

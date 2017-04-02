@@ -7,6 +7,7 @@ package org.easyproxy.config;/**
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.easyproxy.api.app.pojo.HostVO;
 import org.easyproxy.cache.CacheManager;
 import org.easyproxy.cache.CacheType;
 import org.easyproxy.cache.DefaultCache;
@@ -139,7 +140,17 @@ abstract public class Config {
 
     abstract public Integer getInt(String param);
 
-    abstract public List<String> getForbiddenHosts();
+    public List<String> getForbiddenHosts() {
+        return forbiddenHosts;
+    }
+
+    public List<HostVO> getLBHosts() {
+        List<HostVO> hosts = new ArrayList<>();
+        for (WeightHost host: weightHosts){
+            hosts.add(new HostVO(host));
+        }
+        return hosts;
+    }
 
     abstract public void setLBStrategy(String strategy);
 

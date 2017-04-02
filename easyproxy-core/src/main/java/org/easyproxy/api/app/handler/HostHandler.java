@@ -4,9 +4,12 @@ import org.easyarch.netpet.web.http.request.HandlerRequest;
 import org.easyarch.netpet.web.http.response.HandlerResponse;
 import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
+import org.easyproxy.api.app.pojo.HostVO;
+import org.easyproxy.api.app.pojo.ResponseEntity;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigFactory;
-import org.easyproxy.constants.LBStrategy;
+
+import java.util.List;
 
 /**
  * Created by xingtianyu on 17-3-27
@@ -14,12 +17,15 @@ import org.easyproxy.constants.LBStrategy;
  * description:
  */
 
-public class GetStrategyHandler implements HttpHandler {
+public class HostHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
         Config config = ConfigFactory.getConfig();
-        LBStrategy strategy = config.getLBStrategy();
-        response.json(new Json("strategy",strategy.key));
+        List<HostVO> hosts = config.getLBHosts();
+        ResponseEntity entity = new ResponseEntity(hosts.size(),hosts);
+        String json = Json.stringify(entity);
+        System.out.println("response entity:"+json);
+        response.json(json);
     }
 }

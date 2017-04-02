@@ -5,12 +5,15 @@ package org.easyproxy.config;/**
  */
 
 import org.apache.commons.lang3.StringUtils;
+import org.easyproxy.api.app.pojo.HostVO;
 import org.easyproxy.constants.Const;
 import org.easyproxy.constants.LBStrategy;
+import org.easyproxy.pojo.WeightHost;
 import org.easyproxy.util.struct.JSONUtil;
 import org.easyproxy.util.struct.XmlUtil;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -60,11 +63,6 @@ public class XmlConfig extends Config {
         if (StringUtils.isEmpty(param)||val == null)
             return Integer.valueOf(String.valueOf(ConfigEnum.getEnum(param).defVal));
         return val;
-    }
-
-    @Override
-    public List<String> getForbiddenHosts() {
-        return forbiddenHosts;
     }
 
     @Override
