@@ -9,32 +9,27 @@ import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
 
 /**
- * Created by xingtianyu on 17-4-2
- * 下午2:24
+ * Created by xingtianyu on 17-4-3
+ * 下午1:10
  * description:
  */
 
-public class HostHandler implements HttpHandler {
-
-    private String ip;
-
-    public HostHandler(String remoteIp){
-        this.ip = remoteIp;
-    }
+public class ConfigHostHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
-        AsyncHttpClient client = new AsyncHttpClient(ip);
-        client.get("/hosts", new AsyncResponseHandler() {
+        Json json = request.getJson();
+        AsyncHttpClient client = new AsyncHttpClient("http://localhost:7000");
+        System.out.println("config host handler json data:"+json.getJsonMap());
+        System.out.println("buffer content:"+request.getParamMap());
+        client.postJson("/config", json, new AsyncResponseHandler() {
             @Override
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
-                System.out.println("json data:"+asyncHttpResponse.getJson());
                 response.json(asyncHttpResponse.getJson());
             }
 
             @Override
             public void onFailure(int statusCode, Object o) {
-                System.out.println("fail");
                 response.json(new Json("code",statusCode,"message",o));
             }
         });

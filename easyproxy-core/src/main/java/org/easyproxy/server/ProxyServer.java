@@ -13,6 +13,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyarch.netpet.web.server.App;
 import org.easyproxy.api.app.handler.ConfigHandler;
 import org.easyproxy.api.app.handler.HostHandler;
+import org.easyproxy.api.app.handler.LBStrategyHandler;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
@@ -71,6 +72,7 @@ public class ProxyServer {
         if (isApiOpen){
             app.post("/config",new ConfigHandler())
                     .get("/hosts",new HostHandler())
+                    .get("/lbstrategy",new LBStrategyHandler())
                     .start(7000);
         }
     }

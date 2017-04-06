@@ -6,7 +6,6 @@ import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigFactory;
-import org.easyproxy.constants.LBStrategy;
 
 /**
  * Created by xingtianyu on 17-3-26
@@ -24,15 +23,7 @@ public class LBStrategyHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
-        String strategy = request.getParam(STRATEGY);
         Config config = ConfigFactory.getConfig();
-        LBStrategy lbStrategy = LBStrategy.getStrategy(strategy);
-        if (lbStrategy == null){
-            config.setLBStrategy(LBStrategy.ROUNDROBIN.key);
-            response.json(new Json(CODE,404,MESSAGE,ERRORMSG));
-        }else{
-            config.setLBStrategy(strategy);
-            response.json(new Json(MESSAGE,OK,CODE,200));
-        }
+        response.json(new Json(CODE,200,MESSAGE,config.getLBStrategy().key));
     }
 }

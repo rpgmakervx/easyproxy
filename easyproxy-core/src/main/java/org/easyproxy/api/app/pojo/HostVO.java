@@ -19,6 +19,9 @@ public class HostVO {
 
     private Integer weight;
 
+    public HostVO() {
+    }
+
     public HostVO(WeightHost host){
         this.id = StringKits.uuid();
         System.out.println("host id:"+id);

@@ -196,7 +196,7 @@ abstract public class Config {
 
     public void setStrategy(LBStrategy strategy){
         if (strategy != null){
-            params.put(ConfigEnum.LB_STRATEGY.key,strategy);
+            params.put(ConfigEnum.LB_STRATEGY.key,strategy.key);
         }
     }
 
@@ -280,6 +280,9 @@ abstract public class Config {
 
     public void setNodes(List<WeightHost> nodes){
         if (CollectionUtils.isNotEmpty(nodes)){
+            weightHosts.clear();
+            roundrobinHosts.clear();
+            System.out.println("set nodes");
             List<String> iplist = new ArrayList<>();
             List<Integer> weightlist = new ArrayList<>();
             List<Integer> portlist = new ArrayList<>();
@@ -288,6 +291,9 @@ abstract public class Config {
                 iplist.add(address.getHostString());
                 portlist.add(address.getPort());
                 weightlist.add(host.getWeight());
+                weightHosts.add(host);
+                roundrobinHosts.add(new InetSocketAddress(
+                        address.getHostString(),address.getPort()));
             }
             params.put(Const.IP,iplist);
             params.put(Const.PORT,portlist);
