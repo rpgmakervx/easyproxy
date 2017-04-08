@@ -1,8 +1,4 @@
-package org.easyproxy.handler.http.server;/**
- * Description : 
- * Created by YangZH on 16-8-22
- *  上午12:56
- */
+package org.easyproxy.handler.http.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -39,7 +35,6 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx,Object msg) throws Exception {
-        HttpRequest request = (HttpRequest) msg;
         if(this.handleForbidden(ctx)) {
             ctx.fireChannelRead(msg);
             return ;
@@ -52,7 +47,6 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
         if(remoteAddress == null) {
             return false;
         } else {
-//            ctx.pipeline().remove(this);
             if(!this.accept(remoteAddress)) {
                 return false;
             }

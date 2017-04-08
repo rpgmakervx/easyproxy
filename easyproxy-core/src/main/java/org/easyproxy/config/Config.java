@@ -22,6 +22,7 @@ import org.easyproxy.util.struct.JSONUtil;
 import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -37,7 +38,7 @@ abstract public class Config {
     protected List<InetSocketAddress> roundrobinHosts = new CopyOnWriteArrayList<InetSocketAddress>();
     protected List<WeightHost> weightHosts = new ArrayList<WeightHost>();
     //ip_filter
-    protected List<String> forbiddenHosts = new CopyOnWriteArrayList<String>();
+    protected Set<String> forbiddenHosts = new CopyOnWriteArraySet<>();
     protected AtomicInteger index = new AtomicInteger(-1);
     protected int cw = 0;
     protected int gcd = 0;
@@ -140,7 +141,7 @@ abstract public class Config {
 
     abstract public Integer getInt(String param);
 
-    public List<String> getForbiddenHosts() {
+    public Set<String> getForbiddenHosts() {
         return forbiddenHosts;
     }
 
@@ -275,6 +276,8 @@ abstract public class Config {
     public void setBlackList(List<String> blackList){
         if (CollectionUtils.isNotEmpty(blackList)){
             params.put(ConfigEnum.FIREWALL_FILTER.key,blackList);
+            forbiddenHosts.clear();
+            forbiddenHosts.addAll(blackList);
         }
     }
 

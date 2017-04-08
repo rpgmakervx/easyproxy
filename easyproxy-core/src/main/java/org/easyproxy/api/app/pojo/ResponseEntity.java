@@ -1,6 +1,7 @@
 package org.easyproxy.api.app.pojo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,10 +14,10 @@ import java.util.List;
 public class ResponseEntity<T> {
 
 
-    private List<T> rows;
+    private Collection<T> rows;
 
     private int total;
-    public ResponseEntity(int total, List<T> rows) {
+    public ResponseEntity(int total, Collection<T> rows) {
         this.rows = rows;
         this.total = total;
     }
@@ -26,7 +27,7 @@ public class ResponseEntity<T> {
     }
 
 
-    public List<T> getRows() {
+    public Collection<T> getRows() {
         return rows;
     }
 

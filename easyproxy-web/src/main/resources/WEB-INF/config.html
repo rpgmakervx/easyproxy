@@ -352,7 +352,15 @@
                 field: 'id',
                 values: [row.id]
             });
+
+        },
+        'click .delFWBtn': function (e, value, row, index) {
+            $('#firewall-table').bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
         }
+
     }
     function addNodesRow() {
         $('#nodes-table').bootstrapTable("insertRow", {
@@ -366,8 +374,18 @@
         })
         counter = parseInt(counter)+1;
     }
+    function addFWRow() {
+        $('#firewall-table').bootstrapTable("insertRow", {
+            index: $('#firewall-table').bootstrapTable('getOptions').totalRows,
+            row: {
+                id:counter,
+                ip: "127.0.0.1",
+            },
+        })
+        counter = parseInt(counter)+1;
+    }
 
-    function initDelBtn() {
+    function initDelHostBtn() {
         $("#delAllBtn").click(function () {
             var ids = getIdSelections();
             $('#nodes-table').bootstrapTable('remove', {
@@ -375,6 +393,17 @@
                 values: ids
             });
         });
+
+    }
+
+    function initDelFWBtn() {
+        $("#delFWAllBtn").click(function () {
+            var ids = getFWIdSelections();
+            $("#firewall-table").bootstrapTable("remove",{
+                field:'id',
+                values:ids
+            });
+        })
     }
 
     function initSubmitBtns() {
@@ -383,27 +412,14 @@
             var trs = $("#nodes-table").children("tbody").children("tr");
             for (index=0;index<trs.length;index++){
                 var tds = $(trs[index]).children(".nodeCell");
-                var ip = $(tds[0]).children().attr("data-value");
-                var port = $(tds[1]).children().attr("data-value");
-                var weight = $(tds[2]).children().attr("data-value");
+                var ip = $(tds[0]).children().text();
+                var port = $(tds[1]).children().text();
+                var weight = $(tds[2]).children().text();
                 var host = {ip:ip,port:port,weight:weight};
                 nodes.push(host);
             }
             var json ={port:$("#port").val(),strategy:$("#strategy").val(),nodes:nodes};
-            test = JSON.stringify(json);
-            $.ajax({
-                url:"/config",
-                type:'POST',
-                data:JSON.stringify(json),
-                dataType:'json',
-                success:function(data){
-                    if(data.code == 200){
-                        alert("配置完成")
-                    }else{
-                        alert("配置失败")
-                    }
-                }
-            })
+            postConfig(json);
         })
         $("#cacheBtn").click(function () {
 
@@ -415,12 +431,36 @@
 
         })
         $("#fwBtn").click(function () {
-
+            var blackList = [];
+            var trs = $("#firewall-table").children("tbody").children("tr");
+            for (index=0;index<trs.length;index++){
+                var tds = $(trs[index]).children(".nodeCell");
+                var ip = $(tds[0]).children().text();
+                blackList.push(ip);
+            }
+            var json ={fireWallOpen:$("#fireWallOpen").val(),blackList:blackList};
+            postConfig(json);
         })
         $("#logBtn").click(function () {
 
         })
+    }
 
+    function postConfig(json) {
+        test = JSON.stringify(json);
+        $.ajax({
+            url:"/config",
+            type:'POST',
+            data:JSON.stringify(json),
+            dataType:'json',
+            success:function(data){
+                if(data.code == 200){
+                    alert("配置完成")
+                }else{
+                    alert("配置失败")
+                }
+            }
+        })
     }
 
     function getIdSelections() {
@@ -464,7 +504,7 @@
                 return param;
             },
             onLoadSuccess:function (data) {
-                initDelBtn();
+                initDelHostBtn();
             },
             columns: [
                 {
@@ -565,7 +605,7 @@
             dataType: "json",
             method: "get",
             contentType: "application/x-www-form-urlencoded",
-            url: "/fireWall",
+            url: "/firewall",
             cache: false,
             dataField: "rows",
             sidePagination: "server", //服务端处理分页
@@ -590,7 +630,7 @@
                 return param;
             },
             onLoadSuccess:function (data) {
-                initDelBtn();
+                initDelFWBtn();
             },
             columns: [
                 {
@@ -610,6 +650,9 @@
                     filed: "ip",
                     align: "center",
                     events: operateEvents,
+                    cellStyle:{
+                        classes:"nodeCell"
+                    },
                     formatter: function (value, row, index) {
                         return row.ip
                     },
@@ -629,7 +672,7 @@
                     align: "center",
                     events: operateEvents,
                     formatter: function (value, row, index) {
-                        return "<button type='button' class='btn btn-warning btn-circle delBtn'><i class='fa fa-times'></i> </button>"
+                        return "<button type='button' class='btn btn-warning btn-circle delFWBtn'><i class='fa fa-times'></i> </button>"
                     },
                 }
             ]

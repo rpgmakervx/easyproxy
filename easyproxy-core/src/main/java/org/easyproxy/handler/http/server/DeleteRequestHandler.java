@@ -4,12 +4,13 @@ package org.easyproxy.handler.http.server;/**
  *  上午2:18
  */
 
-import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
-import org.easyproxy.client.HttpUtils;
+import org.easyarch.netpet.asynclient.client.AsyncHttpClient;
+import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandler;
+import org.easyarch.netpet.asynclient.http.response.AsyncHttpResponse;
 import org.easyproxy.selector.IPSelector;
 
 import java.net.InetSocketAddress;
@@ -44,10 +45,23 @@ public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
         String ip = addr.getHostString();
         allocAddress(ip);
-        HttpUtils client = new HttpUtils(address);
-        client.delete(request.uri(),request.headers(),
-                ByteBufUtil.getBytes(request.content()));
-        ctx.channel().writeAndFlush(client.getWholeResponse());
+        AsyncHttpClient client = new AsyncHttpClient("http",address);
+        client.send(request, new AsyncResponseHandler() {
+            @Override
+            public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
+                ctx.writeAndFlush(asyncHttpResponse.getResponse());
+            }
+
+            @Override
+            public void onFailure(int i, Object o) {
+
+            }
+
+            @Override
+            public void onFinally(AsyncHttpResponse asyncHttpResponse) {
+                ctx.writeAndFlush(asyncHttpResponse.getResponse());
+            }
+        });
     }
 
     public void complete(){

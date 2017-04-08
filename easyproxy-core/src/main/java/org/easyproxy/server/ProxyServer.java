@@ -12,6 +12,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyarch.netpet.web.server.App;
 import org.easyproxy.api.app.handler.ConfigHandler;
+import org.easyproxy.api.app.handler.FireWallHandler;
 import org.easyproxy.api.app.handler.HostHandler;
 import org.easyproxy.api.app.handler.LBStrategyHandler;
 import org.easyproxy.config.Config;
@@ -73,6 +74,7 @@ public class ProxyServer {
             app.post("/config",new ConfigHandler())
                     .get("/hosts",new HostHandler())
                     .get("/lbstrategy",new LBStrategyHandler())
+                    .get("/firewall",new FireWallHandler())
                     .start(7000);
         }
     }

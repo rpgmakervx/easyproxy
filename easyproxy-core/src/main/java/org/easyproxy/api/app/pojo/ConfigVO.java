@@ -316,12 +316,43 @@ public class ConfigVO {
         entity.setReuseAddress(reuseAddress);
         entity.setRecieveBuffer(recieveBuffer);
         List<WeightHost> hosts = new ArrayList<>();
-        for (HostVO vo:nodes){
-            InetSocketAddress address = new InetSocketAddress(vo.getIp(),vo.getPort());
-            WeightHost host = new WeightHost(address,vo.getWeight());
-            hosts.add(host);
+        if (nodes!= null){
+            for (HostVO vo:nodes){
+                InetSocketAddress address = new InetSocketAddress(vo.getIp(),vo.getPort());
+                WeightHost host = new WeightHost(address,vo.getWeight());
+                hosts.add(host);
+            }
         }
         entity.setNodes(hosts);
         return entity;
+    }
+
+    @Override
+    public String toString() {
+        return "ConfigVO{" +
+                "port=" + port +
+                ", strategy='" + strategy + '\'' +
+                ", nodes=" + nodes +
+                ", cacheOpen=" + cacheOpen +
+                ", cacheTTL=" + cacheTTL +
+                ", cacheType=" + cacheType +
+                ", staticUrl='" + staticUrl + '\'' +
+                ", notFoundPage='" + notFoundPage + '\'' +
+                ", badRequestPage='" + badRequestPage + '\'' +
+                ", forbidPage='" + forbidPage + '\'' +
+                ", errorPage='" + errorPage + '\'' +
+                ", apiOpen=" + apiOpen +
+                ", logOpen=" + logOpen +
+                ", antiLeechOpen=" + antiLeechOpen +
+                ", fireWallOpen=" + fireWallOpen +
+                ", blackList=" + blackList +
+                ", backLog=" + backLog +
+                ", noDely=" + noDely +
+                ", reuseAddress=" + reuseAddress +
+                ", keepAlive=" + keepAlive +
+                ", soLinger=" + soLinger +
+                ", sendBuffer=" + sendBuffer +
+                ", recieveBuffer=" + recieveBuffer +
+                '}';
     }
 }

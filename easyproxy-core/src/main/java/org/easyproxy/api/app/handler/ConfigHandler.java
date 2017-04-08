@@ -22,6 +22,7 @@ public class ConfigHandler implements HttpHandler{
         String data = Json.stringify(request.getJson());
         System.out.println("data:"+data);
         ConfigVO vo = Json.parse(data,ConfigVO.class);
+        System.out.println("vo:"+vo);
         config.buildConfig(vo.convert());
         response.json(new Json("message","config complete","code",200));
     }

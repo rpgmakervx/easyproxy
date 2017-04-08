@@ -14,7 +14,7 @@ import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.constants.Const;
 
-import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -57,10 +57,12 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     }
 
     private IpSubnetFilterRule[] getForbiddenList() {
-        List<String> forbidden_hosts = ConfigFactory.getConfig().getForbiddenHosts();
-        IpSubnetFilterRule[] rules = new IpSubnetFilterRule[forbidden_hosts.size()];
-        for (int index = 0; index < forbidden_hosts.size(); index++) {
-            rules[index] = new IpSubnetFilterRule(forbidden_hosts.get(index), 32, IpFilterRuleType.REJECT);
+        Set<String> forbiddenHosts = ConfigFactory.getConfig().getForbiddenHosts();
+        IpSubnetFilterRule[] rules = new IpSubnetFilterRule[forbiddenHosts.size()];
+        int index = 0;
+        for (String host:forbiddenHosts) {
+            rules[index] = new IpSubnetFilterRule(host, 32, IpFilterRuleType.REJECT);
+            index++;
         }
         return rules;
     }

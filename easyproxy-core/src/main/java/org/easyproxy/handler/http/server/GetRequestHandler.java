@@ -7,9 +7,11 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.easyarch.netpet.asynclient.client.AsyncHttpClient;
+import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandler;
+import org.easyarch.netpet.asynclient.http.response.AsyncHttpResponse;
 import org.easyproxy.cache.DefaultCache;
 import org.easyproxy.cache.redis.RedisCache;
-import org.easyproxy.client.HttpUtils;
 import org.easyproxy.selector.IPSelector;
 import org.easyproxy.util.codec.EncryptUtil;
 import org.easyproxy.util.struct.JSONUtil;
@@ -56,8 +58,8 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         String ip = addr.getHostString();
         allocAdress(ip);
         accessRecord(address.getHostString(), address.getPort(), true);
-        HttpUtils client = new HttpUtils(address);
-        client.connect();
+//        HttpUtils client = new HttpUtils(address);
+//        client.connect();
         byte[] data = EncryptUtil.decodeBase64(cache.get(request.uri(), ""));
         String headerStr = cache.get(request.uri() + HEADERS,"");
         if (ArrayUtils.isNotEmpty(data)&&
@@ -73,11 +75,30 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
             ctx.channel().writeAndFlush(response);
             return;
         }
-        client.send(request);
-        String headString = JSONUtil.map2Json(client.getHeadersAsMap());
-        cache.save(request.uri(), "", EncryptUtil.encodeBase64(bytes));
-        cache.save(request.uri() + HEADERS, "", headString);
-        ctx.writeAndFlush(client.getWholeResponse());
+        AsyncHttpClient client = new AsyncHttpClient("http",address);
+        client.send(request, new AsyncResponseHandler() {
+            @Override
+            public void onSuccess(AsyncHttpResponse asyncHttpResponse) throws Exception {
+                String headString = JSONUtil.map2Json(asyncHttpResponse.getAllHeaders());
+                cache.save(request.uri(), "", EncryptUtil.encodeBase64(bytes));
+                cache.save(request.uri() + HEADERS, "", headString);
+                ctx.writeAndFlush(asyncHttpResponse.getResponse());
+            }
+
+            @Override
+            public void onFailure(int i, Object o) throws Exception {
+
+            }
+
+            @Override
+            public void onFinally(AsyncHttpResponse asyncHttpResponse) throws Exception {
+                String headString = JSONUtil.map2Json(asyncHttpResponse.getAllHeaders());
+                cache.save(request.uri(), "", EncryptUtil.encodeBase64(bytes));
+                cache.save(request.uri() + HEADERS, "", headString);
+                ctx.writeAndFlush(asyncHttpResponse.getResponse());
+            }
+        });
+
         complete();
     }
 
