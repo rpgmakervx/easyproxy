@@ -422,13 +422,33 @@
             postConfig(json);
         })
         $("#cacheBtn").click(function () {
-
+            var cacheOpen = $("#cacheOpen").val();
+            var cacheType = $("#cacheType").val();
+            var cacheTTL = $("#cacheTTL").val();
+            var json = {cacheOpen:cacheOpen,cacheType:cacheType,cacheTTL:cacheTTL};
+            postConfig(json);
         })
         $("#rseBtn").click(function () {
-
+            var staticUri = $("#staticUri").val();
+            var notfoundPage = $("#notfoundPage").val();
+            var badRequestPage = $("#badRequestPage").val();
+            var forbidPage = $("#forbidPage").val();
+            var errorPage = $("#errorPage").val();
+            var json = {staticUri:staticUri,notfoundPage:notfoundPage,badRequestPage:badRequestPage,
+                forbidPage:forbidPage,errorPage:errorPage};
+            postConfig(json);
         })
         $("#tcpBtn").click(function () {
-
+            var backLog = $("#backLog").val();
+            var noDely = $("#noDely").val();
+            var reuseAddr = $("#reuseAddr").val();
+            var keepAlive = $("#keepAlive").val();
+            var soLinger = $("#soLinger").val();
+            var sendBuffer = $("#sendBuffer").val();
+            var recieveBuffer = $("#recieveBuffer").val();
+            var json = {backLog:backLog,noDely:noDely,reuseAddr:reuseAddr,
+                keepAlive:keepAlive,soLinger:soLinger,sendBuffer:sendBuffer,recieveBuffer:recieveBuffer};
+            postConfig(json);
         })
         $("#fwBtn").click(function () {
             var blackList = [];
@@ -438,11 +458,13 @@
                 var ip = $(tds[0]).children().text();
                 blackList.push(ip);
             }
-            var json ={fireWallOpen:$("#fireWallOpen").val(),blackList:blackList};
+            var json = {fireWallOpen:$("#fireWallOpen").val(),blackList:blackList};
             postConfig(json);
         })
         $("#logBtn").click(function () {
-
+            var logOpen = $("#logOpen").val();
+            var json = {logOpen:logOpen};
+            postConfig(json);
         })
     }
 
