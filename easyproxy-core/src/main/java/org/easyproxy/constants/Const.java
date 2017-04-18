@@ -57,7 +57,7 @@ public class Const {
     public static final String CONF = DIR+"conf"+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String TMP = DIR+"tmp"+File.separator;
-    public static final String RESOURCES = DIR+"resources"+File.separator;
+    public static final String RESOURCES = DIR+"resources"+File.separator+"static"+File.separator;
 
     //file name
     public static final String ACCESSLOG = LOGS+"access.log";

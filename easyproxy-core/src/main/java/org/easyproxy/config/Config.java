@@ -222,6 +222,9 @@ abstract public class Config {
     public void setStaticUrl(String staticUrl){
         if (StringUtils.isNotEmpty(staticUrl)){
             params.put(ConfigEnum.STATIC_URI.key,staticUrl);
+            System.out.println("put static as:"+staticUrl);
+            String val = typeMapper.get(PropertyConfig.class).getString(ConfigEnum.STATIC_URI.key);
+            System.out.println("val static as:"+val);
         }
     }
 

@@ -4,14 +4,10 @@ package org.easyproxy.handler.http.server;/**
  *  下午2:19
  */
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.HttpContent;
-import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
-import org.easyproxy.constants.Const;
 import org.easyproxy.log.Logger;
 import org.easyproxy.util.time.TimeUtil;
 
@@ -56,23 +52,10 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
     private void generateLog(HttpRequest request,String client_ip){
         HttpHeaders headers = request.headers();
         StringBuffer buffer = new StringBuffer();
-        String referername = headers.get(HttpHeaderNames.REFERER);
-        referername = referername==null? Const.NULLVALUE:referername;
-        String userAgent = headers.get(HttpHeaderNames.USER_AGENT);
-        HttpContent httpContent = (HttpContent) request;
-        ByteBuf content = httpContent.content();
-        buffer.append("currentTime:-->"+ TimeUtil.getFormattedDate(new Date())+"\n");
+        buffer.append("currentTime:"+ TimeUtil.getFormattedDate(new Date())+"\n");
         for (Map.Entry<String, String> entry:headers.entries()){
             buffer.append(entry.getKey()+":"+entry.getValue()+"\n");
         }
-//        String message = content.toString(CharsetUtil.UTF_8);
-//        buffer.append("method:").append(request.method().toString()).append("\n");
-//        buffer.append("visit time:").append(TimeUtil.getNowTime()).append("\n");
-//        buffer.append("remote-ip:").append(client_ip).append("\n");
-//        buffer.append("uri:").append(request.uri()).append("\n");
-//        buffer.append("referer:").append(referername).append("\n");
-//        buffer.append("user-agent:").append(userAgent).append("\n");
-//        buffer.append("body:\n").append(message).append("\n");
         logger.accessLog(buffer.toString() + "\n");
     }
 }

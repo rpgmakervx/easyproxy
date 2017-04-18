@@ -174,8 +174,8 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-2">
-                                    <label for="staticUri">静态资源根路径</label>
-                                    <input type="text" class="form-control" id="staticUri" name="staticUri" placeholder="请以 '/' 符号开头">
+                                    <label for="staticUrl">静态资源根路径</label>
+                                    <input type="text" class="form-control" id="staticUrl" name="staticUrl" placeholder="请以 '/' 符号开头">
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="notfoundPage">404文件名</label>
@@ -429,12 +429,12 @@
             postConfig(json);
         })
         $("#rseBtn").click(function () {
-            var staticUri = $("#staticUri").val();
+            var staticUrl = $("#staticUrl").val();
             var notfoundPage = $("#notfoundPage").val();
             var badRequestPage = $("#badRequestPage").val();
             var forbidPage = $("#forbidPage").val();
             var errorPage = $("#errorPage").val();
-            var json = {staticUri:staticUri,notfoundPage:notfoundPage,badRequestPage:badRequestPage,
+            var json = {staticUrl:staticUrl,notfoundPage:notfoundPage,badRequestPage:badRequestPage,
                 forbidPage:forbidPage,errorPage:errorPage};
             postConfig(json);
         })

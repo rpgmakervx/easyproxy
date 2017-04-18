@@ -33,12 +33,15 @@ public class PersonalPageHandler extends ChannelInboundHandlerAdapter {
         String uri = request.uri();
         Pattern pattern = Pattern.compile(ConfigFactory.getConfig().getString(ConfigEnum.STATIC_URI.key));
         boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.ISPROXY));
+        System.out.println("uri:"+uri);
+        System.out.println("pattern:"+ConfigFactory.getConfig().getString(ConfigEnum.STATIC_URI.key));
+        System.out.println("pass:"+(pattern.matcher(uri).matches()));
         if (!pattern.matcher(uri).matches()&&isProxy){
             ctx.fireChannelRead(request);
             return;
         }
         if (uri.equals(File.separator)){
-            uri = "static/index.html";
+            uri = "index.html";
         }
         response(ctx, Resource.getPage(RESOURCES+uri));
     }
