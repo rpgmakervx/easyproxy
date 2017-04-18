@@ -14,7 +14,7 @@ import org.easyarch.netpet.web.mvc.entity.Json;
  * description:
  */
 
-public class ConfigHostHandler implements HttpHandler {
+public class ConfigParamHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {

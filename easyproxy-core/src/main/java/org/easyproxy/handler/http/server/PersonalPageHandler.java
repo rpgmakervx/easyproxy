@@ -1,8 +1,4 @@
-package org.easyproxy.handler.http.server;/**
- * Description : 
- * Created by YangZH on 16-9-27
- *  下午1:48
- */
+package org.easyproxy.handler.http.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

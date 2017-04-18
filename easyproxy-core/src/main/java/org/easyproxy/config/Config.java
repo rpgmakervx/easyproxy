@@ -173,7 +173,7 @@ abstract public class Config {
         setStaticUrl(entity.getStaticUrl());
         setNotFoundPage(entity.getNotFoundPage());
         setBadRequestPage(entity.getBadRequestPage());
-        setForbigPage(entity.getForbidPage());
+        setForbidPage(entity.getForbidPage());
         setErrorPage(entity.getErrorPage());
         setApiOpen(entity.getApiOpen());
         setLogOpen(entity.getLogOpen());
@@ -240,7 +240,7 @@ abstract public class Config {
         }
     }
 
-    public void setForbigPage(String forbidPage){
+    public void setForbidPage(String forbidPage){
         if (StringUtils.isNotEmpty(forbidPage)){
             params.put(ConfigEnum.FORBIDDEN_PAGE.key,forbidPage);
         }
@@ -347,6 +347,48 @@ abstract public class Config {
         if (recieveBuffer != null){
             params.put(ConfigEnum.RCVBUF.key,recieveBuffer);
         }
+    }
+
+    public ConfigEntity getConfigEntity(){
+        ConfigEntity entity = new ConfigEntity();
+        entity.setPort(Integer.parseInt(
+                String.valueOf(params.get(ConfigEnum.LISTEN.key))));
+        entity.setStrategy(LBStrategy.valueOf(
+                String.valueOf(params.get(ConfigEnum.LB_STRATEGY.key))));
+        entity.setCacheOpen(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.CACHE_OPEN.key))));
+        entity.setCacheTTL(Integer.parseInt(
+                String.valueOf(params.get(ConfigEnum.CACHE_TTL.key))));
+        entity.setCacheType(CacheType.valueOf(
+                String.valueOf(params.get(ConfigEnum.CACHE_TYPE.key))));
+        entity.setStaticUrl(String.valueOf(params.get(ConfigEnum.STATIC_URI.key)));
+        entity.setNotFoundPage(String.valueOf(params.get(ConfigEnum.NOTFOUND_PAGE.key)));
+        entity.setBadRequestPage(String.valueOf(params.get(ConfigEnum.BADREQUEST_PAGE.key)));
+        entity.setForbidPage(String.valueOf(params.get(ConfigEnum.FORBIDDEN_PAGE.key)));
+        entity.setErrorPage(String.valueOf(params.get(ConfigEnum.ERROR_PAGE.key)));
+        entity.setApiOpen(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.API_OPEN.key))));
+        entity.setLogOpen(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.LOG_OPEN.key))));
+        entity.setAntiLeechOpen(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.ANTILEECH_OPEN.key))));
+        entity.setFireWallOpen(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.FIREWALL_OPEN.key))));
+        entity.setBackLog(Integer.parseInt(
+                String.valueOf(params.get(ConfigEnum.BACKLOG.key))));
+        entity.setNoDely(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.NODELAY.key))));
+        entity.setReuseAddress(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.REUSEADDR.key))));
+        entity.setKeepAlive(Boolean.valueOf(
+                String.valueOf(params.get(ConfigEnum.KEEPALIVE.key))));
+        entity.setSoLinger(Integer.parseInt(
+                String.valueOf(params.get(ConfigEnum.SOLINGER.key))));
+        entity.setSendBuffer(Integer.parseInt(
+                String.valueOf(params.get(ConfigEnum.SNDBUF.key))));
+        entity.setRecieveBuffer(Integer.parseInt(
+                String.valueOf(params.get(ConfigEnum.RCVBUF.key))));
+        return entity;
     }
 
     protected int getMaxDivisor(List<WeightHost> hosts) {

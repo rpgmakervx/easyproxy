@@ -15,7 +15,7 @@ public class Application {
         App app = new App();
         app.get("/index",new IndexHandler())
                 .get("/config",new ConfigHandler())
-                .post("/config",new ConfigHostHandler())
+                .post("/config",new ConfigParamHandler())
                 .get("/hosts",new HostHandler("http://127.0.0.1:7000"))
                 .get("/firewall",new FireWallHandler("http://127.0.0.1:7000"))
                 .start(9000);
