@@ -31,7 +31,8 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         
         boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.ISPROXY));
         boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.ANTILEECH_OPEN.key));
-        boolean hasIPFilter = ConfigFactory.getConfig().getForbiddenHosts().size() != 0;
+        boolean hasIPFilter = ConfigFactory.getConfig().getBoolean(ConfigEnum.FIREWALL_OPEN.key);
+        System.out.println("has ip filter:"+hasIPFilter);
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast("decoder", new HttpRequestDecoder());
         pipeline.addLast("encoder", new HttpResponseEncoder());
