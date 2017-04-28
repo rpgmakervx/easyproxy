@@ -7,10 +7,12 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRule;
 import io.netty.handler.ipfilter.IpFilterRuleType;
+import io.netty.handler.ipfilter.IpSubnetFilterRule;
 import org.easyproxy.resources.Resource;
 
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.util.Collection;
 
 import static org.easyproxy.constants.Const.CODE_FORBIDDEN;
 import static org.easyproxy.constants.Const.TEXT_HTML;
@@ -33,6 +35,16 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
+    public IPFilterHandler(Collection<String> col){
+        IpSubnetFilterRule[] rules = new IpSubnetFilterRule[col.size()];
+        int index = 0;
+        for (String host:col) {
+            rules[index] = new IpSubnetFilterRule(host, 32, IpFilterRuleType.REJECT);
+            index++;
+        }
+        this.rules = rules;
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx,Object msg) throws Exception {
         if(this.handleForbidden(ctx)) {
@@ -47,17 +59,14 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
         if(remoteAddress == null) {
             return false;
         } else {
-            if(!this.accept(remoteAddress)) {
-                return false;
-            }
-            return true;
+            return this.accept(remoteAddress);
         }
     }
 
     protected boolean accept(InetSocketAddress remoteAddress) throws Exception {
         IpFilterRule[] arr = this.rules;
         int len = arr.length;
-
+        System.out.println("ip filter arr:"+arr.length);
         for(int index = 0; index < len; index++) {
             IpFilterRule rule = arr[index];
             if(rule == null) {

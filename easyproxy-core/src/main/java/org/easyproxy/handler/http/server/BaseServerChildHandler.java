@@ -25,21 +25,22 @@ import java.util.Set;
 
 public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
-    private static final String DECODER = "decoder";
-    private static final String ENCODER = "encoder";
-    private static final String COMPRESS = "compress";
-    private static final String DECOMPRESS = "decompress";
-    private static final String AGGREGATOR = "aggregator";
+    public static final String DECODER = "decoder";
+    public static final String ENCODER = "encoder";
+    public static final String COMPRESS = "compress";
+    public static final String DECOMPRESS = "decompress";
+    public static final String AGGREGATOR = "aggregator";
 
-    private static final String LOGHANDLER = "accessLogHandler";
-    private static final String FILTERHANDLER = "ipFilterHandler";
-    private static final String ANTILEECHhHANDLER = "antiLeechHandler";
-    private static final String PERSONALPAGEHANLDER = "personalPageHandler";
-    private static final String GETHANDLER = "getHandler";
-    private static final String POSTHANDLER = "postHandler";
-    private static final String PUTHANDLER = "putHandler";
-    private static final String DELETEHANDLER = "deleteHandler";
+    public static final String LOGHANDLER = "accessLogHandler";
+    public static final String FILTERHANDLER = "ipFilterHandler";
+    public static final String ANTILEECHhHANDLER = "antiLeechHandler";
+    public static final String PERSONALPAGEHANLDER = "personalPageHandler";
+    public static final String GETHANDLER = "getHandler";
+    public static final String POSTHANDLER = "postHandler";
+    public static final String PUTHANDLER = "putHandler";
+    public static final String DELETEHANDLER = "deleteHandler";
 
+    public static ChannelPipeline PIPELINE ;
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
@@ -71,6 +72,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
             pipeline.addLast(PUTHANDLER,new PutRequestHandler());
             pipeline.addLast(DELETEHANDLER,new DeleteRequestHandler());
         }
+        PIPELINE = pipeline;
     }
 
     private IpSubnetFilterRule[] getForbiddenList() {
