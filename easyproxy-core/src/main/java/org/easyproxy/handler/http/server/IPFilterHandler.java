@@ -56,6 +56,7 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
 
     private boolean handleForbidden(ChannelHandlerContext ctx) throws Exception {
         InetSocketAddress remoteAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+        System.out.println("firewall access adress:"+remoteAddress);
         if(remoteAddress == null) {
             return false;
         } else {
@@ -68,6 +69,7 @@ public class IPFilterHandler extends ChannelInboundHandlerAdapter {
         int len = arr.length;
         System.out.println("ip filter arr:"+arr.length);
         for(int index = 0; index < len; index++) {
+            System.out.println("filted ip is:"+arr[index]);
             IpFilterRule rule = arr[index];
             if(rule == null) {
                 break;

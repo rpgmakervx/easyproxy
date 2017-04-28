@@ -8,6 +8,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
+import org.easyproxy.config.ConfigEnum;
+import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.log.Logger;
 import org.easyproxy.util.time.TimeUtil;
 
@@ -36,7 +38,12 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        messageReceived(ctx, msg);
+        boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.LOG_OPEN.key));
+        if (isLogOpen){
+            messageReceived(ctx, msg);
+        }else{
+            ctx.fireChannelRead(msg);
+        }
     }
 
 

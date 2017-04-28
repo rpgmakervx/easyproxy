@@ -32,7 +32,7 @@ public class ConfigHandler implements HttpHandler{
         ConfigVO vo = Json.parse(data,ConfigVO.class);
         System.out.println("vo:"+vo);
         config.buildConfig(vo.convert());
-        resetHandler(config);
+//        resetHandler(config);
         response.json(new Json("message","config complete","code",200));
     }
 
@@ -40,6 +40,7 @@ public class ConfigHandler implements HttpHandler{
         boolean ipFilterOpen = config.getBoolean(ConfigEnum.FIREWALL_OPEN.key);
         boolean logOpen = config.getBoolean(ConfigEnum.LOG_OPEN.key);
         List<String> names = BaseServerChildHandler.PIPELINE.names();
+        System.out.println("handler names:"+names);
         if (names.contains(BaseServerChildHandler.FILTERHANDLER)){
             System.out.println("-------------filter handler removed");
             BaseServerChildHandler.PIPELINE.remove(BaseServerChildHandler.FILTERHANDLER);

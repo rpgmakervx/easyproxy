@@ -8,6 +8,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
+import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.resources.Resource;
 
@@ -28,7 +29,12 @@ public class AntiLeechHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        messageReceived(ctx, msg);
+        boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.ANTILEECH_OPEN.key));
+        if (isAntileechOpen){
+            messageReceived(ctx, msg);
+        }else{
+            ctx.fireChannelRead(msg);
+        }
     }
 
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {

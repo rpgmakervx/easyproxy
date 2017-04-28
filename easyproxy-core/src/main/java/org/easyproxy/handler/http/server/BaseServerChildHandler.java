@@ -44,27 +44,18 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        boolean isLogOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.LOG_OPEN.key));
-        
+
         boolean isProxy = Boolean.valueOf(ConfigFactory.getConfig().getString(Const.ISPROXY));
-        boolean isAntileechOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.ANTILEECH_OPEN.key));
-        boolean hasIPFilter = ConfigFactory.getConfig().getBoolean(ConfigEnum.FIREWALL_OPEN.key);
-        System.out.println("has ip filter:"+hasIPFilter);
+
         ChannelPipeline pipeline = ch.pipeline();
         pipeline.addLast(DECODER, new HttpRequestDecoder());
         pipeline.addLast(ENCODER, new HttpResponseEncoder());
         pipeline.addLast(COMPRESS, new HttpContentCompressor(9));
         pipeline.addLast(DECOMPRESS, new HttpContentDecompressor());
         pipeline.addLast(AGGREGATOR, new HttpObjectAggregator(1024000));
-        if (hasIPFilter){
-            pipeline.addLast(FILTERHANDLER,new IPFilterHandler(getForbiddenList()));
-        }
-        if (isLogOpen) {
-            pipeline.addLast(LOGHANDLER,new AccessLogHandler());
-        }
-        if (isAntileechOpen) {
-            pipeline.addLast(ANTILEECHhHANDLER,new AntiLeechHandler());
-        }
+        pipeline.addLast(FILTERHANDLER,new FireWallHandler());
+        pipeline.addLast(LOGHANDLER,new AccessLogHandler());
+        pipeline.addLast(ANTILEECHhHANDLER,new AntiLeechHandler());
         pipeline.addLast(PERSONALPAGEHANLDER,new PersonalPageHandler());
         if (isProxy) {
             pipeline.addLast(GETHANDLER,new GetRequestHandler());
