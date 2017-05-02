@@ -38,6 +38,7 @@ public class ConfigFactory {
                 return prefix.equals(Const.CONFIGNAME);
             }
         });
+        System.out.println("configDir:"+configDir+"\n config files:"+files);
         for (File f : files) {
             String fileName = f.getName();
             String suffix = fileName.substring(
@@ -65,6 +66,14 @@ public class ConfigFactory {
     }
 
     public static void main(String[] args) {
-        System.out.println("aaa.txt".lastIndexOf("."));
+        File file = new File("");
+        File[] files = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                String fileName = pathname.getName();
+                String prefix = fileName.substring(0, fileName.lastIndexOf("."));
+                return prefix.equals(Const.CONFIGNAME);
+            }
+        });
     }
 }

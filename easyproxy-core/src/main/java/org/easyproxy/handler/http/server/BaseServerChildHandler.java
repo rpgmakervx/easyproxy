@@ -10,7 +10,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.ipfilter.IpFilterRuleType;
 import io.netty.handler.ipfilter.IpSubnetFilterRule;
-import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.constants.Const;
 
@@ -40,7 +39,6 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     public static final String PUTHANDLER = "putHandler";
     public static final String DELETEHANDLER = "deleteHandler";
 
-    public static ChannelPipeline PIPELINE ;
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
@@ -63,7 +61,6 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
             pipeline.addLast(PUTHANDLER,new PutRequestHandler());
             pipeline.addLast(DELETEHANDLER,new DeleteRequestHandler());
         }
-        PIPELINE = pipeline;
     }
 
     private IpSubnetFilterRule[] getForbiddenList() {

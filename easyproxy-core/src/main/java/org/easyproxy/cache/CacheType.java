@@ -10,7 +10,7 @@ public enum CacheType {
     REDIS("redis"),
     EHCACHE("ehcache");
 
-    private String name;
+    public String name;
 
     CacheType(String name) {
         this.name = name;

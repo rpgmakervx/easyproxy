@@ -39,7 +39,7 @@ public class ConfigVO {
     /**
      * 缓存类型
      */
-    private CacheType cacheType;
+    private String cacheType;
     /**
      * 静态资源路径
      */
@@ -149,11 +149,11 @@ public class ConfigVO {
         this.cacheTTL = cacheTTL;
     }
 
-    public CacheType getCacheType() {
+    public String getCacheType() {
         return cacheType;
     }
 
-    public void setCacheType(CacheType cacheType) {
+    public void setCacheType(String cacheType) {
         this.cacheType = cacheType;
     }
 
@@ -293,13 +293,47 @@ public class ConfigVO {
         this.recieveBuffer = recieveBuffer;
     }
 
+    public void convert(ConfigEntity entity){
+        this.port = entity.getPort();
+        this.strategy = entity.getStrategy().key;
+        this.cacheOpen = entity.getCacheOpen();
+        this.cacheTTL = entity.getCacheTTL();
+        this.cacheType = entity.getCacheType().name;
+        this.staticUrl = entity.getStaticUrl();
+        this.notFoundPage = entity.getNotFoundPage();
+        this.badRequestPage = entity.getBadRequestPage();
+        this.errorPage = entity.getErrorPage();
+        this.logOpen = entity.getLogOpen();
+        this.antiLeechOpen = entity.getAntiLeechOpen();
+        this.fireWallOpen = entity.getFireWallOpen();
+        this.blackList = entity.getBlackList();
+        this.backLog = entity.getBackLog();
+        this.keepAlive = entity.getKeepAlive();
+        this.noDely = entity.getNoDely();
+        this.soLinger = entity.getSoLinger();
+        this.sendBuffer = entity.getSendBuffer();
+        this.reuseAddress = entity.getReuseAddress();
+        this.recieveBuffer = entity.getRecieveBuffer();
+        List<HostVO> vos = new ArrayList<>();
+        if (nodes!= null){
+            for (WeightHost host:entity.getNodes()){
+                HostVO vo = new HostVO();
+                vo.setPort(host.getAddress().getPort());
+                vo.setIp(host.getAddress().getHostString());
+                vo.setWeight(host.getWeight());
+                vos.add(vo);
+            }
+        }
+        this.nodes = vos;
+    }
+
     public ConfigEntity convert(){
         ConfigEntity entity = new ConfigEntity();
         entity.setPort(port);
         entity.setStrategy(LBStrategy.getStrategy(strategy));
         entity.setCacheOpen(cacheOpen);
         entity.setCacheTTL(cacheTTL);
-        entity.setCacheType(cacheType);
+        entity.setCacheType(CacheType.getCache(cacheType));
         entity.setStaticUrl(staticUrl);
         entity.setNotFoundPage(notFoundPage);
         entity.setBadRequestPage(badRequestPage);

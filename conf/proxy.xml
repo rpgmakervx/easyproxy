@@ -31,7 +31,7 @@
     </property>
     <property>
         <name>proxy.resource.notfoundPage</name>
-        <value>404page.html</value>
+        <value>notfound.html</value>
     </property>
     <property>
         <name>proxy.resource.errorPage</name>

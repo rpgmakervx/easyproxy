@@ -26,14 +26,14 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Description : 
+ * Description :
  * Created by code4j on 16-12-16
- *  下午8:27
+ * 下午8:27
  */
 
 abstract public class Config {
 
-    protected Map<Class<? extends Config>,JSONObject> typeMapper = new HashMap<>();
+    protected Map<Class<? extends Config>, JSONObject> typeMapper = new HashMap<>();
 
     protected List<InetSocketAddress> roundrobinHosts = new CopyOnWriteArrayList<InetSocketAddress>();
     protected List<WeightHost> weightHosts = new ArrayList<WeightHost>();
@@ -51,28 +51,28 @@ abstract public class Config {
     protected String configPath;
 
     protected void init() {
-        System.out.println("params --> \n"+params);
-        typeMapper.put(this.getClass(),params);
+        System.out.println("params --> \n" + params);
+        typeMapper.put(this.getClass(), params);
         configLoadbalanceStrategy();
         configForbiddenHosts();
     }
 
-    public void configLoadbalanceStrategy(){
+    public void configLoadbalanceStrategy() {
         List ips = JSONUtil.getListFromJson(Const.IP, params);
         List ports = JSONUtil.getListFromJson(Const.PORT, params);
         List weights = JSONUtil.getListFromJson(Const.WEIGHT, params);
-        if (ips.size()==0){
-            params.put(Const.ISPROXY,false);
+        if (ips.size() == 0) {
+            params.put(Const.ISPROXY, false);
             return;
         }
-        params.put(Const.ISPROXY,true);
+        params.put(Const.ISPROXY, true);
         //先把权重和IP 端口相关信息记录到内存（各个List）中，记录总权重
         for (int index = 0; index < ips.size(); index++) {
             String ip = (String) ips.get(index);
             int port = (int) ports.get(index);
             int weight = (int) weights.get(index);
-            InetSocketAddress address = new InetSocketAddress(ip,port);
-            WeightHost whost = new WeightHost(address,weight<=0?1:weight);
+            InetSocketAddress address = new InetSocketAddress(ip, port);
+            WeightHost whost = new WeightHost(address, weight <= 0 ? 1 : weight);
             weightHosts.add(whost);
             roundrobinHosts.add(address);
         }
@@ -82,9 +82,9 @@ abstract public class Config {
         gcd = getMaxDivisor(weightHosts);
     }
 
-    public void configForbiddenHosts(){
+    public void configForbiddenHosts() {
         List array = JSONUtil.getListFromJson(ConfigEnum.FIREWALL_FILTER.key, params);
-        for (int index=0;index<array.size();index++){
+        for (int index = 0; index < array.size(); index++) {
             forbiddenHosts.add((String) array.get(index));
         }
     }
@@ -147,7 +147,7 @@ abstract public class Config {
 
     public List<HostVO> getLBHosts() {
         List<HostVO> hosts = new ArrayList<>();
-        for (WeightHost host: weightHosts){
+        for (WeightHost host : weightHosts) {
             hosts.add(new HostVO(host));
         }
         return hosts;
@@ -159,11 +159,11 @@ abstract public class Config {
 
     abstract public String getConfigPath();
 
-    public List<InetSocketAddress> getServers(){
+    public List<InetSocketAddress> getServers() {
         return roundrobinHosts;
     }
 
-    public void buildConfig(ConfigEntity entity){
+    public void buildConfig(ConfigEntity entity) {
         setPort(entity.getPort());
         setStrategy(entity.getStrategy());
         setNodes(entity.getNodes());
@@ -189,205 +189,305 @@ abstract public class Config {
         setRecieveBuffer(entity.getRecieveBuffer());
     }
 
-    public void setPort(Integer port){
-        if (port != null){
-            params.put(ConfigEnum.LISTEN.key,port);
+    public void setPort(Integer port) {
+        if (port != null) {
+            params.put(ConfigEnum.LISTEN.key, port);
         }
     }
 
-    public void setStrategy(LBStrategy strategy){
-        if (strategy != null){
-            params.put(ConfigEnum.LB_STRATEGY.key,strategy.key);
+    public void setStrategy(LBStrategy strategy) {
+        if (strategy != null) {
+            params.put(ConfigEnum.LB_STRATEGY.key, strategy.key);
         }
     }
 
-    public void setCacheOpen(Boolean cacheOpen){
-        if (cacheOpen != null){
-            params.put(ConfigEnum.CACHE_OPEN.key,cacheOpen);
+    public void setCacheOpen(Boolean cacheOpen) {
+        if (cacheOpen != null) {
+            params.put(ConfigEnum.CACHE_OPEN.key, cacheOpen);
         }
     }
 
-    public void setCacheTTL(Integer cacheTTL){
-        if (cacheTTL != null){
-            params.put(ConfigEnum.CACHE_TTL.key,cacheTTL);
+    public void setCacheTTL(Integer cacheTTL) {
+        if (cacheTTL != null) {
+            params.put(ConfigEnum.CACHE_TTL.key, cacheTTL);
         }
     }
 
-    public void setCacheType(CacheType cacheType){
-        if (cacheType != null){
-            params.put(ConfigEnum.CACHE_TYPE.key,cacheType);
+    public void setCacheType(CacheType cacheType) {
+        if (cacheType != null) {
+            params.put(ConfigEnum.CACHE_TYPE.key, cacheType);
         }
     }
 
-    public void setStaticUrl(String staticUrl){
-        if (StringUtils.isNotEmpty(staticUrl)){
-            params.put(ConfigEnum.STATIC_URI.key,staticUrl);
-            System.out.println("put static as:"+staticUrl);
+    public void setStaticUrl(String staticUrl) {
+        if (StringUtils.isNotEmpty(staticUrl)) {
+            params.put(ConfigEnum.STATIC_URI.key, staticUrl);
+            System.out.println("put static as:" + staticUrl);
             String val = typeMapper.get(PropertyConfig.class).getString(ConfigEnum.STATIC_URI.key);
-            System.out.println("val static as:"+val);
+            System.out.println("val static as:" + val);
         }
     }
 
-    public void setNotFoundPage(String notFoundPage){
-        if (StringUtils.isNotEmpty(notFoundPage)){
-            params.put(ConfigEnum.NOTFOUND_PAGE.key,notFoundPage);
+    public void setNotFoundPage(String notFoundPage) {
+        if (StringUtils.isNotEmpty(notFoundPage)) {
+            params.put(ConfigEnum.NOTFOUND_PAGE.key, notFoundPage);
         }
     }
 
-    public void setBadRequestPage(String badRequestPage){
-        if (StringUtils.isNotEmpty(badRequestPage)){
-            params.put(ConfigEnum.BADREQUEST_PAGE.key,badRequestPage);
+    public void setBadRequestPage(String badRequestPage) {
+        if (StringUtils.isNotEmpty(badRequestPage)) {
+            params.put(ConfigEnum.BADREQUEST_PAGE.key, badRequestPage);
         }
     }
 
-    public void setForbidPage(String forbidPage){
-        if (StringUtils.isNotEmpty(forbidPage)){
-            params.put(ConfigEnum.FORBIDDEN_PAGE.key,forbidPage);
+    public void setForbidPage(String forbidPage) {
+        if (StringUtils.isNotEmpty(forbidPage)) {
+            params.put(ConfigEnum.FORBIDDEN_PAGE.key, forbidPage);
         }
     }
 
-    public void setErrorPage(String errorPage){
-        if (StringUtils.isNotEmpty(errorPage)){
-            params.put(ConfigEnum.ERROR_PAGE.key,errorPage);
+    public void setErrorPage(String errorPage) {
+        if (StringUtils.isNotEmpty(errorPage)) {
+            params.put(ConfigEnum.ERROR_PAGE.key, errorPage);
         }
     }
 
-    public void setApiOpen(Boolean apiOpen){
-        if (apiOpen != null){
-            params.put(ConfigEnum.API_OPEN.key,apiOpen);
+    public void setApiOpen(Boolean apiOpen) {
+        if (apiOpen != null) {
+            params.put(ConfigEnum.API_OPEN.key, apiOpen);
         }
     }
 
-    public void setLogOpen(Boolean logOpen){
-        if (logOpen != null){
-            params.put(ConfigEnum.LOG_OPEN.key,logOpen);
+    public void setLogOpen(Boolean logOpen) {
+        if (logOpen != null) {
+            params.put(ConfigEnum.LOG_OPEN.key, logOpen);
         }
     }
 
-    public void setAntiLeechOpen(Boolean antiLeechOpen){
-        if (antiLeechOpen != null){
-            params.put(ConfigEnum.ANTILEECH_OPEN.key,antiLeechOpen);
+    public void setAntiLeechOpen(Boolean antiLeechOpen) {
+        if (antiLeechOpen != null) {
+            params.put(ConfigEnum.ANTILEECH_OPEN.key, antiLeechOpen);
         }
     }
 
-    public void setFireWallOpen(Boolean fireWallOpen){
-        if (fireWallOpen != null){
-            params.put(ConfigEnum.FIREWALL_OPEN.key,fireWallOpen);
+    public void setFireWallOpen(Boolean fireWallOpen) {
+        if (fireWallOpen != null) {
+            params.put(ConfigEnum.FIREWALL_OPEN.key, fireWallOpen);
         }
     }
 
-    public void setBlackList(List<String> blackList){
-        if (CollectionUtils.isNotEmpty(blackList)){
-            params.put(ConfigEnum.FIREWALL_FILTER.key,blackList);
+    public void setBlackList(List<String> blackList) {
+        if (CollectionUtils.isNotEmpty(blackList)) {
+            params.put(ConfigEnum.FIREWALL_FILTER.key, blackList);
             forbiddenHosts.clear();
             forbiddenHosts.addAll(blackList);
         }
     }
 
-    public void setNodes(List<WeightHost> nodes){
-        if (CollectionUtils.isNotEmpty(nodes)){
+    public void setNodes(List<WeightHost> nodes) {
+        if (CollectionUtils.isNotEmpty(nodes)) {
             weightHosts.clear();
             roundrobinHosts.clear();
             System.out.println("set nodes");
             List<String> iplist = new ArrayList<>();
             List<Integer> weightlist = new ArrayList<>();
             List<Integer> portlist = new ArrayList<>();
-            for (WeightHost host:nodes){
+            for (WeightHost host : nodes) {
                 InetSocketAddress address = host.getAddress();
                 iplist.add(address.getHostString());
                 portlist.add(address.getPort());
                 weightlist.add(host.getWeight());
                 weightHosts.add(host);
                 roundrobinHosts.add(new InetSocketAddress(
-                        address.getHostString(),address.getPort()));
+                        address.getHostString(), address.getPort()));
             }
-            params.put(Const.IP,iplist);
-            params.put(Const.PORT,portlist);
-            params.put(Const.WEIGHT,weightlist);
+            params.put(Const.IP, iplist);
+            params.put(Const.PORT, portlist);
+            params.put(Const.WEIGHT, weightlist);
         }
     }
 
-    public void setBackLog(Integer backLog){
-        if (backLog != null){
-            params.put(ConfigEnum.BACKLOG.key,backLog);
+    public void setBackLog(Integer backLog) {
+        if (backLog != null) {
+            params.put(ConfigEnum.BACKLOG.key, backLog);
         }
     }
 
-    public void setNoDely(Boolean noDely){
-        if (noDely != null){
-            params.put(ConfigEnum.NODELAY.key,noDely);
+    public void setNoDely(Boolean noDely) {
+        if (noDely != null) {
+            params.put(ConfigEnum.NODELAY.key, noDely);
         }
     }
 
-    public void setReuseAddress(Boolean reuseAddress){
-        if (reuseAddress != null){
-            params.put(ConfigEnum.REUSEADDR.key,reuseAddress);
+    public void setReuseAddress(Boolean reuseAddress) {
+        if (reuseAddress != null) {
+            params.put(ConfigEnum.REUSEADDR.key, reuseAddress);
         }
     }
 
-    public void setKeepAlive(Boolean keepAlive){
-        if (keepAlive != null){
-            params.put(ConfigEnum.KEEPALIVE.key,keepAlive);
+    public void setKeepAlive(Boolean keepAlive) {
+        if (keepAlive != null) {
+            params.put(ConfigEnum.KEEPALIVE.key, keepAlive);
         }
     }
 
-    public void setSoLinger(Integer soLinger){
-        if (soLinger != null){
-            params.put(ConfigEnum.SOLINGER.key,soLinger);
+    public void setSoLinger(Integer soLinger) {
+        if (soLinger != null) {
+            params.put(ConfigEnum.SOLINGER.key, soLinger);
         }
     }
 
-    public void setSendBuffer(Integer sendBuffer){
-        if (sendBuffer != null){
-            params.put(ConfigEnum.SNDBUF.key,sendBuffer);
+    public void setSendBuffer(Integer sendBuffer) {
+        if (sendBuffer != null) {
+            params.put(ConfigEnum.SNDBUF.key, sendBuffer);
         }
     }
 
-    public void setRecieveBuffer(Integer recieveBuffer){
-        if (recieveBuffer != null){
-            params.put(ConfigEnum.RCVBUF.key,recieveBuffer);
+    public void setRecieveBuffer(Integer recieveBuffer) {
+        if (recieveBuffer != null) {
+            params.put(ConfigEnum.RCVBUF.key, recieveBuffer);
         }
     }
 
-    public ConfigEntity getConfigEntity(){
+    public ConfigEntity getConfigEntity() {
         ConfigEntity entity = new ConfigEntity();
-        entity.setPort(Integer.parseInt(
-                String.valueOf(params.get(ConfigEnum.LISTEN.key))));
-        entity.setStrategy(LBStrategy.valueOf(
-                String.valueOf(params.get(ConfigEnum.LB_STRATEGY.key))));
-        entity.setCacheOpen(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.CACHE_OPEN.key))));
-        entity.setCacheTTL(Integer.parseInt(
-                String.valueOf(params.get(ConfigEnum.CACHE_TTL.key))));
-        entity.setCacheType(CacheType.valueOf(
-                String.valueOf(params.get(ConfigEnum.CACHE_TYPE.key))));
-        entity.setStaticUrl(String.valueOf(params.get(ConfigEnum.STATIC_URI.key)));
-        entity.setNotFoundPage(String.valueOf(params.get(ConfigEnum.NOTFOUND_PAGE.key)));
-        entity.setBadRequestPage(String.valueOf(params.get(ConfigEnum.BADREQUEST_PAGE.key)));
-        entity.setForbidPage(String.valueOf(params.get(ConfigEnum.FORBIDDEN_PAGE.key)));
-        entity.setErrorPage(String.valueOf(params.get(ConfigEnum.ERROR_PAGE.key)));
-        entity.setApiOpen(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.API_OPEN.key))));
-        entity.setLogOpen(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.LOG_OPEN.key))));
-        entity.setAntiLeechOpen(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.ANTILEECH_OPEN.key))));
-        entity.setFireWallOpen(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.FIREWALL_OPEN.key))));
-        entity.setBackLog(Integer.parseInt(
-                String.valueOf(params.get(ConfigEnum.BACKLOG.key))));
-        entity.setNoDely(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.NODELAY.key))));
-        entity.setReuseAddress(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.REUSEADDR.key))));
-        entity.setKeepAlive(Boolean.valueOf(
-                String.valueOf(params.get(ConfigEnum.KEEPALIVE.key))));
-        entity.setSoLinger(Integer.parseInt(
-                String.valueOf(params.get(ConfigEnum.SOLINGER.key))));
-        entity.setSendBuffer(Integer.parseInt(
-                String.valueOf(params.get(ConfigEnum.SNDBUF.key))));
-        entity.setRecieveBuffer(Integer.parseInt(
-                String.valueOf(params.get(ConfigEnum.RCVBUF.key))));
+        if (params.get(ConfigEnum.LISTEN.key) == null) {
+            entity.setPort(Integer.parseInt(
+                    String.valueOf(ConfigEnum.LISTEN.defVal)));
+        } else {
+            entity.setPort(Integer.parseInt(
+                    String.valueOf(params.get(ConfigEnum.LISTEN.key))));
+        }
+        if (params.get(ConfigEnum.LB_STRATEGY.key) == null) {
+            entity.setPort(Integer.parseInt(
+                    String.valueOf(ConfigEnum.LB_STRATEGY.defVal)));
+        } else {
+            entity.setStrategy(LBStrategy.getStrategy(
+                    String.valueOf(params.get(ConfigEnum.LB_STRATEGY.key))));
+        }
+        if (params.get(ConfigEnum.CACHE_OPEN.key) == null) {
+            entity.setCacheOpen(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.CACHE_OPEN.defVal)));
+        } else {
+            entity.setCacheOpen(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.CACHE_OPEN.key))));
+        }
+        if (params.get(ConfigEnum.CACHE_TTL.key) == null) {
+            entity.setCacheTTL(Integer.parseInt(
+                    String.valueOf(ConfigEnum.CACHE_TTL.defVal)));
+        } else {
+            entity.setCacheTTL(Integer.parseInt(
+                    String.valueOf(params.get(ConfigEnum.CACHE_TTL.key))));
+        }
+        if (params.get(ConfigEnum.CACHE_TYPE.key) == null) {
+            entity.setCacheType(CacheType.getCache(
+                    String.valueOf(ConfigEnum.CACHE_TYPE.defVal)));
+        } else {
+            entity.setCacheType(CacheType.getCache(
+                    String.valueOf(params.get(ConfigEnum.CACHE_TYPE.key))));
+        }
+        if (params.get(ConfigEnum.STATIC_URI.key) == null) {
+            entity.setStaticUrl(String.valueOf(ConfigEnum.STATIC_URI.defVal));
+        } else {
+            entity.setStaticUrl(String.valueOf(params.get(ConfigEnum.STATIC_URI.key)));
+        }
+        if (params.get(ConfigEnum.NOTFOUND_PAGE.key) == null) {
+            entity.setNotFoundPage(String.valueOf(ConfigEnum.NOTFOUND_PAGE.defVal));
+        } else {
+            entity.setNotFoundPage(String.valueOf(params.get(ConfigEnum.NOTFOUND_PAGE.key)));
+        }
+        if (params.get(ConfigEnum.BADREQUEST_PAGE.key) == null){
+            entity.setBadRequestPage(String.valueOf(ConfigEnum.BADREQUEST_PAGE.defVal));
+        }else{
+            entity.setBadRequestPage(String.valueOf(params.get(ConfigEnum.BADREQUEST_PAGE.key)));
+        }
+        if (params.get(ConfigEnum.FORBIDDEN_PAGE.key) == null){
+            entity.setForbidPage(String.valueOf(ConfigEnum.FORBIDDEN_PAGE.defVal));
+        }else{
+            entity.setBadRequestPage(String.valueOf(params.get(ConfigEnum.FORBIDDEN_PAGE.key)));
+        }
+        if (params.get(ConfigEnum.ERROR_PAGE.key) == null){
+            entity.setErrorPage(String.valueOf(ConfigEnum.ERROR_PAGE.defVal));
+        }else{
+            entity.setErrorPage(String.valueOf(params.get(ConfigEnum.ERROR_PAGE.key)));
+        }
+        if (params.get(ConfigEnum.API_OPEN.key) == null) {
+            entity.setApiOpen(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.API_OPEN.defVal)));
+        }else{
+            entity.setApiOpen(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.API_OPEN.key))));
+        }
+        if (params.get(ConfigEnum.LOG_OPEN.key) == null){
+            entity.setLogOpen(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.LOG_OPEN.defVal)));
+        }else{
+            entity.setLogOpen(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.LOG_OPEN.key))));
+        }
+        if (params.get(ConfigEnum.ANTILEECH_OPEN.key) == null){
+            entity.setAntiLeechOpen(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.ANTILEECH_OPEN.defVal)));
+        }else{
+            entity.setAntiLeechOpen(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.ANTILEECH_OPEN.key))));
+        }
+        if (params.get(ConfigEnum.FIREWALL_OPEN.key) == null){
+            entity.setFireWallOpen(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.FIREWALL_OPEN.defVal)));
+        }else{
+            entity.setFireWallOpen(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.FIREWALL_OPEN.key))));
+        }
+        if (params.get(ConfigEnum.BACKLOG.key) == null){
+            entity.setBackLog(Integer.parseInt(
+                    String.valueOf(ConfigEnum.BACKLOG.defVal)));
+        }else{
+            entity.setBackLog(Integer.parseInt(
+                    String.valueOf(params.get(ConfigEnum.BACKLOG.key))));
+        }
+        if (params.get(ConfigEnum.NODELAY.key) == null){
+            entity.setNoDely(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.NODELAY.defVal)));
+        }else{
+            entity.setNoDely(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.NODELAY.key))));
+        }
+        if (params.get(ConfigEnum.REUSEADDR.key) == null){
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.REUSEADDR.defVal)));
+        }else{
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.REUSEADDR.key))));
+        }
+        if (params.get(ConfigEnum.KEEPALIVE.key) == null){
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.KEEPALIVE.defVal)));
+        }else{
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.KEEPALIVE.key))));
+        }
+        if (params.get(ConfigEnum.SOLINGER.key) == null){
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.SOLINGER.defVal)));
+        }else{
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.SOLINGER.key))));
+        }
+        if (params.get(ConfigEnum.SNDBUF.key) == null){
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.SNDBUF.defVal)));
+        }else{
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.SNDBUF.key))));
+        }
+        if (params.get(ConfigEnum.RCVBUF.key) == null){
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(ConfigEnum.RCVBUF.defVal)));
+        }else{
+            entity.setReuseAddress(Boolean.valueOf(
+                    String.valueOf(params.get(ConfigEnum.RCVBUF.key))));
+        }
         return entity;
     }
 

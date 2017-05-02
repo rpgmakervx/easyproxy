@@ -73,7 +73,7 @@ public class ProxyServer {
                     .get("/lbstrategy",new LBStrategyHandler())
                     .get("/firewall",new FireWallHandler())
                     .get("/params",new ParamsHandler())
-                    .start(7000);
+                    .start(9999);
         }
     }
 }

@@ -8,13 +8,13 @@ folder=${path}"/lib"
 main_jar=":easyproxy.jar"
 all_jar=""  
 
-config_file=${path}"/conf/proxy.xml"
+config_file=${path}"/conf/"
 echo
 for file in ${folder}/*; do  
     temp_file=`basename $file`  
     all_jar="${all_jar}:${folder}/${temp_file}"
 done
-main_class="EasyProxy"
+main_class="org.easyproxy.startup.EasyProxy"
 cd "bin"
 
 if [ -n "$1" ];then

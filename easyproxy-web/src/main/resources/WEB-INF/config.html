@@ -99,20 +99,23 @@
                             <div class="row">
                                 <div class="col-lg-2">
                                     <label for="port">端口</label>
-                                    <input type="text" class="form-control" id="port" name="port" placeholder="请填写数字">
+                                    <p>
+                                        <span id="port">9524</span>
+                                    </p>
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="strategy">负载策略</label>
                                     <select class="form-control" id="strategy" name="strategy">
-                                        <option value="roundrobin">轮询</option>
-                                        <option value="weight_roundrobin">带权轮询</option>
-                                        <option value="iphash">原地址哈希</option>
-                                        <option value="less_connection">最小连接数</option>
+                                        <option id="roundrobin" value="roundrobin" <#if config.strategy == "roundrobin">selected</#if> >轮询</option>
+                                        <option id="weight_roundrobin" value="weight_roundrobin" <#if config.strategy == "weight_roundrobin">selected</#if>>带权轮询</option>
+                                        <option id="iphash" value="iphash" <#if config.strategy == "iphash">selected</#if> >原地址哈希</option>
+                                        <option id="less_connection" value="less_connection" <#if config.strategy == "less_connection">selected</#if>>最小连接数</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row top">
                                 <div class="tab-content col-lg-6 top">
+                                    <label for="nodes-table">子节点</label>
                                     <table width="100%" style="white-space:nowrap"
                                            class="table table-responsive table-bordered table-hover"
                                            id="nodes-table">
@@ -142,12 +145,12 @@
                                 <div class="col-lg-2">
                                     <label for="cacheOpen">缓存开关</label>
                                     <select class="form-control" id="cacheOpen" name="cacheOpen">
-                                        <option value="true">是</option>
-                                        <option value="false">否</option>
+                                        <option id="cacheOpenTrue" value="true">是</option>
+                                        <option id="cacheOpenFalse" value="false">否</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-2">
-                                    <label for="cacheOpen">缓存类型</label>
+                                    <label for="cacheType">缓存类型</label>
                                     <select class="form-control" id="cacheType" name="cacheType">
                                         <option value="redis">redis</option>
                                         <option value="ehcache">ehcache</option>
@@ -211,47 +214,67 @@
                             <div class="row">
                                 <div class="col-lg-2">
                                     <label for="backLog">tcp backLog</label>
-                                    <input type="text" class="form-control" id="backLog" name="backLog" placeholder="请填写数字">
+                                    <p>
+                                        <span id="backLog">512</span>
+                                    </p>
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="noDely">tcp no dely</label>
-                                    <select class="form-control" id="noDely" name="noDely">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
+                                    <p>
+                                        <span id="noDely">true</span>
+                                    </p>
+                                    <!--<select class="form-control" id="noDely" name="noDely">-->
+                                        <!--<option value="true">true</option>-->
+                                        <!--<option value="false">false</option>-->
+                                    <!--</select>-->
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="reuseAddr">tcp reuse address</label>
-                                    <select class="form-control" id="reuseAddr" name="reuseAddr">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
+                                    <p>
+                                        <span id="reuseAddr">true</span>
+                                    </p>
+                                    <!--<select class="form-control" id="reuseAddr" name="reuseAddr">-->
+                                        <!--<option value="true">true</option>-->
+                                        <!--<option value="false">false</option>-->
+                                    <!--</select>-->
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="keepAlive">tcp keepalive</label>
-                                    <select class="form-control" id="keepAlive" name="keepAlive">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
+                                    <p>
+                                        <span id="keepAlive">true</span>
+                                    </p>
+                                    <!--<select class="form-control" id="keepAlive" name="keepAlive">-->
+                                        <!--<option value="true">true</option>-->
+                                        <!--<option value="false">false</option>-->
+                                    <!--</select>-->
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="soLinger">tcp solinger</label>
-                                    <input type="text" class="form-control" id="soLinger" name="soLinger" placeholder="请填写数字">
+                                    <p>
+                                        <span id="soLinger">-1</span>
+                                    </p>
+                                    <!--<input type="text" class="form-control" id="soLinger" name="soLinger" placeholder="请填写数字">-->
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="sendBuffer">tcp send buffer</label>
-                                    <input type="text" class="form-control" id="sendBuffer" name="sendBuffer" placeholder="请填写数字">
+                                    <p>
+                                        <span id="sendBuffer">4096</span>
+                                    </p>
+                                    <!--<input type="text" class="form-control" id="sendBuffer" name="sendBuffer" placeholder="请填写数字">-->
                                 </div>
                                 <div class="col-lg-2">
                                     <label for="recieveBuffer">tcp recieve buffer</label>
-                                    <input type="text" class="form-control" id="recieveBuffer" name="recieveBuffer" placeholder="请填写数字">
+                                    <p>
+                                        <span id="recieveBuffer">4096</span>
+                                    </p>
+                                    <!--<input type="text" class="form-control" id="recieveBuffer" name="recieveBuffer" placeholder="请填写数字">-->
                                 </div>
                             </div>
-                            <div class="row top">
-                                <div class="col-lg-2">
-                                    <button type="button" id="tcpBtn" class="btn btn-outline btn-primary">提交配置</button>
-                                </div>
-                            </div>
+                            <!--<div class="row top">-->
+                                <!--<div class="col-lg-2">-->
+                                    <!--<button type="button" id="tcpBtn" class="btn btn-outline btn-primary">提交配置</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
                         </div>
                     </div>
 
@@ -361,6 +384,23 @@
             });
         }
 
+    }
+    function loadParams() {
+        $.ajax({
+            url:"/config/params",
+            type:'GET',
+            dataType:'json',
+            success:function(data){
+                if(data.code == 200){
+                    var config = data.data;
+                    $("#port").html(config.port);
+                    $("#"+config.strategy).attr("selected",true);
+                    $("#")
+                }else{
+                    alert("获取配置失败")
+                }
+            }
+        })
     }
     function addNodesRow() {
         $('#nodes-table').bootstrapTable("insertRow", {

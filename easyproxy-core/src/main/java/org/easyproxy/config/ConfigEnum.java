@@ -28,8 +28,8 @@ public enum ConfigEnum {
     CACHE_TTL("proxy.cache.ttl", 30, "缓存失效时间"),
     CACHE_TYPE("proxy.cache.type", "redis", "缓存类型"),
 
-    NOTFOUND_PAGE("proxy.resource.notfoundPage", "404page.html", "404页面"),
-    STATIC_URI("proxy.resource.staticUri", "/easyproxy/.*", "静态资源uri"),
+    NOTFOUND_PAGE("proxy.resource.notfoundPage", "notfound.html", "404页面"),
+    STATIC_URI("proxy.resource.staticUri", "/static/.*", "静态资源uri"),
     BADREQUEST_PAGE("proxy.resource.badRequestPage", "badrequest.html", "400页面"),
     FORBIDDEN_PAGE("proxy.resource.forbidPage", "forbidden.html", "禁止访问页面"),
     ERROR_PAGE("proxy.resource.errorPage", "error.html", "服务端错误页面"),

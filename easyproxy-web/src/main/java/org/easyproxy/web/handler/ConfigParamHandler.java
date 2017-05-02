@@ -21,10 +21,10 @@ public class ConfigParamHandler implements HttpHandler {
         Json json = request.getJson();
         AsyncHttpClient client = new AsyncHttpClient("http://localhost:7000");
         System.out.println("post config json:"+json);
-        client.postJson("/config", json, new AsyncResponseHandlerAdapter() {
+        client.postJson("/params", json, new AsyncResponseHandlerAdapter() {
             @Override
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
-                response.json(asyncHttpResponse.getJson());
+                response.json(new Json("code",200,"message","success","data",asyncHttpResponse.getJson()));
             }
 
             @Override
