@@ -461,31 +461,31 @@ abstract public class Config {
                     String.valueOf(params.get(ConfigEnum.REUSEADDR.key))));
         }
         if (params.get(ConfigEnum.KEEPALIVE.key) == null){
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setKeepAlive(Boolean.valueOf(
                     String.valueOf(ConfigEnum.KEEPALIVE.defVal)));
         }else{
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setKeepAlive(Boolean.valueOf(
                     String.valueOf(params.get(ConfigEnum.KEEPALIVE.key))));
         }
         if (params.get(ConfigEnum.SOLINGER.key) == null){
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setSoLinger(Integer.valueOf(
                     String.valueOf(ConfigEnum.SOLINGER.defVal)));
         }else{
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setSoLinger(Integer.valueOf(
                     String.valueOf(params.get(ConfigEnum.SOLINGER.key))));
         }
         if (params.get(ConfigEnum.SNDBUF.key) == null){
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setSendBuffer(Integer.valueOf(
                     String.valueOf(ConfigEnum.SNDBUF.defVal)));
         }else{
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setSendBuffer(Integer.valueOf(
                     String.valueOf(params.get(ConfigEnum.SNDBUF.key))));
         }
         if (params.get(ConfigEnum.RCVBUF.key) == null){
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setRecieveBuffer(Integer.valueOf(
                     String.valueOf(ConfigEnum.RCVBUF.defVal)));
         }else{
-            entity.setReuseAddress(Boolean.valueOf(
+            entity.setRecieveBuffer(Integer.valueOf(
                     String.valueOf(params.get(ConfigEnum.RCVBUF.key))));
         }
         return entity;

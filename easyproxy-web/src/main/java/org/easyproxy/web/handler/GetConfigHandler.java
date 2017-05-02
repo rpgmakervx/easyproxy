@@ -20,8 +20,8 @@ public class GetConfigHandler implements HttpHandler {
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
         HandlerContext context = request.getContext();
-        String ip = String.valueOf(context.globalConfig("remoteAddress"));
-        AsyncHttpClient client = new AsyncHttpClient(ip);
+        String host = String.valueOf(context.globalConfig("remoteAddress"));
+        AsyncHttpClient client = new AsyncHttpClient(host);
         client.get("/params", new AsyncResponseHandlerAdapter() {
             @Override
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) {

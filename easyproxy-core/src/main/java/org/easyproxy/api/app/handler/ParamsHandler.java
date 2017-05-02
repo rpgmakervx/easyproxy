@@ -24,7 +24,7 @@ public class ParamsHandler implements HttpHandler {
         ConfigVO vo = new ConfigVO();
         vo.convert(entity);
         Json json = Json.parse(vo);
-        System.out.println("current config json:\n"+json);
+        System.out.println("current config json:\n"+vo);
         response.json(json);
     }
 }
