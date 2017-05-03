@@ -39,13 +39,13 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 
 进入每个tomcat的`/webapps/ROOT/`，打开`index.jsp`页面,在页面顶部添加tomcat **x**, **x**代表tomcat的编号，也代表了真实节点
 
-##缓存：
+## 缓存：
 
 目前版本只有`redis`作为缓存介质，redis相关配置不再介绍。
 
 安装好后直接启动服务：`redis-server`.启动后使用`redis-cli`,输入命令`ping`,能够收到响应`pong`说明redis服务已经成功启动
 
-##easyproxy启动：
+## easyproxy启动：
 
 首先请配置easyproxy的localhost，node等相关信息如下：
 ```xml
@@ -81,6 +81,9 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 进入`bin`目录，运行 `./startup` 启动服务
 
 假设配置文件中`localhost`设置为**127.0.0.1**，打开浏览器输入[http://127.0.0.1:9524/static/index.html](http://127.0.0.1:9524/static/index.html),看到easyproxy的首页，说明服务启动成功。
+
+此时确保你的两个tomcat都是启动的，浏览器输入：[http://127.0.0.1:9524](http://127.0.0.1:9524) 能看到tomcat的默认页面，说明反向代理效果成功。
+多次请求这个地址会看到页面上的编号在发生变化，说明多次请求被路由到了不同的tomcat上，达到请求负载均衡的目的
 
 # 用户指南
 
