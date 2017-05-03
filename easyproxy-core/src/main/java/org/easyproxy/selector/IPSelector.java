@@ -6,7 +6,7 @@ package org.easyproxy.selector;/**
 
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.config.PropertyConfig;
-import org.easyproxy.constants.Const;
+import org.easyproxy.constants.LBStrategy;
 
 import java.net.InetSocketAddress;
 
@@ -28,20 +28,20 @@ public class IPSelector {
     }
 
     public InetSocketAddress select(){
-        String lb_strategy = "";
+        LBStrategy lb_strategy = null;
         if (ConfigFactory.getConfig() instanceof PropertyConfig){
-            lb_strategy = ConfigFactory.getConfig().getString(LB_STRATEGY.key);
+            lb_strategy = LBStrategy.getStrategy(ConfigFactory.getConfig().getString(LB_STRATEGY.key));
         }else{
-            lb_strategy = ConfigFactory.getConfig().getString(LB_STRATEGY.key);
+            lb_strategy = LBStrategy.getStrategy(ConfigFactory.getConfig().getString(LB_STRATEGY.key));
         }
         switch (lb_strategy){
-            case Const.ROUNDROBIN:
+            case ROUNDROBIN:
                 return ConfigFactory.getConfig().roundRobin();
-            case Const.WEIGHT_ROUNDROBIN:
+            case WEIGHT_ROUNDROBIN:
                 return ConfigFactory.getConfig().weight();
-            case Const.IP_HASH:
+            case IP_HASH:
                 return ConfigFactory.getConfig().ipHash(ip);
-            case Const.LEAST_CONNECT:
+            case LESS_CONNECT:
                 return ConfigFactory.getConfig().leastConnect();
             default:
                 return ConfigFactory.getConfig().roundRobin();

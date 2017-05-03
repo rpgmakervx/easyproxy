@@ -24,7 +24,7 @@ public class ConfigParamHandler implements HttpHandler {
         String host = String.valueOf(context.globalConfig("remoteAddress"));
         AsyncHttpClient client = new AsyncHttpClient(host);
         System.out.println("post config json:"+json);
-        client.postJson("/params", json, new AsyncResponseHandlerAdapter() {
+        client.postJson("/config", json, new AsyncResponseHandlerAdapter() {
             @Override
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
                 response.json(new Json("code",200,"message","success","data",asyncHttpResponse.getJson()));
@@ -32,6 +32,7 @@ public class ConfigParamHandler implements HttpHandler {
 
             @Override
             public void onFailure(int statusCode, Object o) {
+                System.out.println("post config fail:"+new String((byte[]) o));
                 response.json(new Json("code",statusCode,"message",String.valueOf(o)));
             }
         });

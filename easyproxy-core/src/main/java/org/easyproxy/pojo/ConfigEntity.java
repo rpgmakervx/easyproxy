@@ -302,4 +302,33 @@ public class ConfigEntity {
     public void setRecieveBuffer(Integer recieveBuffer) {
         this.recieveBuffer = recieveBuffer;
     }
+
+    @Override
+    public String toString() {
+        return "ConfigEntity{" +
+                "port=" + port +
+                ", strategy=" + strategy +
+                ", nodes=" + nodes +
+                ", cacheOpen=" + cacheOpen +
+                ", cacheTTL=" + cacheTTL +
+                ", cacheType=" + cacheType +
+                ", staticUrl='" + staticUrl + '\'' +
+                ", notFoundPage='" + notFoundPage + '\'' +
+                ", badRequestPage='" + badRequestPage + '\'' +
+                ", forbidPage='" + forbidPage + '\'' +
+                ", errorPage='" + errorPage + '\'' +
+                ", apiOpen=" + apiOpen +
+                ", logOpen=" + logOpen +
+                ", antiLeechOpen=" + antiLeechOpen +
+                ", fireWallOpen=" + fireWallOpen +
+                ", blackList=" + blackList +
+                ", backLog=" + backLog +
+                ", noDely=" + noDely +
+                ", reuseAddress=" + reuseAddress +
+                ", keepAlive=" + keepAlive +
+                ", soLinger=" + soLinger +
+                ", sendBuffer=" + sendBuffer +
+                ", recieveBuffer=" + recieveBuffer +
+                '}';
+    }
 }

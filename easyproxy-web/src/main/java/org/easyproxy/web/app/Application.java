@@ -14,7 +14,6 @@ public class Application {
     public static void main(String[] args) throws Exception {
         App app = new App();
         app.config()
-                .notFound("notfound2")
                 .globalConfig("remoteAddress","http://127.0.0.1:9999");
         app.get("/index",new IndexHandler())
                 .get("/config",new ConfigHandler())

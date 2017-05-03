@@ -300,8 +300,9 @@ public class ConfigVO {
         this.cacheTTL = entity.getCacheTTL();
         this.cacheType = entity.getCacheType().name;
         this.staticUrl = entity.getStaticUrl();
-        this.notFoundPage = entity.getNotFoundPage();
         this.badRequestPage = entity.getBadRequestPage();
+        this.notFoundPage = entity.getNotFoundPage();
+        this.forbidPage = entity.getForbidPage();
         this.errorPage = entity.getErrorPage();
         this.logOpen = entity.getLogOpen();
         this.antiLeechOpen = entity.getAntiLeechOpen();
@@ -337,6 +338,7 @@ public class ConfigVO {
         entity.setStaticUrl(staticUrl);
         entity.setNotFoundPage(notFoundPage);
         entity.setBadRequestPage(badRequestPage);
+        entity.setForbidPage(forbidPage);
         entity.setErrorPage(errorPage);
         entity.setLogOpen(logOpen);
         entity.setAntiLeechOpen(antiLeechOpen);

@@ -117,6 +117,7 @@ abstract public class Config {
             address = weightHosts.get(0).getAddress();
             System.out.println("weight负载均衡失败");
         }
+        System.out.println("weight address:"+address);
         return address;
     }
 
@@ -359,7 +360,7 @@ abstract public class Config {
                     String.valueOf(params.get(ConfigEnum.LISTEN.key))));
         }
         if (params.get(ConfigEnum.LB_STRATEGY.key) == null) {
-            entity.setPort(Integer.parseInt(
+            entity.setStrategy(LBStrategy.getStrategy(
                     String.valueOf(ConfigEnum.LB_STRATEGY.defVal)));
         } else {
             entity.setStrategy(LBStrategy.getStrategy(
@@ -404,7 +405,7 @@ abstract public class Config {
         if (params.get(ConfigEnum.FORBIDDEN_PAGE.key) == null){
             entity.setForbidPage(String.valueOf(ConfigEnum.FORBIDDEN_PAGE.defVal));
         }else{
-            entity.setBadRequestPage(String.valueOf(params.get(ConfigEnum.FORBIDDEN_PAGE.key)));
+            entity.setForbidPage(String.valueOf(params.get(ConfigEnum.FORBIDDEN_PAGE.key)));
         }
         if (params.get(ConfigEnum.ERROR_PAGE.key) == null){
             entity.setErrorPage(String.valueOf(ConfigEnum.ERROR_PAGE.defVal));

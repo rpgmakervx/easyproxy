@@ -31,7 +31,7 @@ public class ConfigHandler implements HttpHandler {
 
             @Override
             public void onFailure(int statusCode, Object o) {
-                System.out.println("fail");
+                System.out.println("fail:"+o);
                 response.json(new Json("code",statusCode,"message",o));
             }
         });

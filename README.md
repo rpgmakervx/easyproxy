@@ -170,5 +170,19 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 * proxy.firewall.open=false
 * proxy.firewall.filter=192.168.117.1,192.168.0.110
 
+## easyproxy控制台：
+
+在`web`目录下执行脚本 `./startup` 便可运行easyproxy的控制台，端口 9000
+
+打开浏览器访问页面： [http://localhost:9000/index](http://localhost:9000/index) 即可看到控制台界面。
+
+操作指南
+
+1.配置中心：修改负载均衡器的属性或相关配置信息,例如负载均衡策略，负载节点增减等
+
+2.性能监控：监控负载均衡器所在节点或子节点健康状况等。（开发中）
+
+3.日志分析：通过access log 分析每日请求量，来源地址和客户端等信息。（开发中）
+
 ## Thanks:
 感谢 [大魔王](https://github.com/andilyliao) 提供技术思路和部分方案

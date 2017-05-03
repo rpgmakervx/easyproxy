@@ -4,15 +4,17 @@ package org.easyproxy.handler.http.server;/**
  *  上午2:18
  */
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.*;
 import org.easyarch.netpet.asynclient.client.AsyncHttpClient;
 import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandler;
 import org.easyarch.netpet.asynclient.http.response.AsyncHttpResponse;
 import org.easyproxy.selector.IPSelector;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 
 /**
@@ -53,8 +55,8 @@ public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
             }
 
             @Override
-            public void onFailure(int i, Object o) {
-
+            public void onFailure(int i, Object o) throws Exception {
+                response(ctx,HttpResponseStatus.valueOf(i),(byte[]) o);
             }
 
             @Override
@@ -70,5 +72,12 @@ public class DeleteRequestHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
+    }
+
+    private void response(ChannelHandlerContext ctx, HttpResponseStatus statuses,byte[] contents) throws UnsupportedEncodingException {
+        ByteBuf byteBuf = Unpooled.wrappedBuffer(contents, 0, contents.length);
+        FullHttpResponse response = new DefaultFullHttpResponse(
+                HttpVersion.HTTP_1_1,statuses, byteBuf);
+        ctx.channel().writeAndFlush(response);
     }
 }
