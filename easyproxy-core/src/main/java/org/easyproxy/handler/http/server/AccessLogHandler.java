@@ -59,7 +59,7 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
     private void generateLog(HttpRequest request,String client_ip){
         HttpHeaders headers = request.headers();
         StringBuffer buffer = new StringBuffer();
-        buffer.append("currentTime:"+ TimeUtil.getFormattedDate(new Date())+"\n");
+        buffer.append("currentTime:"+ TimeUtil.getFormattedTime(new Date())+"\n");
         for (Map.Entry<String, String> entry:headers.entries()){
             buffer.append(entry.getKey()+":"+entry.getValue()+"\n");
         }

@@ -1,9 +1,12 @@
 package org.easyproxy.log;
 
+import org.easyproxy.util.time.TimeUtil;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,7 +41,7 @@ public class Logger {
             @Override
             public void run() {
                 try {
-                    File logFile = new File(ACCESSLOG);
+                    File logFile = new File(ACCESSLOG+ TimeUtil.getFormattedDate(new Date())+".log");
                     if (!logFile.exists()){
                         logFile.createNewFile();
                     }

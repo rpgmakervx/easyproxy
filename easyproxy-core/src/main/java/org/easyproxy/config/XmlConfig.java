@@ -5,16 +5,11 @@ package org.easyproxy.config;/**
  */
 
 import org.apache.commons.lang3.StringUtils;
-import org.easyproxy.api.app.pojo.HostVO;
-import org.easyproxy.constants.Const;
 import org.easyproxy.constants.LBStrategy;
-import org.easyproxy.pojo.WeightHost;
 import org.easyproxy.util.struct.JSONUtil;
 import org.easyproxy.util.struct.XmlUtil;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -67,7 +62,7 @@ public class XmlConfig extends Config {
 
     @Override
     public void setLBStrategy(String strategy) {
-        params.put(Const.LB_STRATEGY, strategy);
+        params.put(ConfigEnum.LB_STRATEGY.key, strategy);
     }
 
     @Override
