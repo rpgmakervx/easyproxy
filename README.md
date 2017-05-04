@@ -50,30 +50,78 @@ Connector的属性 `port`就是tomcat端口号，改成8081即可。
 首先请配置easyproxy的localhost，node等相关信息如下：
 ```xml
 <proxy>
-    <!--lb_strategy range:roundrobin,weight_roundrobin,ip_hash,less_connection-->
-    <server proxy.server.listen="9524" proxy.server.localhost="127.0.0.1" proxy.server.lb_strategy="weight"/>
-    <proxy_pass>
-        <node proxy.server.nodes.ip="192.168.89.1" proxy.server.nodes.port="8080" proxy.server.nodes.weight="4"/>
-        <node proxy.server.nodes.ip="192.168.89.1" proxy.server.nodes.port="8081" proxy.server.nodes.weight="6"/>
-    </proxy_pass>
-    <!-- cache_size=""-->
-    <cache_strategy proxy.cache.ttl="20" proxy.cache.type="redis"/>
-    <ehcache />
-    <!--static_uri api_uri write your regex -->
-    <resource proxy.resource.static_uri="/static/.*"
-              proxy.resource.notfound_page="404page.html"
-              proxy.resource.error_page="error.html"
-              proxy.resource.forbidden_page="forbidden.html"
-              proxy.resource.bad_request="badrequest.html"/>
-    <log proxy.log.logopen="true" />
-    <antileech proxy.antileech.open="false"/>
-    <!--api is start? uri and param-->
-    <api proxy.api.open="false"
-         proxy.api.uri="/easyproxy.*"  />
-    <ip_filter>
-        <filter proxy.firewall.filter="192.168.117.1" />
-        <filter proxy.firewall.filter="127.0.0.1" />
-    </ip_filter>
+    <property>
+        <name>proxy.server.listen</name>
+        <value>9524</value>
+    </property>
+    <property>
+        <name>proxy.server.localhost</name>
+        <value>127.0.0.1</value>
+    </property>
+    <property>
+        <name>proxy.server.lb_strategy</name>
+        <value>weight</value>
+    </property>
+    <property>
+        <name>proxy.server.nodes</name>
+        <value>192.168.89.1:8080:4,192.168.89.1:8081:6</value>
+    </property>
+    <property>
+        <name>proxy.cache.ttl</name>
+        <value>20</value>
+    </property>
+    <property>
+        <name>proxy.cache.type</name>
+        <value>redis</value>
+    </property>
+    <property>
+        <name>proxy.resource.staticUri</name>
+        <value>/static/.*</value>
+    </property>
+    <property>
+        <name>proxy.resource.notfoundPage</name>
+        <value>notfound.html</value>
+    </property>
+    <property>
+        <name>proxy.resource.errorPage</name>
+        <value>error.html</value>
+    </property>
+    <property>
+        <name>proxy.resource.forbidPage</name>
+        <value>forbidden.html</value>
+    </property>
+    <property>
+        <name>proxy.resource.badRequestPage</name>
+        <value>badrequest.html</value>
+    </property>
+    <property>
+        <name>proxy.log.logopen</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>proxy.antileech.open</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>proxy.api.open</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>proxy.api.admin</name>
+        <value>admin</value>
+    </property>
+    <property>
+        <name>proxy.api.key</name>
+        <value>admin123</value>
+    </property>
+    <property>
+        <name>proxy.api.uri</name>
+        <value>/easyproxy.*</value>
+    </property>
+    <property>
+        <name>proxy.firewall.filter</name>
+        <value>192.168.117.1,192.168.89.1</value>
+    </property>
 </proxy>
 ```
 配置信息详情见[用户指南](#用户指南)
