@@ -33,7 +33,7 @@ public class Logger {
     }
 
     public Logger(){
-        threadPool  = Executors.newFixedThreadPool(8*2);
+        threadPool  = Executors.newCachedThreadPool();
     }
 
     public void accessLog(final String log){
@@ -41,7 +41,7 @@ public class Logger {
             @Override
             public void run() {
                 try {
-                    File logFile = new File(ACCESSLOG+ TimeUtil.getFormattedDate(new Date())+".log");
+                    File logFile = new File(ACCESSLOG+"."+ TimeUtil.getFormattedDate(new Date())+".log");
                     if (!logFile.exists()){
                         logFile.createNewFile();
                     }
