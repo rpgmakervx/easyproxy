@@ -13,9 +13,12 @@ import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandler;
 import org.easyarch.netpet.asynclient.http.response.AsyncHttpResponse;
 import org.easyproxy.cache.DefaultCache;
 import org.easyproxy.cache.redis.RedisCache;
+import org.easyproxy.log.Logger;
 import org.easyproxy.selector.IPSelector;
 
 import java.net.InetSocketAddress;
+
+import static org.easyproxy.constants.Const.ACCESSRECORD;
 
 /**
  * Description :
@@ -23,13 +26,18 @@ import java.net.InetSocketAddress;
  * 上午2:10
  */
 
-public class PutRequestHandler extends ChannelInboundHandlerAdapter {
+public class PutAndDeleteRequestHandler extends ChannelInboundHandlerAdapter {
     private InetSocketAddress address;
     private DefaultCache cache = new RedisCache();
+    private Logger logger = Logger.getLogger();
 
     public void allocAddress(String ip) {
         IPSelector selector = new IPSelector(ip);
         this.address = selector.select();
+    }
+    private String getRemoteIp(ChannelHandlerContext ctx){
+        InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
+        return address.getHostString();
     }
 
     @Override
@@ -50,24 +58,29 @@ public class PutRequestHandler extends ChannelInboundHandlerAdapter {
         allocAddress(ip);
         AsyncHttpClient client = new AsyncHttpClient("http",address);
         client.send(request, new AsyncResponseHandler() {
+            boolean sent = false;
+
             @Override
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
                 ctx.writeAndFlush(asyncHttpResponse.getResponse());
+                logger.accessLog(request,getRemoteIp(ctx),200);
             }
-
             @Override
-            public void onFailure(int i, Object o) {
-
+            public void onFailure(int status, Object o) {
+                logger.accessLog(request,getRemoteIp(ctx),status);
             }
-
             @Override
             public void onFinally(AsyncHttpResponse asyncHttpResponse) {
+                if (sent){
+                    return;
+                }
                 ctx.writeAndFlush(asyncHttpResponse.getResponse());
             }
         });
     }
 
     public void complete(){
+        accessRecord(address.getHostString(), address.getPort(), false);
     }
 
     @Override
@@ -75,4 +88,9 @@ public class PutRequestHandler extends ChannelInboundHandlerAdapter {
         super.exceptionCaught(ctx, cause);
     }
 
+    private void accessRecord(String realserver, int port, boolean incr) {
+        if (incr)
+            cache.incrAccessRecord(realserver + ":" + port + ACCESSRECORD);
+        else cache.decrAccessRecord(realserver + ":" + port + ACCESSRECORD);
+    }
 }

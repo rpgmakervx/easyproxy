@@ -1,4 +1,4 @@
-package org.easyproxy.api.app.handler;
+package org.easyproxy.api.app.handler.config;
 
 import org.easyarch.netpet.kits.StringKits;
 import org.easyarch.netpet.web.http.request.HandlerRequest;

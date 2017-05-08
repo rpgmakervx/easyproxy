@@ -13,6 +13,7 @@ import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandler;
 import org.easyarch.netpet.asynclient.http.response.AsyncHttpResponse;
 import org.easyproxy.cache.DefaultCache;
 import org.easyproxy.cache.redis.RedisCache;
+import org.easyproxy.log.Logger;
 import org.easyproxy.selector.IPSelector;
 
 import java.net.InetSocketAddress;
@@ -29,6 +30,7 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
 
     private InetSocketAddress address;
     private DefaultCache cache = new RedisCache();
+    private Logger logger = Logger.getLogger();
 
     /**
      * 每次请求都重新获取一次地址
@@ -37,6 +39,11 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
         IPSelector selector = new IPSelector(ip);
         this.address = selector.select();
         System.out.println(Thread.currentThread().getName()+" 新获取的地址-->  " + address.getHostName() + ":" + address.getPort());
+    }
+
+    private String getRemoteIp(ChannelHandlerContext ctx){
+        InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
+        return address.getHostString();
     }
 
     @Override
@@ -55,18 +62,24 @@ public class PostRequestHandler extends ChannelInboundHandlerAdapter {
         allocAdress(ip);
         AsyncHttpClient client = new AsyncHttpClient("http",address);
         client.send(request, new AsyncResponseHandler() {
+            boolean sent = false;
+
             @Override
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
                 ctx.writeAndFlush(asyncHttpResponse.getResponse());
+                logger.accessLog(request,getRemoteIp(ctx),200);
             }
 
             @Override
-            public void onFailure(int i, Object o) {
-
+            public void onFailure(int status, Object o) {
+                logger.accessLog(request,getRemoteIp(ctx),status);
             }
 
             @Override
             public void onFinally(AsyncHttpResponse asyncHttpResponse) {
+                if (sent){
+                    return;
+                }
                 ctx.writeAndFlush(asyncHttpResponse.getResponse());
             }
         });

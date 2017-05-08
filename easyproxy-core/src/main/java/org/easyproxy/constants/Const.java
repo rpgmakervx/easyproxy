@@ -52,8 +52,8 @@ public class Const {
     public static final String MEMORY = "Memory";
 
     //directory structure
-//    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
-    public static final String DIR = System.getProperty("easyproxy.home")+File.separator;
+    public static final String DIR = System.getProperty("user.dir")+ File.separator+".."+File.separator;
+//    public static final String DIR = System.getProperty("easyproxy.home")+File.separator;
     public static final String CONF = DIR+"conf"+File.separator;
     public static final String LOGS = DIR+"logs"+File.separator;
     public static final String TMP = DIR+"tmp"+File.separator;
@@ -75,6 +75,7 @@ public class Const {
     public static final String LIKE = "*";
     public static final String ACCESSRECORD = "-access_record";
 
+    public static final String LOGSEPARATOR = " |+| ";
 
     public static final int CODE_OK = 200;
     public static final int CODE_BADREQUEST= 400;

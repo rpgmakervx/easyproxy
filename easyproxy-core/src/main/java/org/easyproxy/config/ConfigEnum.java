@@ -44,7 +44,8 @@ public enum ConfigEnum {
     API_OPEN("proxy.api.open", false, "easyproxy的api接口"),
     API_ADMIN("proxy.api.admin", "", "easyproxy的api接口"),
     API_KEY("proxy.api.key", "", "easyproxy的api接口"),
-    APIURI("proxy.api.uri", "", "easyproxy的api接口");
+    APIURI("proxy.api.uri", "", "easyproxy的api接口"),
+    APIPORT("proxy.api.port", 9999, "web端的端口号");
 
     public String key;
     public Object defVal;

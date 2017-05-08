@@ -11,7 +11,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyarch.netpet.web.server.App;
-import org.easyproxy.api.app.handler.*;
+import org.easyproxy.api.app.handler.config.*;
+import org.easyproxy.api.app.handler.log.DailyActiveHandler;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
@@ -26,7 +27,7 @@ import org.easyproxy.handler.http.server.BaseServerChildHandler;
 public class ProxyServer {
 
     private App app;
-
+    private Config config = ConfigFactory.getConfig();
     public void startup() {
         app = new App();
         launch(ConfigFactory.getConfig().getInt(ConfigEnum.LISTEN.key));
@@ -36,7 +37,6 @@ public class ProxyServer {
     }
 
     private void launch(int port) {
-        Config config = ConfigFactory.getConfig();
         System.out.println("正在启动服务。。。,服务端口:" + port);
         EventLoopGroup bossGroup = new NioEventLoopGroup(32);
         EventLoopGroup workerGroup = new NioEventLoopGroup(32);
@@ -73,7 +73,8 @@ public class ProxyServer {
                     .get("/lbstrategy",new LBStrategyHandler())
                     .get("/firewall",new FireWallHandler())
                     .get("/params",new ParamsHandler())
-                    .start(9999);
+                    .get("/dailyActive",new DailyActiveHandler())
+                    .start(config.getInt(ConfigEnum.APIPORT.key));
         }
     }
 }

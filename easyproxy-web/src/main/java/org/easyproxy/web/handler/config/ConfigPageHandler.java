@@ -1,4 +1,4 @@
-package org.easyproxy.web.handler;
+package org.easyproxy.web.handler.config;
 
 import org.easyarch.netpet.asynclient.client.AsyncHttpClient;
 import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandlerAdapter;
@@ -10,29 +10,28 @@ import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
 
 /**
- * Created by xingtianyu on 17-4-2
- * 下午2:24
+ * Created by xingtianyu on 17-4-1
+ * 上午10:22
  * description:
  */
 
-public class HostHandler implements HttpHandler {
-
+public class ConfigPageHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
         HandlerContext context = request.getContext();
-        String ip = String.valueOf(context.globalConfig("remoteAddress"));
-        AsyncHttpClient client = new AsyncHttpClient(ip);
-        client.get("/hosts", new AsyncResponseHandlerAdapter() {
+        String host = String.valueOf(context.globalConfig("remoteAddress"));
+        AsyncHttpClient client = new AsyncHttpClient(host);
+        client.get("/params", new AsyncResponseHandlerAdapter() {
             @Override
-            public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
-                System.out.println("json data:"+asyncHttpResponse.getJson());
-                response.json(asyncHttpResponse.getJson());
+            public void onSuccess(AsyncHttpResponse asyncHttpResponse) throws Exception {
+                response.addModel("config",asyncHttpResponse.getJson());
+                response.html("config");
             }
 
             @Override
             public void onFailure(int statusCode, Object o) {
-                System.out.println("fail");
+                System.out.println("fail:"+o);
                 response.json(new Json("code",statusCode,"message",o));
             }
         });

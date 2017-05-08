@@ -11,7 +11,7 @@ import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
  * description:
  */
 
-public class IndexHandler implements HttpHandler {
+public class IndexPageHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {

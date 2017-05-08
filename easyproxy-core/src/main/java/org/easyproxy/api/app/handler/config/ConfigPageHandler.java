@@ -1,4 +1,4 @@
-package org.easyproxy.api.app.handler;
+package org.easyproxy.api.app.handler.config;
 
 import org.easyarch.netpet.web.http.request.HandlerRequest;
 import org.easyarch.netpet.web.http.response.HandlerResponse;
@@ -7,26 +7,26 @@ import org.easyarch.netpet.web.mvc.entity.Json;
 import org.easyproxy.api.app.pojo.ConfigVO;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigFactory;
+import org.easyproxy.pojo.ConfigEntity;
 
 /**
- * Created by xingtianyu on 17-3-30
- * 下午11:40
+ * Created by xingtianyu on 17-4-1
+ * 上午10:22
  * description:
  */
 
-public class ConfigHandler implements HttpHandler{
+public class ConfigPageHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
         Config config = ConfigFactory.getConfig();
+        ConfigEntity entity = config.getConfigEntity();
+        ConfigVO vo = new ConfigVO();
+        vo.convert(entity);
+        Json json = Json.parse(vo);
+        System.out.println("current config json:\n"+json);
+        response.addModel("config",json);
+        response.html("config");
 
-        String data = Json.stringify(request.getJson());
-        System.out.println("data:"+data);
-        ConfigVO vo = Json.parse(data,ConfigVO.class);
-        System.out.println("vo:"+vo);
-        config.buildConfig(vo.convert());
-//        resetHandler(config);
-        response.json(new Json("message","config complete","code",200));
     }
-
 }

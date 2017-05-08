@@ -1,5 +1,9 @@
 package org.easyproxy.log;
 
+import io.netty.handler.codec.http.HttpHeaderNames;
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpRequest;
+import org.easyproxy.constants.Const;
 import org.easyproxy.util.time.TimeUtil;
 
 import java.io.BufferedWriter;
@@ -53,5 +57,27 @@ public class Logger {
                 }
             }
         });
+    }
+
+    public void accessLog(HttpRequest request, String client_ip,int status){
+        String log = generateLog(request,client_ip,status);
+        accessLog(log);
+    }
+
+    /**
+     * 192.168.1.1|+|2017-05-04 14:09:15|+|GET|+|/index|+|
+     * @param request
+     * @param client_ip
+     */
+    private String generateLog(HttpRequest request,String client_ip,int status){
+        HttpHeaders headers = request.headers();
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(client_ip+ Const.LOGSEPARATOR);
+        buffer.append(TimeUtil.getFormattedTime(new Date())+Const.LOGSEPARATOR);
+        buffer.append(request.method().name()+Const.LOGSEPARATOR);
+        buffer.append(request.uri()+Const.LOGSEPARATOR);
+        buffer.append(status+Const.LOGSEPARATOR);
+        buffer.append(headers.get(HttpHeaderNames.USER_AGENT)+"\n");
+        return buffer.toString();
     }
 }

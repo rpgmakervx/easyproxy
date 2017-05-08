@@ -66,6 +66,10 @@
         <value>admin123</value>
     </property>
     <property>
+        <name>proxy.api.port</name>
+        <value>9999</value>
+    </property>
+    <property>
         <name>proxy.api.uri</name>
         <value>/easyproxy.*</value>
     </property>

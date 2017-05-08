@@ -6,16 +6,17 @@ package org.easyproxy.handler.http.server;/**
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
+import org.easyproxy.constants.Const;
 import org.easyproxy.log.Logger;
 import org.easyproxy.util.time.TimeUtil;
 
 import java.net.InetSocketAddress;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Description :
@@ -56,14 +57,20 @@ public class AccessLogHandler extends ChannelInboundHandlerAdapter {
         InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
         return address;
     }
+
+    /**
+     * 192.168.1.1|+|2017-05-04 14:09:15|+|GET|+|/index|+|
+     * @param request
+     * @param client_ip
+     */
     private void generateLog(HttpRequest request,String client_ip){
         HttpHeaders headers = request.headers();
         StringBuffer buffer = new StringBuffer();
-        buffer.append("currentTime:"+ TimeUtil.getFormattedTime(new Date())+"\n");
-        buffer.append("remoteIp:"+client_ip+"\n");
-        for (Map.Entry<String, String> entry:headers.entries()){
-            buffer.append(entry.getKey()+":"+entry.getValue()+"\n");
-        }
+        buffer.append(client_ip+ Const.LOGSEPARATOR);
+        buffer.append(TimeUtil.getFormattedTime(new Date())+Const.LOGSEPARATOR);
+        buffer.append(request.method().name()+Const.LOGSEPARATOR);
+        buffer.append(request.uri()+Const.LOGSEPARATOR);
+        buffer.append(headers.get(HttpHeaderNames.USER_AGENT)+Const.LOGSEPARATOR);
         logger.accessLog(buffer.toString() + "\n");
     }
 }

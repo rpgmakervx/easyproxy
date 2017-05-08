@@ -1,4 +1,4 @@
-package org.easyproxy.web.handler;
+package org.easyproxy.web.handler.logs;
 
 import org.easyarch.netpet.asynclient.client.AsyncHttpClient;
 import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandlerAdapter;
@@ -10,32 +10,32 @@ import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
 
 /**
- * Created by xingtianyu on 17-4-3
- * 下午1:10
+ * Created by xingtianyu on 17-5-5
+ * 下午9:39
  * description:
  */
 
-public class ConfigParamHandler implements HttpHandler {
+public class DailyActiveHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
-        Json json = request.getJson();
         HandlerContext context = request.getContext();
         String host = String.valueOf(context.globalConfig("remoteAddress"));
         AsyncHttpClient client = new AsyncHttpClient(host);
-        System.out.println("post config json:"+json);
-        client.postJson("/config", json, new AsyncResponseHandlerAdapter() {
+        client.get("/dailyActive", new AsyncResponseHandlerAdapter() {
             @Override
-            public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
-                response.json(new Json("code",200,"message","success","data",asyncHttpResponse.getJson()));
+            public void onSuccess(AsyncHttpResponse asyncHttpResponse) throws Exception {
+                Json json = asyncHttpResponse.getJson();
+                json.put("code",200);
+                json.put("message","success");
+                response.json(json);
             }
 
             @Override
-            public void onFailure(int statusCode, Object o) {
-                System.out.println("post config fail:"+new String((byte[]) o));
-                response.json(new Json("code",statusCode,"message",String.valueOf(o)));
+            public void onFailure(int statusCode, Object message) throws Exception {
+                Json json = new Json("code",statusCode,"message","success");
+                response.json(json);
             }
         });
-
     }
 }

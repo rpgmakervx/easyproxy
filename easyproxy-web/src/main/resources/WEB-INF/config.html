@@ -90,7 +90,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-12 ">
+                <div class="col-lg-12 padding">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4>负载均衡器属性</h4>
@@ -456,7 +456,7 @@
         $("#proxyBtn").click(function () {
             var nodes = [];
             var trs = $("#nodes-table").children("tbody").children("tr");
-            for (index=0;index<trs.length;index++){
+            for (var index=0;index<trs.length;index++){
                 var tds = $(trs[index]).children(".nodeCell");
                 var ip = $(tds[0]).children().text();
                 var port = $(tds[1]).children().text();

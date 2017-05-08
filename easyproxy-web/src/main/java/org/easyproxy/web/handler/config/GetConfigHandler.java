@@ -1,4 +1,4 @@
-package org.easyproxy.web.handler;
+package org.easyproxy.web.handler.config;
 
 import org.easyarch.netpet.asynclient.client.AsyncHttpClient;
 import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandlerAdapter;
@@ -10,12 +10,12 @@ import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
 
 /**
- * Created by xingtianyu on 17-4-1
- * 上午10:22
+ * Created by xingtianyu on 17-4-18
+ * 下午5:45
  * description:
  */
 
-public class ConfigHandler implements HttpHandler {
+public class GetConfigHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
@@ -24,17 +24,15 @@ public class ConfigHandler implements HttpHandler {
         AsyncHttpClient client = new AsyncHttpClient(host);
         client.get("/params", new AsyncResponseHandlerAdapter() {
             @Override
-            public void onSuccess(AsyncHttpResponse asyncHttpResponse) throws Exception {
-                response.addModel("config",asyncHttpResponse.getJson());
-                response.html("config");
+            public void onSuccess(AsyncHttpResponse asyncHttpResponse) {
+                response.json(asyncHttpResponse.getJson());
             }
 
             @Override
             public void onFailure(int statusCode, Object o) {
-                System.out.println("fail:"+o);
+                System.out.println("fail");
                 response.json(new Json("code",statusCode,"message",o));
             }
         });
-
     }
 }

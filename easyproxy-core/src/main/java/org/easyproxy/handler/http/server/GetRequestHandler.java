@@ -12,6 +12,7 @@ import org.easyarch.netpet.asynclient.handler.callback.AsyncResponseHandler;
 import org.easyarch.netpet.asynclient.http.response.AsyncHttpResponse;
 import org.easyproxy.cache.DefaultCache;
 import org.easyproxy.cache.redis.RedisCache;
+import org.easyproxy.log.Logger;
 import org.easyproxy.selector.IPSelector;
 import org.easyproxy.util.codec.EncryptUtil;
 import org.easyproxy.util.struct.JSONUtil;
@@ -31,6 +32,7 @@ import static org.easyproxy.constants.Const.HEADERS;
 public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     private InetSocketAddress address;
     private DefaultCache cache = new RedisCache();
+    private Logger logger = Logger.getLogger();
 //    private ExecutorService threadPool = Executors.newCachedThreadPool();
 
     /**
@@ -39,6 +41,11 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     public void allocAdress(String ip) {
         IPSelector selector = new IPSelector(ip);
         this.address = selector.select();
+    }
+
+    private String getRemoteIp(ChannelHandlerContext ctx){
+        InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
+        return address.getHostString();
     }
 
     @Override
@@ -58,8 +65,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         String ip = addr.getHostString();
         allocAdress(ip);
         accessRecord(address.getHostString(), address.getPort(), true);
-//        HttpUtils client = new HttpUtils(address);
-//        client.connect();
         byte[] data = EncryptUtil.decodeBase64(cache.get(request.uri(), ""));
         String headerStr = cache.get(request.uri() + HEADERS,"");
         if (ArrayUtils.isNotEmpty(data)&&
@@ -77,21 +82,27 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         }
         AsyncHttpClient client = new AsyncHttpClient("http",address);
         client.send(request, new AsyncResponseHandler() {
+            boolean sent = false;
             @Override
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) throws Exception {
+                sent = true;
                 String headString = JSONUtil.map2Json(asyncHttpResponse.getAllHeaders());
                 cache.save(request.uri(), "", EncryptUtil.encodeBase64(bytes));
                 cache.save(request.uri() + HEADERS, "", headString);
                 ctx.writeAndFlush(asyncHttpResponse.getResponse());
+                logger.accessLog(request,getRemoteIp(ctx),200);
             }
 
             @Override
-            public void onFailure(int i, Object o) throws Exception {
-
+            public void onFailure(int status, Object o) throws Exception {
+                logger.accessLog(request,getRemoteIp(ctx),status);
             }
 
             @Override
             public void onFinally(AsyncHttpResponse asyncHttpResponse) throws Exception {
+                if (sent){
+                    return;
+                }
                 String headString = JSONUtil.map2Json(asyncHttpResponse.getAllHeaders());
                 cache.save(request.uri(), "", EncryptUtil.encodeBase64(bytes));
                 cache.save(request.uri() + HEADERS, "", headString);

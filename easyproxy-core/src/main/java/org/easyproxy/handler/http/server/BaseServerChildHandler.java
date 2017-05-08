@@ -36,8 +36,7 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
     public static final String PERSONALPAGEHANLDER = "personalPageHandler";
     public static final String GETHANDLER = "getHandler";
     public static final String POSTHANDLER = "postHandler";
-    public static final String PUTHANDLER = "putHandler";
-    public static final String DELETEHANDLER = "deleteHandler";
+    public static final String PUTDELETEHANDLER = "putdeleteHandler";
 
 
     @Override
@@ -52,14 +51,13 @@ public class BaseServerChildHandler extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(DECOMPRESS, new HttpContentDecompressor());
         pipeline.addLast(AGGREGATOR, new HttpObjectAggregator(1024000));
         pipeline.addLast(FILTERHANDLER,new FireWallHandler());
-        pipeline.addLast(LOGHANDLER,new AccessLogHandler());
+//        pipeline.addLast(LOGHANDLER,new AccessLogHandler());
         pipeline.addLast(ANTILEECHhHANDLER,new AntiLeechHandler());
         pipeline.addLast(PERSONALPAGEHANLDER,new PersonalPageHandler());
         if (isProxy) {
             pipeline.addLast(GETHANDLER,new GetRequestHandler());
             pipeline.addLast(POSTHANDLER,new PostRequestHandler());
-            pipeline.addLast(PUTHANDLER,new PutRequestHandler());
-            pipeline.addLast(DELETEHANDLER,new DeleteRequestHandler());
+            pipeline.addLast(PUTDELETEHANDLER,new PutAndDeleteRequestHandler());
         }
     }
 
