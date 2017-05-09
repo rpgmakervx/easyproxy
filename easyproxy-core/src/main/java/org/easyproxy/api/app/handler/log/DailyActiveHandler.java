@@ -5,11 +5,13 @@ import org.easyarch.netpet.web.http.request.HandlerRequest;
 import org.easyarch.netpet.web.http.response.HandlerResponse;
 import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
+import org.easyproxy.api.app.pojo.DailyActiveLog;
 import org.easyproxy.constants.Const;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -34,24 +36,34 @@ public class DailyActiveHandler implements HttpHandler {
             }
         });
         List<Map<String,Object>> records = new ArrayList<>();
+        List<DailyActiveLog> recordLogs = new ArrayList<>();
         for (File log:logs){
             int count = FileKits.statistic(log,"\n");
             String date = log.getName().split("\\.")[1];
-            records.add(new Json("day",date,"count",count).getJsonMap());
+            recordLogs.add(new DailyActiveLog(date,count));
+        }
+        recordLogs.sort(new Comparator<DailyActiveLog>() {
+            @Override
+            public int compare(DailyActiveLog a, DailyActiveLog b) {
+                return a.getDay().compareTo(b.getDay());
+            }
+        });
+        for (DailyActiveLog log:recordLogs){
+            records.add(Json.parse(log).getJsonMap());
         }
         response.json(new Json("data",records));
     }
 
 
     public static void main(String[] args) throws Exception {
-//        List<Json> jsons = new ArrayList<>();
-//        jsons.add(new Json("code",100,"message","a"));
-//        jsons.add(new Json("code",102,"message","b"));
-//        jsons.add(new Json("code",103,"message","c"));
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("Data",jsons);
-//        System.out.println(Json.stringify(map));
-        int count = FileKits.statistic("/home/code4j/osproject/jproxy/logs/access.2017-05-05.log","\n");
-        System.out.println("count:"+count);
+        List<File> logs =  FileKits.filter("/home/code4j/IDEAWorkspace/easyproxy/logs", new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                Pattern pattern = Pattern.compile("access\\.(\\d){4}-(\\d){2}-(\\d){2}\\.log");
+                Matcher matcher = pattern.matcher(pathname.getName());
+                return matcher.matches();
+            }
+        });
+        System.out.println(logs);
     }
 }
