@@ -1,0 +1,8 @@
+localhost |+| 2017-05-04 17:21:04 |+| GET |+| / |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 |+| 
+localhost |+| 2017-05-04 17:21:04 |+| GET |+| / |+| 200 |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+localhost |+| 2017-05-04 17:21:05 |+| GET |+| /favicon.ico |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 |+| 
+localhost |+| 2017-05-04 17:21:05 |+| GET |+| /favicon.ico |+| 200 |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+localhost |+| 2017-05-05 17:31:25 |+| GET |+| /llld |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 |+| 
+localhost |+| 2017-05-04 17:31:25 |+| GET |+| /llld |+| 404 |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36
+localhost |+| 2017-05-04 17:21:04 |+| GET |+| / |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36 |+| 
+localhost |+| 2017-05-04 17:21:04 |+| GET |+| / |+| 200 |+| Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36

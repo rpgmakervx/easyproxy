@@ -4,7 +4,7 @@ package test;/**
  *  上午11:12
  */
 
-import org.easyarch.netpet.asynclient.AsyncHttpClient;
+import org.easyarch.netpet.asynclient.client.AsyncHttpClient;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class HttpTest {
 
     @Test
-    public void testJson(){
+    public void testJson() throws Exception {
         AsyncHttpClient client = new AsyncHttpClient("http://localhost:8800/index/user");
     }
 

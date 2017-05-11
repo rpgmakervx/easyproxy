@@ -109,6 +109,18 @@
             <artifactId>commons-collections4</artifactId>
             <version>4.1</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>eu.bitwalker</groupId>-->
+            <!--<artifactId>UserAgentUtils</artifactId>-->
+            <!--<version>1.20</version>-->
+        <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/cz.mallat.uasparser/uasparser -->
+        <dependency>
+            <groupId>cz.mallat.uasparser</groupId>
+            <artifactId>uasparser</artifactId>
+            <version>0.6.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

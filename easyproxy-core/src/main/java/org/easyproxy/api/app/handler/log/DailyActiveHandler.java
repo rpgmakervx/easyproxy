@@ -6,7 +6,7 @@ import org.easyarch.netpet.web.http.response.HandlerResponse;
 import org.easyarch.netpet.web.mvc.action.handler.HttpHandler;
 import org.easyarch.netpet.web.mvc.entity.Json;
 import org.easyproxy.api.app.pojo.DailyActiveLog;
-import org.easyproxy.constants.Const;
+import org.easyproxy.api.app.util.LogUtil;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -27,14 +27,7 @@ public class DailyActiveHandler implements HttpHandler {
 
     @Override
     public void handle(HandlerRequest request, HandlerResponse response) throws Exception {
-        List<File> logs =  FileKits.filter(Const.LOGS, new FileFilter() {
-            @Override
-            public boolean accept(File pathname) {
-                Pattern pattern = Pattern.compile("access\\.(\\d){4}-(\\d){2}-(\\d){2}\\.log");
-                Matcher matcher = pattern.matcher(pathname.getName());
-                return matcher.matches();
-            }
-        });
+        List<File> logs = LogUtil.getLogs();
         List<Map<String,Object>> records = new ArrayList<>();
         List<DailyActiveLog> recordLogs = new ArrayList<>();
         for (File log:logs){

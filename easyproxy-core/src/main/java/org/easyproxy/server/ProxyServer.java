@@ -12,11 +12,14 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.easyarch.netpet.web.server.App;
 import org.easyproxy.api.app.handler.config.*;
+import org.easyproxy.api.app.handler.log.ClientUsageHandler;
 import org.easyproxy.api.app.handler.log.DailyActiveHandler;
 import org.easyproxy.config.Config;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
 import org.easyproxy.handler.http.server.BaseServerChildHandler;
+
+import java.io.IOException;
 
 /**
  * Description :
@@ -56,7 +59,7 @@ public class ProxyServer {
             System.out.println("服务已启动");
             initWebApp();
             f.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             workerGroup.shutdownGracefully();
@@ -64,7 +67,7 @@ public class ProxyServer {
         }
     }
 
-    private void initWebApp(){
+    private void initWebApp() throws IOException {
         boolean isApiOpen = Boolean.valueOf(ConfigFactory.getConfig().getString(ConfigEnum.API_OPEN.key));
         System.out.println("is api open?:"+isApiOpen);
         if (isApiOpen){
@@ -74,6 +77,7 @@ public class ProxyServer {
                     .get("/firewall",new FireWallHandler())
                     .get("/params",new ParamsHandler())
                     .get("/dailyActive",new DailyActiveHandler())
+                    .get("/useragent",new ClientUsageHandler())
                     .start(config.getInt(ConfigEnum.APIPORT.key));
         }
     }
