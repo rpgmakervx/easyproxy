@@ -3,6 +3,7 @@ package org.easyproxy.web.app;
 import org.easyarch.netpet.web.server.App;
 import org.easyproxy.web.handler.IndexPageHandler;
 import org.easyproxy.web.handler.config.*;
+import org.easyproxy.web.handler.logs.ClientDistributeHandler;
 import org.easyproxy.web.handler.logs.DailyActiveHandler;
 import org.easyproxy.web.handler.logs.LogsPageHandler;
 
@@ -25,6 +26,7 @@ public class Application {
                 .get("/firewall",new FireWallHandler())
                 .get("/config/params",new GetConfigHandler())
                 .get("/dailyActive",new DailyActiveHandler())
+                .get("/client/distribute",new ClientDistributeHandler())
                 .post("/config",new ConfigParamHandler())
                 .start(9000);
 //        AsyncHttpClient client = new AsyncHttpClient("http://localhost:8080/config");

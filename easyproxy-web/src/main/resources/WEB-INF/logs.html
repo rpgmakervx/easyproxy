@@ -99,7 +99,12 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div id="client" style="width: 600px;height:400px;"></div>
+                                <div class="col-lg-6">
+                                    <div id="clientBrowser" style="width: 600px;height:400px;"></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div id="clientOs" style="width: 600px;height:400px;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,11 +123,12 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/assets/dist/js/sb-admin-2.js"></script>
-    <script type="text/javascript" src="/assets/js/dist/echarts-all.js"></script>
+    <script type="text/javascript" src="/assets/js/echarts.common.min.js"></script>
 </body>
 <script type="application/javascript">
     $(function () {
         initDailyChart();
+        initClientChart();
     })
 
     function initDailyChart() {
@@ -167,10 +173,108 @@
         })
 
     }
-
+    var browsersKVs
+    var systemsKVs
     function initClientChart(){
-        var clientChart = echarts.init(document.getElementById('client'));
-
+        var browserChart = echarts.init(document.getElementById('clientBrowser'));
+        var osChart = echarts.init(document.getElementById('clientOs'));
+        $.ajax({
+            url:"/client/distribute",
+            type:'GET',
+            dataType:'json',
+            success:function(data) {
+                if (data.code != 200){
+                    alert("客户端数据加载失败")
+                    return;
+                }
+                var browsers = data.browsers;
+                var systems = data.systems;
+                var browsersArray = []
+                var systemsArray = []
+                var osNames = [];
+                var browserNames = [];
+                for (var index=0;index<browsers.length;index++){
+                    var browsersKV = {}
+                    browserNames.push(browsers[index].browserName)
+                    browsersKV["name"] = browsers[index].browserName
+                    browsersKV["value"] = parseInt(browsers[index].count)
+                    browsersArray.push(browsersKV)
+                }
+                for (var index=0;index<systems.length;index++){
+                    var systemsKV = {}
+                    osNames.push(systems[index].systemName)
+                    systemsKV["name"] = systems[index].systemName
+                    systemsKV["value"] = parseInt(systems[index].count)
+                    systemsArray.push(systemsKV)
+                }
+                systemsKVs = systemsKV;
+                browsersKVs = browsersKV;
+                var browserOption =  {
+                    title : {
+                        text: '客户端浏览器请求分布',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: browserNames
+                    },
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data:browsersArray,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+                var osOption =  {
+                    title : {
+                        text: '客户端操作系统分布',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: osNames
+                    },
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data:systemsArray,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+                browserChart.setOption(browserOption);
+                osChart.setOption(osOption);
+            }
+        });
     }
 
 </script>

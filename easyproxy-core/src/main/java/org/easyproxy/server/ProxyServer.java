@@ -77,7 +77,7 @@ public class ProxyServer {
                     .get("/firewall",new FireWallHandler())
                     .get("/params",new ParamsHandler())
                     .get("/dailyActive",new DailyActiveHandler())
-                    .get("/useragent",new ClientUsageHandler())
+                    .get("/client/usage",new ClientUsageHandler())
                     .start(config.getInt(ConfigEnum.APIPORT.key));
         }
     }

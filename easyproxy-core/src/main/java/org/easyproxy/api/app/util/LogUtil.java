@@ -1,6 +1,7 @@
 package org.easyproxy.api.app.util;
 
 import org.easyarch.netpet.kits.file.FileKits;
+import org.easyproxy.constants.Const;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 public class LogUtil {
 
     public static List<File> getLogs(){
-        return FileKits.filter("/home/code4j/IDEAWorkspace/easyproxy/logs", new FileFilter() {
+        return FileKits.filter(Const.LOGS, new FileFilter() {
             @Override
             public boolean accept(File pathname) {
                 Pattern pattern = Pattern.compile("access\\.(\\d){4}-(\\d){2}-(\\d){2}\\.log");

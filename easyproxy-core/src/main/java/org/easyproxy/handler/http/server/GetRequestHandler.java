@@ -54,7 +54,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
     }
 
     protected void messageRece(ChannelHandlerContext ctx, Object msg) throws Exception{
-        byte[] bytes = null;
         FullHttpRequest request = (FullHttpRequest) msg;
         boolean isGet = request.method().equals(HttpMethod.GET);
         if (!isGet) {
@@ -63,8 +62,6 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
         }
         InetSocketAddress addr = (InetSocketAddress) ctx.channel().remoteAddress();
         String ip = addr.getHostString();
-        allocAdress(ip);
-        accessRecord(address.getHostString(), address.getPort(), true);
         byte[] data = EncryptUtil.decodeBase64(cache.get(request.uri(), ""));
         String headerStr = cache.get(request.uri() + HEADERS,"");
         if (ArrayUtils.isNotEmpty(data)&&
@@ -80,6 +77,8 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
             ctx.channel().writeAndFlush(response);
             return;
         }
+        allocAdress(ip);
+        accessRecord(address.getHostString(), address.getPort(), true);
         AsyncHttpClient client = new AsyncHttpClient("http",address);
         client.send(request, new AsyncResponseHandler() {
             boolean sent = false;
@@ -87,7 +86,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
             public void onSuccess(AsyncHttpResponse asyncHttpResponse) throws Exception {
                 sent = true;
                 String headString = JSONUtil.map2Json(asyncHttpResponse.getAllHeaders());
-                cache.save(request.uri(), "", EncryptUtil.encodeBase64(bytes));
+                cache.save(request.uri(), "", EncryptUtil.encodeBase64(asyncHttpResponse.getBytes()));
                 cache.save(request.uri() + HEADERS, "", headString);
                 ctx.writeAndFlush(asyncHttpResponse.getResponse());
                 logger.accessLog(request,getRemoteIp(ctx),200);
@@ -104,7 +103,7 @@ public class GetRequestHandler extends ChannelInboundHandlerAdapter {
                     return;
                 }
                 String headString = JSONUtil.map2Json(asyncHttpResponse.getAllHeaders());
-                cache.save(request.uri(), "", EncryptUtil.encodeBase64(bytes));
+                cache.save(request.uri(), "", EncryptUtil.encodeBase64(asyncHttpResponse.getBytes()));
                 cache.save(request.uri() + HEADERS, "", headString);
                 ctx.writeAndFlush(asyncHttpResponse.getResponse());
             }

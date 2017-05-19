@@ -25,6 +25,7 @@ import static org.easyproxy.config.ConfigEnum.CACHE_TTL;
 
 public class RedisUtil implements MemoryUtil{
 
+    private static final String AUTH = "code4jcentos6xty";
 
 //    public Jedis jedisClient;
     private JedisPool pool = null;
@@ -37,7 +38,12 @@ public class RedisUtil implements MemoryUtil{
         config.setMaxWaitMillis(1000 * 30);
         config.setMaxTotal(1000);
         pool = new JedisPool(config, "127.0.0.1", 6379);
+    }
 
+    private Jedis getJedis(){
+        Jedis jedis = pool.getResource();
+        jedis.auth(AUTH);
+        return jedis;
     }
 
     public void recoverJedis(Jedis jedis){
@@ -46,7 +52,7 @@ public class RedisUtil implements MemoryUtil{
     }
 
     public boolean exists(String key){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         boolean exists = jedis.exists(key);
         recoverJedis(jedis);
         return exists;
@@ -54,28 +60,28 @@ public class RedisUtil implements MemoryUtil{
 
     public String get(String key) {
 //        System.out.println("jedis get("+key+") ");
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         String value = jedis.get(key);
         recoverJedis(jedis);
         return value;
     }
 
     public String hget(String key,String field){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         String value = jedis.hget(key, field);
         recoverJedis(jedis);
         return value;
     }
 
     public Map<String,String> hgetAll(String key){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         Map<String,String> value = jedis.hgetAll(key);
         recoverJedis(jedis);
         return value;
     }
 
     public Set<String> keys(String pattern){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         Set<String> value = jedis.keys(pattern);
         recoverJedis(jedis);
         return value;
@@ -83,7 +89,7 @@ public class RedisUtil implements MemoryUtil{
 
 
     public void set(String key, String value,boolean expire) {
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         jedis.set(key, value);
         if (expire){
             int ttl = ConfigFactory.getConfig().getInt(CACHE_TTL.key);
@@ -98,7 +104,7 @@ public class RedisUtil implements MemoryUtil{
     }
 
     public void setList(String listname, List<String> list) {
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         for (String item : list) {
             jedis.lpush(listname, item);
         }
@@ -106,7 +112,7 @@ public class RedisUtil implements MemoryUtil{
     }
 
     public List<String> getList(String listname) {
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         List<String> value = jedis.lrange(listname, 0, jedis.strlen(listname));
         recoverJedis(jedis);
         return value;
@@ -114,31 +120,31 @@ public class RedisUtil implements MemoryUtil{
 
 
     public void incr(String key){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         jedis.incr(key);
         recoverJedis(jedis);
     }
 
     public void decr(String key){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         jedis.decr(key);
         recoverJedis(jedis);
     }
 
     public void clear(String key){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         jedis.del(key);
         recoverJedis(jedis);
     }
 
     public void clear(){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         jedis.flushAll();
         recoverJedis(jedis);
     }
 
     public float getMemoryUsed(){
-        Jedis jedis = pool.getResource();
+        Jedis jedis = getJedis();
         System.out.println(jedis.info(Const.MEMORY));
         String [] line = jedis.info(Const.MEMORY).split("\n");
         String used_memory = line[1].split(":")[1];

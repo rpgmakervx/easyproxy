@@ -7,6 +7,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 import org.easyproxy.config.ConfigEnum;
 import org.easyproxy.config.ConfigFactory;
+import org.easyproxy.log.Logger;
 import org.easyproxy.resources.Resource;
 
 import java.io.UnsupportedEncodingException;
@@ -24,6 +25,8 @@ import static org.easyproxy.constants.Const.TEXT_HTML;
 
 public class FireWallHandler extends ChannelInboundHandlerAdapter {
 
+    private Logger logger = Logger.getLogger();
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         boolean hasIPFilter = ConfigFactory.getConfig().getBoolean(ConfigEnum.FIREWALL_OPEN.key);
@@ -36,6 +39,7 @@ public class FireWallHandler extends ChannelInboundHandlerAdapter {
     }
 
     protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
+        FullHttpRequest request = (FullHttpRequest) msg;
         Set<String> forbiddenHosts = ConfigFactory.getConfig().getForbiddenHosts();
         InetSocketAddress remoteAddress = (InetSocketAddress) ctx.channel().remoteAddress();
         String remoteHost = remoteAddress.getHostName();
@@ -43,6 +47,7 @@ public class FireWallHandler extends ChannelInboundHandlerAdapter {
         if (forbiddenHosts.contains(remoteIp)
                 ||forbiddenHosts.contains(remoteHost)){
             response(ctx, Resource.getResource(CODE_FORBIDDEN));
+            logger.accessLog(request,getRemoteIp(ctx),403);
         }else{
             ctx.fireChannelRead(msg);
         }
@@ -62,5 +67,10 @@ public class FireWallHandler extends ChannelInboundHandlerAdapter {
                 HttpResponseStatus.NOT_FOUND, byteBuf);
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, TEXT_HTML);
         ctx.channel().writeAndFlush(response);
+    }
+
+    private String getRemoteIp(ChannelHandlerContext ctx){
+        InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
+        return address.getHostString();
     }
 }
